@@ -1,9 +1,9 @@
 # Digital Park - WEB 
 
 ### Projeto para o Parque Malwee
-- Criar pagina web para configuração do app e gerenciamento. [Readme](./web/README.md)
-- Criar app para os usuários. [Readme](./app/README.md)
-- Armazenar dados no FireBase, e possuir apis REST. [Readme](./services/README.md)
+- Criar pagina web para configuração do app e gerenciamento. [Projeto](https://github.com/Hu3diger/digital-park-web)
+- Criar app para os usuários. [Readme](https://github.com/Viserion77/Digital-Park/)
+- Armazenar dados no FireBase, e possuir apis REST. [Projeto](https://github.com/Hu3diger/digital-park-api)
 
 ### Tecnologias utilizadas
 #### Flutter ^1.22.3
