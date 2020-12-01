@@ -1,27 +1,53 @@
-# DigitalParkWeb
+# Digital Park - WEB 
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
+### Projeto para o Parque Malwee
+- Criar pagina web para configuração do app e gerenciamento. [Readme](./web/README.md)
+- Criar app para os usuários. [Readme](./app/README.md)
+- Armazenar dados no FireBase, e possuir apis REST. [Readme](./services/README.md)
 
-## Development server
+### Tecnologias utilizadas
+#### Flutter ^1.22.3
+#### Node.js ^v14.8.0
+#### Angular ^11.0.2
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Estrutura do projeto
 
-## Code scaffolding
+### Nomenclatura das branches
+Todas as branches criadas no GitHub devem seguir um padrão de nomenclatura e devem possuir apenas um propósito principal.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+Exemplo:
 
-## Build
+`type/subject`
+Tipos disponíveis:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+- build
+- ci
+- docs
+- feat
+- feature
+- fix
+- hotfix
+- integration
+- perf
+- refactor
+- st
+- style
 
-## Running unit tests
+### Commits
+Metodologia padrão para realizar o commit dos arquivos, ela se chama conventional commits, abaixo, segue exemplo de utilização do padrão aplicado às mensagens de commit:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+`type(scope): subject`
+Tipos disponíveis:
 
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+- build: alterações que afetam o mecanismo de build ou dependências externas
+- chore: pequenas tarefas, ajustes de estrutura, remoção de arquivos
+- ci: alterações relacionadas à integração contínua do projeto
+- docs: alterações (ou criações) às documentações do projeto
+- feat: novas features
+- fix: fixes de bugs e falhas
+- improvement: pequenas melhorias realizadas aos códigos fonte do projeto
+- perf: melhorias de performance aos códigos fonte
+- refactor: refatorações de código
+- revert: tratam de reverts de commits passados
+- style: alterações de estilo de código (ESLint, geralmente)
+- test: alterações relacionadas à testes unitários
