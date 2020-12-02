@@ -9,6 +9,13 @@ import { NavbarService } from 'src/app/utils/navbar.service';
 })
 export class NavbarComponent {
 
-  constructor(public nav: NavbarService ){ }
+  constructor(
+    public nav: NavbarService,
+    private router: Router
+  )
+  { }
 
+  logout(): void {
+    this.router.navigate(['/auth']);
+  }
 }
