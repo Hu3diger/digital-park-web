@@ -1,0 +1,31 @@
+<ng-container *ngIf="nav.visible">
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
+    <a class="navbar-brand px-0 py-1" routerLink="">
+      <div class="img"></div>
+    </a>
+
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/home']">Home</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/info']">Info</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/categories']">Categories</a>
+        </li>
+        <li class="nav-item" *ngIf="isLogged" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/main']">Dashboard</a>
+        </li>
+      </ul>
+      <button [routerLinkActive]="['d-none']" *ngIf="!isLogged" class="btn btn-primary my-2 my-sm-0" type="button" [routerLink]="['/login']">
+        <i class="fa fa-sign-in" aria-hidden="true"></i>
+        Login
+      </button>
+      <a href="javascript:void(0);" *ngIf="isLogged" class="my-2 my-sm-0 nav-link" (click)="logout()">
+        Logout
+      </a>
+    </div>
+  </nav>
+</ng-container>

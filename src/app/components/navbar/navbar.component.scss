@@ -1,0 +1,9 @@
+$assetPath : "/src/assets/logo.png";
+
+.img {
+  background-image: url($assetPath);
+  width: 120px;
+  height: 30px;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
