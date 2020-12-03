@@ -1,0 +1,40 @@
+// Gray scales
+$white: 		#fff !default;
+$gray-100: 		#f6f7f8 !default;
+$gray-200: 		#e9ecef !default;
+$gray-300: 		#dee2e6 !default;
+$gray-400: 		#ced4da !default;
+$gray-500: 		#adb5bd !default;
+$gray-600: 		#868e96 !default;
+$gray-700: 		#495057 !default;
+$gray-800: 		#373a3c !default;
+$gray-900: 		#212529 !default;
+$black: 		#000 !default;
+
+$lighter: 		#f7f8fa !default;
+
+// App defautl theme
+$blue:    		blue !default;
+$indigo:  		#6610f2 !default;
+$purple:  		#6f42c1 !default;
+$pink:    		#e83e8c !default;
+$red:     		#f0134d !default;
+$orange:  		#fd7e14 !default;
+$yellow:  		#ff9800 !default;
+$green:   		#4CAF50 !default;
+$teal:    		#20c997 !default;
+$cyan:    		#9C27B0 !default;
+$brown:         #83580b !default;
+$brown-200:     #d9b650 !default;
+$brown-100:     #f5dd7b !default;
+$gd-primary:    #9cbf2a !default;
+$gd-second:     #4BAF55 !default;
+
+$primary:       $gd-primary !default;
+$secondary:     $gd-second !default;
+$success:       $green !default;
+$info:          $blue !default;
+$warning:       $yellow !default;
+$danger:        $red !default;
+$light:         $white !default;
+$dark:          $gray-800 !default;
