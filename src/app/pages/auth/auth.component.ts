@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { NavbarService } from 'src/app/utils/navbar.service';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
   selector: 'dp-auth-page',

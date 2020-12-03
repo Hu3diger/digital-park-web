@@ -4,21 +4,19 @@ import { ToastrService } from 'ngx-toastr';
 import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
-	selector: 'dp-home-page',
-	templateUrl: './home.component.html',
-	styleUrls: ['./home.component.scss']
+	selector: 'dp-questions-page',
+	templateUrl: './questions.component.html',
+	styleUrls: ['./questions.component.scss']
 })
 
-export class HomeComponent implements OnInit {
+export class QuestionsComponent implements OnInit {
 
 	constructor(
 		private router: Router,
 		private toastr: ToastrService,
-		private navService: NavbarService
 	) { }
 
 	ngOnInit(): void {
-		this.navService.show();
+		// this.navService.show();
 	}
-
 }
