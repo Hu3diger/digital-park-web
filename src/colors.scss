@@ -29,6 +29,8 @@ $brown-200:     #d9b650 !default;
 $brown-100:     #f5dd7b !default;
 $gd-primary:    #9cbf2a !default;
 $gd-second:     #4BAF55 !default;
+$gd-dark:       #2F4858 !default;
+$gd-light:      #F8FBE8 !default;
 
 $primary:       $gd-primary !default;
 $secondary:     $gd-second !default;
@@ -36,5 +38,5 @@ $success:       $green !default;
 $info:          $blue !default;
 $warning:       $yellow !default;
 $danger:        $red !default;
-$light:         $white !default;
-$dark:          $gray-800 !default;
+$light:         $gd-light !default;
+$dark:          $gd-dark !default;

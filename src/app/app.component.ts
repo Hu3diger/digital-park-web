@@ -1,13 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import { NavbarService } from './services/navbar.service';
 
 @Component({
   selector: 'dp-root',
-  template: `
-    <dp-components-navbar></dp-components-navbar>
-    <div toastContainer></div>
-    <router-outlet></router-outlet>
-  `
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent  implements OnInit {
   title = 'digital-park-web';
@@ -15,7 +13,8 @@ export class AppComponent  implements OnInit {
   @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
 
   constructor(
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    public nav: NavbarService
   ) {}
 
   ngOnInit(): void {

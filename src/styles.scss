@@ -2,3 +2,7 @@
 @import "./colors.scss";
 @import '~ngx-toastr/toastr';
 @import "~bootstrap/scss/bootstrap";
+
+.active{
+	color: $secondary !important;
+}
