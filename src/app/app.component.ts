@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
-import { NavbarService } from './services/navbar.service';
+import { NavbarService } from './services/navbar/navbar.service';
 
 @Component({
   selector: 'dp-root',
@@ -18,6 +18,7 @@ export class AppComponent  implements OnInit {
   ) {}
 
   ngOnInit(): void {
+		this.nav.hide();
     this.toastrService.overlayContainer = this.toastContainer;
   }
 

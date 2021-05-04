@@ -1,32 +1,25 @@
-import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
+import { User } from 'src/app/model/auth/User';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class AuthService {
 
+	baseUrl: string;
+
 	constructor(
-		private http: HttpClient
-	){}
-
-	autheticate(): any {
-
+		readonly http: HttpClient
+	){
+		this.baseUrl = 'https://localhost:5001/Users'
 	}
 
-	// save(plant: Plant): Promise<Plant> {
-	// 	return this.http.post(this.apiUrl + this.baseUrl, plant).map(response => {
-	// 		return Plant.parse(response);
-	// 	}).toPromise();
-	// }
+	autheticate(user: User): Promise<User>  {
+		return this.http.post<User>(this.baseUrl + '/auth', user).toPromise();
+	}
 
-	// delete(plantId: string): Promise<void> {
-	// 	return this.http.delete(this.apiUrl + this.baseUrl + '/' + plantId).map(() => null).toPromise();
-	// }
-
-	// get(plantId: string): Promise<Plant> {
-	// 	return this.http.get(this.apiUrl + this.baseUrl + '/' + plantId).map((response: any) => {
-	// 		return Plant.parse(response);
-	// 	}).toPromise();
-	// }
-
+	save(user: User): Promise<User> {
+		return this.http.post<User>(this.baseUrl + '/register', user).toPromise()
+	}
 
 }

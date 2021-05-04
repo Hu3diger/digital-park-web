@@ -17,13 +17,21 @@ import { RulesComponent } from './pages/rules/rules.component';
 import { UsersComponent } from './pages/users/users.component';
 import { QuestionsComponent } from './pages/questions/questions.component';
 import { ConfigComponent } from './pages/config/config.component';
+import { AuthService } from './services/auth/auth.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     AuthComponent,
     HomeComponent,
-    NavbarComponent
+    NavbarComponent,
+		SugestionsComponent,
+		EventsComponent,
+		ActivitiesComponent,
+		RulesComponent,
+		UsersComponent,
+		QuestionsComponent,
+		ConfigComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +45,7 @@ import { ConfigComponent } from './pages/config/config.component';
     })
   ],
   providers: [
+		AuthService,
     NavbarService
   ],
   bootstrap: [AppComponent]

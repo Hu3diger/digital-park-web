@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/model/auth/User';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { NavbarService } from 'src/app/services/navbar/navbar.service';
 
 @Component({
@@ -10,8 +12,6 @@ import { NavbarService } from 'src/app/services/navbar/navbar.service';
 	styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-	user: string;
-	passwd: string;
 
 	form: FormGroup;
 
@@ -19,11 +19,11 @@ export class AuthComponent implements OnInit {
 		private router: Router,
 		private toastr: ToastrService,
 		private navService: NavbarService,
-		readonly formBuilder: FormBuilder
+		readonly formBuilder: FormBuilder,
+		readonly authService: AuthService
 	) {}
 
 	ngOnInit(): void {
-		this.navService.hide();
 		this.initForm()
 	}
 
@@ -34,8 +34,18 @@ export class AuthComponent implements OnInit {
 				'Erro ao iniciar sessão'
 			);
 		} else {
-			this.toastr.success('Sessão iniciada com sucesso!', 'Seja bem vindo!');
-			this.router.navigate(['/home']);
+			var authUser = new User();
+			authUser.username = this.form.get('userName').value;
+			authUser.password = this.form.get('password').value;
+
+			this.authService.autheticate(authUser).then((response: User) => {
+					console.log(response)
+					this.toastr.success('Sessão iniciada com sucesso!', 'Seja bem vindo!');
+					this.router.navigate(['/home']);
+			}).catch((error) =>{
+				console.log(error);
+				this.toastr.error(error.message);
+			})
 		}
 	}
 
