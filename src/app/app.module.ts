@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ToastrModule } from 'ngx-toastr';
 import { AuthComponent } from './pages/auth/auth.component';
-import { NavbarService } from './services/navbar/navbar.service';
+import { NavbarService } from './services/navbar.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
@@ -17,7 +17,8 @@ import { RulesComponent } from './pages/rules/rules.component';
 import { UsersComponent } from './pages/users/users.component';
 import { QuestionsComponent } from './pages/questions/questions.component';
 import { ConfigComponent } from './pages/config/config.component';
-import { AuthService } from './services/auth/auth.service';
+import { AuthService } from './services/auth.service';
+import { NgxLoadingModule } from 'ngx-loading';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { AuthService } from './services/auth/auth.service';
     ReactiveFormsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
-    })
+    }),
+		NgxLoadingModule.forRoot({})
   ],
   providers: [
 		AuthService,

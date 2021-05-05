@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/model/auth/User';
-import { AuthService } from 'src/app/services/auth/auth.service';
-import { NavbarService } from 'src/app/services/navbar/navbar.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
 	selector: 'dp-auth-page',
