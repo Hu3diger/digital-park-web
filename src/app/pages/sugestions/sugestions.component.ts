@@ -14,6 +14,7 @@ export class SugestionsComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private toastr: ToastrService,
+		private navService: NavbarService
 	) { }
 
 	ngOnInit(): void {

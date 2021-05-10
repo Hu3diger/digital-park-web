@@ -19,6 +19,7 @@ import { QuestionsComponent } from './pages/questions/questions.component';
 import { ConfigComponent } from './pages/config/config.component';
 import { AuthService } from './services/auth.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
     AuthComponent,
     HomeComponent,
     NavbarComponent,
+		SidebarComponent,
 		SugestionsComponent,
 		EventsComponent,
 		ActivitiesComponent,

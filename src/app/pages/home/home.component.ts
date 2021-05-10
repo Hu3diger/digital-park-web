@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterContentInit, AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NavbarService } from 'src/app/services/navbar.service';
@@ -16,7 +16,6 @@ export class HomeComponent implements OnInit {
 		private toastr: ToastrService,
 		private navService: NavbarService
 	) { }
-
 	ngOnInit(): void {
 		this.navService.show();
 	}
