@@ -18,7 +18,7 @@ import { UsersComponent } from './pages/users/users.component';
 import { QuestionsComponent } from './pages/questions/questions.component';
 import { ConfigComponent } from './pages/config/config.component';
 import { AuthService } from './services/auth.service';
-import { NgxLoadingModule } from 'ngx-loading';
+import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 
 @NgModule({
   declarations: [
@@ -44,7 +44,7 @@ import { NgxLoadingModule } from 'ngx-loading';
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),
-		NgxLoadingModule.forRoot({})
+		LoadingBarRouterModule
   ],
   providers: [
 		AuthService,

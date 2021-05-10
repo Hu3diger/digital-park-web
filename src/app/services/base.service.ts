@@ -1,7 +1,7 @@
 
 export abstract class BaseService {
 
-	public baseUrl = 'https://localhost:5001/Users';
+	public baseUrl = 'http://localhost:4000/api/v1';
 	public loading = false;
 
 	constructor( ){ }

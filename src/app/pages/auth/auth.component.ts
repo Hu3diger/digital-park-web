@@ -43,8 +43,7 @@ export class AuthComponent implements OnInit {
 					this.toastr.success('Sessão iniciada com sucesso!', 'Seja bem vindo!');
 					this.router.navigate(['/home']);
 			}).catch((error) =>{
-				console.log(error);
-				this.toastr.error(error.message);
+				this.toastr.error(error.data);
 			})
 		}
 	}
