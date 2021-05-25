@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { User } from 'src/app/model/auth/User';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
+import { ResponseModel } from '../model/ResponseModel';
 
 @Injectable()
 export class AuthService extends BaseService {
@@ -16,12 +17,12 @@ export class AuthService extends BaseService {
 		this.restUrl = this.baseUrl + '/Users'
 	}
 
-	autheticate(user: User): Promise<User>  {
-		return this.http.post<User>(this.restUrl + '/auth', user).toPromise();
+	autheticate(user: User): Promise<ResponseModel<User>>  {
+		return this.http.post<ResponseModel<User>>(this.restUrl + '/auth', user).toPromise();
 	}
 
-	save(user: User): Promise<User> {
-		return this.http.post<User>(this.restUrl + '/register', user).toPromise()
+	save(user: User): Promise<ResponseModel<User>> {
+		return this.http.post<ResponseModel<User>>(this.restUrl + '/register', user).toPromise()
 	}
 
 }

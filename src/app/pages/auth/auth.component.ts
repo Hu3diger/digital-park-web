@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/model/auth/User';
+import { ResponseModel } from 'src/app/model/ResponseModel';
 import { AuthService } from 'src/app/services/auth.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 
@@ -38,10 +39,12 @@ export class AuthComponent implements OnInit {
 			authUser.username = this.form.get('userName').value;
 			authUser.password = this.form.get('password').value;
 
-			this.authService.autheticate(authUser).then((response: User) => {
-					console.log(response)
-					this.toastr.success('Sessão iniciada com sucesso!', 'Seja bem vindo!');
-					this.router.navigate(['/home']);
+			this.authService.autheticate(authUser).then((response: ResponseModel<User>) => {
+					if (!response.hasError){
+						localStorage.setItem("userToken", response.data.token);
+						this.toastr.success('Sessão iniciada com sucesso!', 'Seja bem vindo!');
+						this.router.navigate(['/home']);
+					}
 			}).catch((error) =>{
 				this.toastr.error(error.data);
 			})

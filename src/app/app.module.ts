@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -20,6 +20,7 @@ import { ConfigComponent } from './pages/config/config.component';
 import { AuthService } from './services/auth.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HttpConfigInterceptor } from './httpconfig.interceptor';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
   ],
   providers: [
 		AuthService,
-    NavbarService
+    NavbarService,
+		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

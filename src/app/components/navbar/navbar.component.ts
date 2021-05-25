@@ -16,6 +16,7 @@ export class NavbarComponent {
   { }
 
   logout(): void {
+		localStorage.removeItem("userToken");
     this.router.navigate(['/auth']);
   }
 }
