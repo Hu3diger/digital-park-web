@@ -4,6 +4,7 @@ import { ActivitiesComponent } from './pages/activities/activities.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { ConfigComponent } from './pages/config/config.component';
 import { EventsComponent } from './pages/events/events.component';
+import { EventsRegisterComponent } from './pages/events/register-page/events-reg.component';
 import { HomeComponent } from './pages/home/home.component';
 import { QuestionsComponent } from './pages/questions/questions.component';
 import { RulesComponent } from './pages/rules/rules.component';
@@ -25,7 +26,16 @@ const routes: Routes = [
 	},
 	{
 		path: 'events',
-		component: EventsComponent
+		children: [
+			{
+				path: '',
+				component: EventsComponent,
+			},
+			{
+				path: 'new',
+				component: EventsRegisterComponent
+			},
+		]
 	},
 	{
 		path: 'activities',

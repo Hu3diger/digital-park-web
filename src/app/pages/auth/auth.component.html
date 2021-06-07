@@ -11,7 +11,7 @@
                     <img src="../../../assets/logo.png" alt="logo" class="logo">
                  </div>
                  <p class="login-card-description">Digital Park - Gestão</p>
-								 <form [formGroup]="form">
+								 <form [formGroup]="form" (submit)="login()">
 									 <div class="form-group">
 											<label for="username" class="sr-only">Usuário</label>
 											<input type="username" formControlName="userName" name="username" id="username" class="form-control" placeholder="Usuario">
@@ -20,7 +20,7 @@
 											<label for="password" class="sr-only">Senha</label>
 											<input type="password" formControlName="password" name="password" id="password" class="form-control" placeholder="***********">
 									 </div>
-									 <input name="login" id="login" (click)="login()" class="btn btn-block login-btn mb-4" type="button" value="Login">
+									 <button type="submit" class="btn btn-block btn-primary login-btn mb-4">Login</button>
 								 </form>
                  <a href="#!" class="forgot-password-link">Esqueceu a senha?</a>
                  <nav class="login-card-footer-nav">

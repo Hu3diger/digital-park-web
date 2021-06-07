@@ -1,0 +1,57 @@
+@import "/src/styles.scss";
+
+$size: 55px;
+$icon-size: 1.5rem;
+$bottom-distance:1.5rem;
+$right-distance:2rem;
+$sm-multiplier: 0.9;
+
+.floating-button {
+    width: $size;
+    height: $size;
+    border-radius: 50%;
+    background-color: $primary;
+    position: fixed;
+    bottom: $bottom-distance;
+    right: $right-distance;
+    box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+    z-index: 1003;
+
+    @include media-breakpoint-down(sm) {
+        width: $size*$sm-multiplier;
+        height: $size*$sm-multiplier;
+        bottom: $bottom-distance/2;
+        right: $right-distance/2;
+    }
+
+    &:hover {
+        background-color: darken($primary, 5%);
+    }
+
+    .icon {
+        color: $white;
+        position: absolute;
+        display: block;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        text-align: center;
+        padding: 0;
+        margin: 0;
+        font-size: $icon-size;
+        line-height: $size;
+        transition: all 0.3s;
+
+        @include media-breakpoint-down(sm) {
+            font-size: $icon-size*$sm-multiplier;
+            line-height: $size*$sm-multiplier;
+        }
+
+        &.fa-plus {
+            top: 2px;
+            left: 2px;
+        }
+    }
+}

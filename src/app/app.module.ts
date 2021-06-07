@@ -21,6 +21,13 @@ import { AuthService } from './services/auth.service';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HttpConfigInterceptor } from './httpconfig.interceptor';
+import { environment } from '../environments/environment';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { AngularFirestoreModule} from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { FloatingButtonComponent } from './components/floating-button/floating-button.component';
+import { EventsRegisterComponent } from './pages/events/register-page/events-reg.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +42,9 @@ import { HttpConfigInterceptor } from './httpconfig.interceptor';
 		RulesComponent,
 		UsersComponent,
 		QuestionsComponent,
-		ConfigComponent
+		ConfigComponent,
+		FloatingButtonComponent,
+		EventsRegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +56,11 @@ import { HttpConfigInterceptor } from './httpconfig.interceptor';
     ToastrModule.forRoot({
       positionClass: 'toast-bottom-right',
     }),
-		LoadingBarRouterModule
+		LoadingBarRouterModule,
+		AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireDatabaseModule,
+    AngularFireStorageModule,
   ],
   providers: [
 		AuthService,

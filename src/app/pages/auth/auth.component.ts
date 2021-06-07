@@ -19,7 +19,6 @@ export class AuthComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private toastr: ToastrService,
-		private navService: NavbarService,
 		readonly formBuilder: FormBuilder,
 		readonly authService: AuthService
 	) {}
@@ -42,11 +41,12 @@ export class AuthComponent implements OnInit {
 			this.authService.autheticate(authUser).then((response: ResponseModel<User>) => {
 					if (!response.hasError){
 						localStorage.setItem("userToken", response.data.token);
-						this.toastr.success('Sessão iniciada com sucesso!', 'Seja bem vindo!');
+						this.toastr.success('Session started!', 'Welcome!');
 						this.router.navigate(['/home']);
 					}
-			}).catch((error) =>{
-				this.toastr.error(error.data);
+			}).catch((err) =>{
+				console.log(err);
+				this.toastr.error(err.error.data, "Error");
 			})
 		}
 	}
