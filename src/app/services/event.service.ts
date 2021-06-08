@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { User } from 'src/app/model/auth/User';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { ResponseModel } from '../model/ResponseModel';
+import { ParkEvent } from '../model/ParkEvent';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable()
 export class EventService extends BaseService {
@@ -11,18 +12,29 @@ export class EventService extends BaseService {
 	restUrl: string;
 
 	constructor(
-		readonly http: HttpClient
+		readonly http: HttpClient,
+		readonly storage: AngularFirestore
 	){
 		super();
-		this.restUrl = this.baseUrl + '/Events'
 	}
 
-	// autheticate(user: User): Promise<ResponseModel<User>>  {
-	// 	return this.http.post<ResponseModel<User>>(this.restUrl + '/auth', user).toPromise();
-	// }
+	public async fetchAll(): Promise<Array<ParkEvent>> {
+		var arrEvents = new Array<ParkEvent>();
+		var teste = await this.storage.collection('events').get().toPromise();
+		teste.docs.forEach(element => {
+			let doc = element.data() as any;
 
-	// save(user: User): Promise<ResponseModel<User>> {
-	// 	return this.http.post<ResponseModel<User>>(this.restUrl + '/register', user).toPromise()
-	// }
+			var evnt = new ParkEvent();
+			evnt.active = doc.active;
+			evnt.title = doc.title;
+			evnt.startDate = new Date(doc.startDate?.seconds * 1000);
+			evnt.endDate = new Date(doc.endDate?.seconds * 1000);
+			evnt.price = doc.price;
+			evnt.notifications = doc.notifications;
 
+			console.log(evnt);
+			arrEvents.push(evnt);
+		});
+		return arrEvents;
+	}
 }

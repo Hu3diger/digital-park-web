@@ -238,43 +238,40 @@
 		<table class="table">
 			<thead>
 				<tr>
-					<th scope="col">Nome</th>
-					<th scope="col">Data do Evento</th>
-					<th scope="col">Ativo</th>
-					<th scope="col">Perfis</th>
-					<th scope="col">Valor</th>
-					<th scope="col">Notificações</th>
-					<th scope="col">Presenças</th>
-					<th scope="col">Anual</th>
-					<th scope="col">&nbsp;</th>
+					<th class="text-center" scope="col">Nome</th>
+					<th class="text-center" scope="col">Data do Evento</th>
+					<th class="text-center" scope="col">Ativo</th>
+					<th class="text-center" scope="col">Perfis</th>
+					<th class="text-center" scope="col">Valor</th>
+					<th class="text-center" scope="col">Notificações</th>
+					<th class="text-center" scope="col">Presenças</th>
+					<th class="text-center" scope="col">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>28º Econtro Sul-Brasileiro</td>
-					<td>15/11/2020 - 17/11/2020</td>
+				<tr *ngFor="let event of listEvents">
+					<td>{{ event.title }}</td>
+					<td>{{ event.startDate | date:'dd/MM/yyyy' }} {{ event.endDate != null ? ' - ' + (event.endDate | date:'dd/MM/yyyy') : '' }}</td>
 					<td>
 						<div class="form-check form-switch ">
-							<input class="form-check-input" type="checkbox" value="true" id="checkbox1"/>
+							<input class="form-check-input" type="checkbox" value="true" checked="event.active" id="checkbox1"/>
 							<label class="form-check-label" for="checkbox2">&nbsp;</label>
 						</div>
 					</td>
-					<td>&nbsp;</td>
-					<td>R$ 0,00</td>
+					<td>'not implemented'</td>
+					<td>{{ event.price | currency }}</td>
 					<td>
 						<div class="form-check form-switch">
-							<input disabled="true" class="form-check-input" type="checkbox" checked="true" id="checkbox2"/>
+							<input class="form-check-input" type="checkbox" checked="event.notifications.active" id="checkbox2"/>
 							<label class="form-check-label" for="checkbox2">&nbsp;</label>
 						</div>
 					</td>
-					<td>0/54</td>
+					<td>'not implemented'</td>
 					<td>
-						<div class="form-check form-switch">
-							<input disabled="true" class="form-check-input" type="checkbox" checked="true" id="checkbox3"/>
-							<label class="form-check-label" for="checkbox3">&nbsp;</label>
-						</div>
+						<i class="fa fa-pencil"></i>
+						&nbsp;
+						<i class='fa fa-trash-o'></i>
 					</td>
-					<td>E D</td>
 				</tr>
 			</tbody>
 		</table>

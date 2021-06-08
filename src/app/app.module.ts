@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
@@ -28,6 +28,7 @@ import { AngularFirestoreModule} from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FloatingButtonComponent } from './components/floating-button/floating-button.component';
 import { EventsRegisterComponent } from './pages/events/register-page/events-reg.component';
+import { EventService } from './services/event.service';
 
 @NgModule({
   declarations: [
@@ -64,8 +65,10 @@ import { EventsRegisterComponent } from './pages/events/register-page/events-reg
   ],
   providers: [
 		AuthService,
+		EventService,
     NavbarService,
-		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true }
+		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
+		{provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
   ],
   bootstrap: [AppComponent]
 })
