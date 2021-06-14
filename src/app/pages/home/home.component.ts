@@ -18,8 +18,10 @@ export class HomeComponent implements OnInit {
 		private navService: NavbarService
 	) {}
 	ngOnInit(): void {
-		if (!this.navService.visible) {
-			this.navService.show();
-		}
+		setTimeout(() =>{
+			if (!this.navService.visible) {
+				this.navService.show();
+			}
+		})
 	}
 }

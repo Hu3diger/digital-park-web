@@ -21,9 +21,13 @@ export class AppComponent implements OnInit {
 	}
 
 	ngOnInit(): void {
-		this.nav.hide();
 		this.toastrService.overlayContainer = this.toastContainer;
 		this.loading = true
+		setTimeout(() =>{
+			if (!this.nav.visible) {
+				this.nav.hide();
+			}
+		})
 	}
 
 

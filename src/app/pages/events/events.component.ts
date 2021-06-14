@@ -11,7 +11,6 @@ import { NavbarService } from 'src/app/services/navbar.service';
 	styleUrls: ['./events.component.scss'],
 })
 export class EventsComponent implements OnInit {
-
 	listEvents: Array<ParkEvent>;
 
 	constructor(
@@ -22,9 +21,12 @@ export class EventsComponent implements OnInit {
 	) {}
 
 	ngOnInit(): void {
-		if (!this.navService.visible) {
-			this.navService.show();
-		}
+		setTimeout(() => {
+			if (!this.navService.visible) {
+				this.navService.show();
+			}
+		});
+
 		this.eventService.fetchAll().then((result: Array<ParkEvent>) => {
 			this.listEvents = result;
 		});
@@ -32,5 +34,9 @@ export class EventsComponent implements OnInit {
 
 	public abc(): void {
 		this.router.navigate(['/events/new']);
+	}
+
+	public teste(): void {
+		this.toastr.show("teste");
 	}
 }

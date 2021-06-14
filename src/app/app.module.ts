@@ -55,7 +55,7 @@ import { EventService } from './services/event.service';
 		HttpClientModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      positionClass: 'toast-bottom-right',
+      positionClass: 'toast-bottom-left',
     }),
 		LoadingBarRouterModule,
 		AngularFireModule.initializeApp(environment.firebase),

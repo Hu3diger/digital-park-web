@@ -1,8 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @import "./colors.scss";
-@import '~ngx-toastr/toastr';
+@import "~ngx-toastr/toastr";
 @import "~bootstrap/scss/bootstrap";
 
-.active{
+.active {
 	color: $secondary !important;
+}
+
+.pointer {
+	cursor: pointer;
 }
