@@ -37,4 +37,10 @@ export class EventService extends BaseService {
 		});
 		return arrEvents;
 	}
+
+	public async save(event: any): Promise<any> {
+		await this.storage.collection('events').doc().set(event).then((result: any) =>{
+			return result;
+		});
+	}
 }
