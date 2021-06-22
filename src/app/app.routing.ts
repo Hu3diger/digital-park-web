@@ -10,6 +10,7 @@ import { QuestionsComponent } from './pages/questions/questions.component';
 import { RulesComponent } from './pages/rules/rules.component';
 import { SugestionsComponent } from './pages/sugestions/sugestions.component';
 import { UsersComponent } from './pages/users/users.component';
+import {ActivitiesRegisterComponent} from './pages/activities/register-page/activities-reg.component';
 
 const routes: Routes = [
 	{
@@ -39,7 +40,16 @@ const routes: Routes = [
 	},
 	{
 		path: 'activities',
-		component: ActivitiesComponent
+		children: [
+			{
+				path: '',
+				component: ActivitiesComponent,
+			},
+			{
+				path: 'new',
+				component: ActivitiesRegisterComponent
+			},
+		]
 	},
 	{
 		path: 'rules',

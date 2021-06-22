@@ -29,13 +29,15 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FloatingButtonComponent } from './components/floating-button/floating-button.component';
 import { EventsRegisterComponent } from './pages/events/register-page/events-reg.component';
 import { EventService } from './services/event.service';
+import {ActivitiesRegisterComponent} from './pages/activities/register-page/activities-reg.component';
+import {ActivityService} from './services/activity.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AuthComponent,
-    HomeComponent,
-    NavbarComponent,
+	declarations: [
+		AppComponent,
+		AuthComponent,
+		HomeComponent,
+		NavbarComponent,
 		SidebarComponent,
 		SugestionsComponent,
 		EventsComponent,
@@ -45,31 +47,33 @@ import { EventService } from './services/event.service';
 		QuestionsComponent,
 		ConfigComponent,
 		FloatingButtonComponent,
-		EventsRegisterComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    FormsModule,
+		EventsRegisterComponent,
+		ActivitiesRegisterComponent
+	],
+	imports: [
+		BrowserModule,
+		AppRoutingModule,
+		BrowserAnimationsModule,
+		FormsModule,
 		HttpClientModule,
-    ReactiveFormsModule,
-    ToastrModule.forRoot({
-      positionClass: 'toast-bottom-left',
-    }),
+		ReactiveFormsModule,
+		ToastrModule.forRoot({
+			positionClass: 'toast-bottom-left',
+		}),
 		LoadingBarRouterModule,
 		AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
-    AngularFireDatabaseModule,
-    AngularFireStorageModule,
-  ],
-  providers: [
+		AngularFirestoreModule,
+		AngularFireDatabaseModule,
+		AngularFireStorageModule,
+	],
+	providers: [
 		AuthService,
 		EventService,
-    NavbarService,
+		NavbarService,
+		ActivityService,
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
 		{provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
-  ],
-  bootstrap: [AppComponent]
+	],
+	bootstrap: [AppComponent]
 })
 export class AppModule { }

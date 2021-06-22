@@ -2,10 +2,10 @@
 	<div class="col-12">
 		<div class="row">
 			<div class="col-4 offset-4">
-				<h3>{{ editableEvent != null ? 'Edição de evento' : 'Cadastro de eventos' }}</h3>
+				<h3>{{ editableAcitivy != null ? 'Edição de atividade' : 'Cadastro de atividades' }}</h3>
 			</div>
 		</div>
-		<form [formGroup]="form" (submit)="newEvent()">
+		<form [formGroup]="form" (submit)="newActivity()">
 			<div class="row mt-4">
 				<div class="col-6">
 					<div class="row">
@@ -109,5 +109,5 @@
 
 	</div>
 
-	<dp-floating-button (click)="goToListEvents()" icon="fa fa-arrow-left"></dp-floating-button>
+	<dp-floating-button (click)="goToListActivities()" icon="fa fa-arrow-left"></dp-floating-button>
 </div>

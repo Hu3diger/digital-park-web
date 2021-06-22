@@ -9,8 +9,6 @@ import { AngularFirestore } from '@angular/fire/firestore';
 @Injectable()
 export class EventService extends BaseService {
 
-	restUrl: string;
-
 	constructor(
 		readonly http: HttpClient,
 		readonly storage: AngularFirestore
@@ -18,24 +16,36 @@ export class EventService extends BaseService {
 		super();
 	}
 
+	public setFields(element: any): ParkEvent {
+		const doc = element.data() as any;
+
+		const event = new ParkEvent();
+		event.uuid = element.id;
+		event.active = doc.active;
+		event.title = doc.title;
+		event.startDate = new Date(doc.startDate?.seconds * 1000);
+		event.endDate = new Date(doc.endDate?.seconds * 1000);
+		event.price = doc.price;
+		event.notifications = doc.notifications;
+		if (doc.confirmedAttendance != null){
+			event.confirmedAttendance = doc.confirmedAttendance.length;
+		}
+
+		return event;
+	}
+
 	public async fetchAll(): Promise<Array<ParkEvent>> {
-		var arrEvents = new Array<ParkEvent>();
-		var teste = await this.storage.collection('events').get().toPromise();
-		teste.docs.forEach(element => {
-			let doc = element.data() as any;
-
-			var evnt = new ParkEvent();
-			evnt.active = doc.active;
-			evnt.title = doc.title;
-			evnt.startDate = new Date(doc.startDate?.seconds * 1000);
-			evnt.endDate = new Date(doc.endDate?.seconds * 1000);
-			evnt.price = doc.price;
-			evnt.notifications = doc.notifications;
-
-			console.log(evnt);
-			arrEvents.push(evnt);
+		const arrEvents = new Array<ParkEvent>();
+		const dbRef = await this.storage.collection('events').get().toPromise();
+		dbRef.docs.forEach(element => {
+			arrEvents.push(this.setFields(element));
 		});
 		return arrEvents;
+	}
+
+	public async getByDocId(uuid: string): Promise<ParkEvent> {
+		const element = await this.storage.doc(uuid).get().toPromise();
+		return this.setFields(element);
 	}
 
 	public async save(event: any): Promise<any> {

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { EventService } from 'src/app/services/event.service';
 import { NavbarService } from 'src/app/services/navbar.service';
+import {ParkEvent} from '../../../model/ParkEvent';
 
 @Component({
 	selector: 'dp-events-register-page',
@@ -13,6 +14,8 @@ import { NavbarService } from 'src/app/services/navbar.service';
 export class EventsRegisterComponent implements OnInit {
 
 	form: FormGroup;
+	toEditUuid: string;
+	editableEvent: ParkEvent;
 
 	constructor(
 		private router: Router,
@@ -22,37 +25,46 @@ export class EventsRegisterComponent implements OnInit {
 		readonly eventService: EventService
 	) {}
 
-	ngOnInit(): void {
+	ngOnInit(): void{
 		setTimeout(() => {
 			if (!this.navService.visible) {
 				this.navService.show();
 			}
 		});
-		this.initForm()
+
+		const tmp = localStorage.getItem('EVENT') as any;
+		if (tmp != null && tmp !== 'null'){
+			this.editableEvent = JSON.parse(tmp) as ParkEvent;
+		} else {
+			this.editableEvent = new ParkEvent();
+		}
+
+		this.initForm();
 	}
 
 	initForm(): void {
 		this.form = this.formBuilder.group({
-			active: [false, []],
-			notifications: [false, []],
+			active: [this.editableEvent.active, []],
+			notifications: [this.editableEvent.notifications, []],
 			anual: [false, []],
 			focusOnActivities: [false, []],
-			name: ['', [Validators.required]],
-			price: [0.00, []],
-			startDate: [new Date(), [Validators.required]],
-			endDate: [new Date(), [Validators.required]],
-			description: ['', [Validators.required]],
-		})
+			name: [this.editableEvent.title, [Validators.required]],
+			price: [this.editableEvent.price, []],
+			startDate: [new Date(this.editableEvent.startDate), [Validators.required]],
+			endDate: [new Date(this.editableEvent.endDate), [Validators.required]],
+			description: [this.editableEvent.description, [Validators.required]],
+		});
 	}
 
-	public abc(): void {
-		this.router.navigate(['/events']);
+	public goToListEvents(): void {
+		localStorage.setItem('EVENT', null);
+		this.router.navigate(['/events']).then(() => {});
 	}
 
 	newEvent(): void {
 		if (this.form.valid){
-			let values = this.form.value;
-			let event = {
+			const values = this.form.value;
+			const event = {
 				active: values.active,
 				description: values.description,
 				endDate: new Date(values.endDate),
@@ -62,11 +74,13 @@ export class EventsRegisterComponent implements OnInit {
 				price: values.price,
 				startDate: new Date(values.startDate),
 				title: values.name
-			}
+			};
 			this.eventService.save(event).then(() => {
-				this.toastr.success("Event successfully saved!");
-				this.router.navigate(['/events']);
+				this.toastr.success('Event successfully saved!');
+				this.router.navigate(['/events']).then(() => {});
 			});
+		} else {
+			this.toastr.error('Necessário preencher todos os campos obrigatórios', 'Erro ao salvar entidade');
 		}
 	}
 }

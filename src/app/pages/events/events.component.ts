@@ -32,11 +32,20 @@ export class EventsComponent implements OnInit {
 		});
 	}
 
-	public abc(): void {
+	public goToNew(): void {
 		this.router.navigate(['/events/new']);
 	}
 
-	public teste(): void {
-		this.toastr.show("teste");
+	public edit(): void {
+		this.toastr.show('Editing');
+	}
+
+	public delete(): void {
+		this.toastr.show('Deleting');
+	}
+
+	public editEvent(event: ParkEvent): void {
+		localStorage.setItem('EVENT', JSON.stringify(event));
+		this.router.navigate(['events/new']).then(() => {});
 	}
 }

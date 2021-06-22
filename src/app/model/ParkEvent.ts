@@ -1,10 +1,12 @@
 export class ParkEvent {
-	active: Boolean;
-	description: String;
+	active: boolean;
+	description: string;
 	endDate: Date;
 	notifications: {};
-	price: Number;
+	price: number;
 	startDate: Date;
 	tags: [];
-	title: String;
+	title: string;
+	confirmedAttendance: number;
+	uuid: string;
 }
