@@ -6,4 +6,5 @@ export class ParkActivity {
 	description: string;
 	tags: [];
 	title: string;
+	price: number;
 }

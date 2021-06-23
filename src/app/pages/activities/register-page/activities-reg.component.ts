@@ -6,6 +6,7 @@ import { EventService } from 'src/app/services/event.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import {ParkEvent} from '../../../model/ParkEvent';
 import {ParkActivity} from '../../../model/ParkActivity';
+import {ActivityService} from '../../../services/activity.service';
 
 @Component({
 	selector: 'dp-activties-register-page',
@@ -22,7 +23,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 		private toastr: ToastrService,
 		private navService: NavbarService,
 		readonly formBuilder: FormBuilder,
-		readonly eventService: EventService
+		readonly activityService: ActivityService
 	) {}
 
 	ngOnInit(): void{
@@ -34,7 +35,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 
 		const tmp = localStorage.getItem('ACTIVITY') as any;
 		if (tmp != null && tmp !== 'null'){
-			this.editableAcitivy = JSON.parse(tmp) as ParkActivity;
+			this.editableAcitivy = this.activityService.setFields({ data: () => tmp});
 		} else {
 			this.editableAcitivy = new ParkActivity();
 		}
@@ -45,14 +46,10 @@ export class ActivitiesRegisterComponent implements OnInit {
 	initForm(): void {
 		this.form = this.formBuilder.group({
 			active: [this.editableAcitivy.active, []],
-			notifications: [true, []],
-			anual: [false, []],
-			focusOnActivities: [false, []],
+			activityFocus: [this.editableAcitivy.activityFocus, []],
 			name: [this.editableAcitivy.title, [Validators.required]],
-			price: [0, []],
-			startDate: [new Date(), [Validators.required]],
-			endDate: [new Date(), [Validators.required]],
 			description: [this.editableAcitivy.description, [Validators.required]],
+			price: [this.editableAcitivy.price]
 		});
 	}
 
@@ -62,25 +59,26 @@ export class ActivitiesRegisterComponent implements OnInit {
 	}
 
 	newActivity(): void {
-		// if (this.form.valid){
-		// 	const values = this.form.value;
-		// 	const event = {
-		// 		active: values.active,
-		// 		description: values.description,
-		// 		endDate: new Date(values.endDate),
-		// 		notifications: {
-		// 			active: values.notifications
-		// 		},
-		// 		price: values.price,
-		// 		startDate: new Date(values.startDate),
-		// 		title: values.name
-		// 	};
-		// 	this.eventService.save(event).then(() => {
-		// 		this.toastr.success('Event successfully saved!');
-		// 		this.router.navigate(['/events']).then(() => {});
-		// 	});
-		// } else {
-		this.toastr.error('Necessário preencher todos os campos obrigatórios', 'Erro ao salvar entidade');
-		// }
+		if (this.form.valid){
+			const values = this.form.value;
+
+			const activity = {
+				active: values.active,
+				activityFocus: values.activityFocus,
+				description: values.description,
+				price: values.price,
+				title: values.name
+			};
+			this.activityService.save(activity).then((res) => {
+				if (res.hasError) {
+					this.toastr.error('Erro ao salvar a Atividade', res.data);
+				} else {
+					this.toastr.success('Atividade salva com sucesso!');
+					this.router.navigate(['/activities']).then(() => {});
+				}
+			});
+		} else {
+			this.toastr.error('Necessário preencher todos os campos obrigatórios', 'Erro ao salvar entidade');
+		}
 	}
 }

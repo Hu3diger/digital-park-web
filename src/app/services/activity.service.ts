@@ -18,7 +18,8 @@ export class ActivityService extends BaseService {
 	}
 
 	public setFields(element: any): ParkActivity {
-		const doc = element.data() as any;
+		let doc = element.data();
+		doc = doc instanceof String ? JSON.parse(doc as any) : doc;
 
 		const activity = new ParkActivity();
 		activity.uuid = element.id;
@@ -45,8 +46,21 @@ export class ActivityService extends BaseService {
 	}
 
 	public async save(activity: any): Promise<any> {
-		await this.storage.collection('activities').doc().set(activity).then((result: any) => {
-			return result;
+		return new Promise((resolve) => {
+			console.log(activity);
+			if (activity.id != null && activity.id != undefined){
+				this.storage.collection('activities').doc(activity.id).update(activity).then((result: any) => {
+					resolve({ data: result, hasError: false });
+				}).catch((err) => {
+					resolve({ data: err, hasError: true });
+				});
+			} else {
+				this.storage.collection('activities').doc().set(activity).then((result: any) => {
+					resolve({ data: result, hasError: false });
+				}).catch((err) => {
+					resolve({ data: err, hasError: true });
+				});
+			}
 		});
 	}
 }
