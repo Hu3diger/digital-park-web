@@ -1,5 +1,23 @@
 <div class="row mt-4">
-	<div class="col-md-12">
-		<p>Página de: <b>CONFIGURAÇÕES</b></p><br>
+		<div class="col-md-12">
+			<h4 class="text-center">Configurações Gerais</h4>
+		</div>
+</div>
+<div class="row mt-5">
+	<div class="col-8 offset-2">
+		<span>Perfis de usuário:</span>
+		<tag-input [(ngModel)]='perfis' theme='dark' placeholder="+ Perfil" secondaryPlaceholder="Adicione um novo perfil"></tag-input>
 	</div>
 </div>
+<div class="row mt-5">
+	<div class="col-8 offset-2">
+		<span>Tags:</span>
+		<tag-input [(ngModel)]='tags' theme='dark' placeholder="+ Tag" secondaryPlaceholder="Adicione uma nova tag"></tag-input>
+	</div>
+</div>
+<div class="row mt-5">
+	<div class="col-8 offset-2">
+		<span>Daltonismo:</span>
+	</div>
+</div>
+<dp-floating-button icon="fa fa-floppy-o" (click)="save()"></dp-floating-button>

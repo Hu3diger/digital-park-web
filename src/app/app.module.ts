@@ -31,6 +31,8 @@ import { EventsRegisterComponent } from './pages/events/register-page/events-reg
 import { EventService } from './services/event.service';
 import {ActivitiesRegisterComponent} from './pages/activities/register-page/activities-reg.component';
 import {ActivityService} from './services/activity.service';
+import {TagInputModule} from 'ngx-chips';
+import {ConfigService} from './services/config.service';
 
 @NgModule({
 	declarations: [
@@ -48,7 +50,7 @@ import {ActivityService} from './services/activity.service';
 		ConfigComponent,
 		FloatingButtonComponent,
 		EventsRegisterComponent,
-		ActivitiesRegisterComponent
+		ActivitiesRegisterComponent,
 	],
 	imports: [
 		BrowserModule,
@@ -65,12 +67,14 @@ import {ActivityService} from './services/activity.service';
 		AngularFirestoreModule,
 		AngularFireDatabaseModule,
 		AngularFireStorageModule,
+		TagInputModule,
 	],
 	providers: [
 		AuthService,
 		EventService,
 		NavbarService,
 		ActivityService,
+		ConfigService,
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
 		{provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
 	],
