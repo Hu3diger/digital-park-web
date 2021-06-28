@@ -19,7 +19,7 @@ export class ActivityService extends BaseService {
 
 	public setFields(element: any): ParkActivity {
 		let doc = element.data();
-		doc = doc instanceof String ? JSON.parse(doc as any) : doc;
+		doc = typeof(doc) === 'string' ? JSON.parse(doc as any) : doc;
 
 		const activity = new ParkActivity();
 		activity.uuid = element.id;
@@ -27,7 +27,8 @@ export class ActivityService extends BaseService {
 		activity.title = doc.title;
 		activity.description = doc.description;
 		activity.activeWeekDays = doc.activeWeekDays;
-		activity.activityFocus = doc.activityFocus.enable;
+		activity.activityFocus = doc.activityFocus.enable || doc.activityFocus;
+		activity.price = doc.price || 0.00;
 		return activity;
 	}
 
@@ -61,6 +62,12 @@ export class ActivityService extends BaseService {
 					resolve({ data: err, hasError: true });
 				});
 			}
+		});
+	}
+
+	public async deleteDoc(uuid: string): Promise<any> {
+		await this.storage.collection('activities').doc(uuid).delete().then((result: any) => {
+			return result;
 		});
 	}
 }

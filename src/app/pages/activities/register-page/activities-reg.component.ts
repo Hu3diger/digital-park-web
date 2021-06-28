@@ -16,7 +16,7 @@ import {ActivityService} from '../../../services/activity.service';
 export class ActivitiesRegisterComponent implements OnInit {
 
 	form: FormGroup;
-	editableAcitivy: ParkActivity;
+	editableActivity: ParkActivity;
 
 	constructor(
 		private router: Router,
@@ -32,12 +32,12 @@ export class ActivitiesRegisterComponent implements OnInit {
 				this.navService.show();
 			}
 		});
-
+		debugger;
 		const tmp = localStorage.getItem('ACTIVITY') as any;
 		if (tmp != null && tmp !== 'null'){
-			this.editableAcitivy = this.activityService.setFields({ data: () => tmp});
+			this.editableActivity = this.activityService.setFields({ data: () => tmp});
 		} else {
-			this.editableAcitivy = new ParkActivity();
+			this.editableActivity = new ParkActivity();
 		}
 
 		this.initForm();
@@ -45,11 +45,11 @@ export class ActivitiesRegisterComponent implements OnInit {
 
 	initForm(): void {
 		this.form = this.formBuilder.group({
-			active: [this.editableAcitivy.active, []],
-			activityFocus: [this.editableAcitivy.activityFocus, []],
-			name: [this.editableAcitivy.title, [Validators.required]],
-			description: [this.editableAcitivy.description, [Validators.required]],
-			price: [this.editableAcitivy.price]
+			active: [this.editableActivity.active, []],
+			activityFocus: [this.editableActivity.activityFocus, []],
+			name: [this.editableActivity.title, [Validators.required]],
+			description: [this.editableActivity.description, [Validators.required]],
+			price: [this.editableActivity.price]
 		});
 	}
 

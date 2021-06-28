@@ -19,7 +19,7 @@ export class ActivitiesComponent implements OnInit {
 		private router: Router,
 		private toastr: ToastrService,
 		private navService: NavbarService,
-		private activityService: ActivityService
+		private activityService: ActivityService,
 	) { }
 
 	ngOnInit(): void {
@@ -29,6 +29,10 @@ export class ActivitiesComponent implements OnInit {
 			}
 		});
 
+		this.loadAllActivities();
+	}
+
+	public loadAllActivities(): void {
 		this.activityService.fetchAll().then((result: Array<ParkActivity>) => {
 			this.listActivities = result;
 		});
@@ -44,6 +48,13 @@ export class ActivitiesComponent implements OnInit {
 		}
 
 		this.router.navigate(['activities/new']).then(() => {});
+	}
+
+	public delete(activity: ParkActivity): void {
+		this.activityService.deleteDoc(activity.uuid).then((result) => {
+			this.toastr.success('Atividade apagada com sucesso');
+			this.loadAllActivities();
+		});
 	}
 
 }

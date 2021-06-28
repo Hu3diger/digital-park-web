@@ -26,7 +26,10 @@ export class EventsComponent implements OnInit {
 				this.navService.show();
 			}
 		});
+		this.loadAllEvents();
+	}
 
+	public loadAllEvents(): void {
 		this.eventService.fetchAll().then((result: Array<ParkEvent>) => {
 			this.listEvents = result;
 		});
@@ -40,8 +43,13 @@ export class EventsComponent implements OnInit {
 		this.toastr.show('Editing');
 	}
 
-	public delete(): void {
-		this.toastr.show('Deleting');
+	public delete(event: ParkEvent): void {
+		this.toastr.warning('Deletando...');
+		this.eventService.deleteDoc(event.uuid).then((result) => {
+			this.toastr.success('Evento apagado com sucesso!');
+			this.loadAllEvents();
+			console.log(result);
+		});
 	}
 
 	public editEvent(event: ParkEvent): void {

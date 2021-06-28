@@ -1,7 +1,7 @@
 <div class="row mt-4">
 	<div class="col-12">
 		<h4 class="text-center">Eventos</h4>
-		<table class="table table-hover">
+		<table class="table table-hover table-sm">
 			<thead>
 				<tr>
 					<th class="text-center" scope="col">Nome</th>
@@ -15,28 +15,28 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr *ngFor="let event of listEvents" (click)="editEvent(event)">
-					<td>{{ event.title }}</td>
-					<td>{{ event.startDate | date:'dd/MM/yyyy' }} {{ event.endDate != null ? ' - ' + (event.endDate | date:'dd/MM/yyyy') : '' }}</td>
-					<td>
+				<tr *ngFor="let event of listEvents">
+					<td (click)="editEvent(event)">{{ event.title }}</td>
+					<td (click)="editEvent(event)">{{ event.startDate | date:'dd/MM/yyyy' }} {{ event.endDate != null ? ' - ' + (event.endDate | date:'dd/MM/yyyy') : '' }}</td>
+					<td (click)="editEvent(event)">
 						<div class="form-check form-switch ">
 							<input class="form-check-input" type="checkbox" value="true" checked="event.active" id="checkbox1"/>
 							<label class="form-check-label" for="checkbox2">&nbsp;</label>
 						</div>
 					</td>
-					<td>&nbsp;</td>
-					<td>{{ event.price | currency }}</td>
-					<td>
+					<td (click)="editEvent(event)">&nbsp;</td>
+					<td (click)="editEvent(event)">{{ event.price | currency }}</td>
+					<td (click)="editEvent(event)">
 						<div class="form-check form-switch">
 							<input class="form-check-input" type="checkbox" checked="event.notifications.active" id="checkbox2"/>
 							<label class="form-check-label" for="checkbox2">&nbsp;</label>
 						</div>
 					</td>
-					<td>{{ event.confirmedAttendance || 0 }}</td>
+					<td (click)="editEvent(event)">{{ event.confirmedAttendance || 0 }}</td>
 					<td>
 						<i class="fa fa-pencil pointer" (click)="edit()"></i>
 						&nbsp;
-						<i class="fa fa-trash-o pointer" (click)="delete()"></i>
+						<i class="fa fa-trash-o pointer" (click)="delete(event)"></i>
 					</td>
 				</tr>
 			</tbody>

@@ -43,13 +43,14 @@ export class EventService extends BaseService {
 		return arrEvents;
 	}
 
-	public async getByDocId(uuid: string): Promise<ParkEvent> {
-		const element = await this.storage.doc(uuid).get().toPromise();
-		return this.setFields(element);
-	}
-
 	public async save(event: any): Promise<any> {
 		await this.storage.collection('events').doc().set(event).then((result: any) =>{
+			return result;
+		});
+	}
+
+	public async deleteDoc(uuid: string): Promise<any> {
+		await this.storage.collection('events').doc(uuid).delete().then((result: any) => {
 			return result;
 		});
 	}
