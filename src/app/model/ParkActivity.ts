@@ -4,7 +4,8 @@ export class ParkActivity {
 	activeWeekDays: any;
 	activityFocus: boolean;
 	description: string;
-	tags: [];
+	tags: Array<any>;
+	roles: Array<any>;
 	title: string;
 	price: number;
 }

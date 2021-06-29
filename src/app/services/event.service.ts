@@ -20,6 +20,7 @@ export class EventService extends BaseService {
 		const doc = element.data() as any;
 
 		const event = new ParkEvent();
+
 		event.uuid = element.id;
 		event.active = doc.active;
 		event.title = doc.title;
@@ -29,6 +30,14 @@ export class EventService extends BaseService {
 		event.notifications = doc.notifications;
 		if (doc.confirmedAttendance != null){
 			event.confirmedAttendance = doc.confirmedAttendance.length;
+		}
+
+		event.roles = new Array<any>();
+		if (doc.roles !== undefined){
+			doc.roles.forEach(async (el) => {
+				const ref = await el.get();
+				event.roles.push(ref.data().name);
+			});
 		}
 
 		return event;

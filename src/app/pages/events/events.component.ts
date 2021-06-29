@@ -48,7 +48,6 @@ export class EventsComponent implements OnInit {
 		this.eventService.deleteDoc(event.uuid).then((result) => {
 			this.toastr.success('Evento apagado com sucesso!');
 			this.loadAllEvents();
-			console.log(result);
 		});
 	}
 

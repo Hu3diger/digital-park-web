@@ -5,7 +5,8 @@ export class ParkEvent {
 	notifications: {};
 	price: number;
 	startDate: Date;
-	tags: [];
+	tags: Array<any>;
+	roles: Array<any>;
 	title: string;
 	confirmedAttendance: number;
 	uuid: string;

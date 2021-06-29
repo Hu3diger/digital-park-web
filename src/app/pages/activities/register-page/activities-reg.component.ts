@@ -7,6 +7,7 @@ import { NavbarService } from 'src/app/services/navbar.service';
 import {ParkEvent} from '../../../model/ParkEvent';
 import {ParkActivity} from '../../../model/ParkActivity';
 import {ActivityService} from '../../../services/activity.service';
+import {ConfigService} from '../../../services/config.service';
 
 @Component({
 	selector: 'dp-activties-register-page',
@@ -17,13 +18,17 @@ export class ActivitiesRegisterComponent implements OnInit {
 
 	form: FormGroup;
 	editableActivity: ParkActivity;
+	perfis: Array<any>;
+	listOptPerfis: Array<any>;
+	listOptTags: Array<any>;
 
 	constructor(
 		private router: Router,
 		private toastr: ToastrService,
 		private navService: NavbarService,
 		readonly formBuilder: FormBuilder,
-		readonly activityService: ActivityService
+		readonly activityService: ActivityService,
+		readonly cfgService: ConfigService
 	) {}
 
 	ngOnInit(): void{
@@ -32,13 +37,29 @@ export class ActivitiesRegisterComponent implements OnInit {
 				this.navService.show();
 			}
 		});
-		debugger;
+
 		const tmp = localStorage.getItem('ACTIVITY') as any;
 		if (tmp != null && tmp !== 'null'){
 			this.editableActivity = this.activityService.setFields({ data: () => tmp});
 		} else {
 			this.editableActivity = new ParkActivity();
 		}
+
+		this.cfgService.fetchAllRoles().then((res) => {
+			this.listOptPerfis = [];
+			res.forEach(el => {
+				const obj = el.data();
+				this.listOptPerfis.push(obj.name);
+			});
+		});
+
+		this.cfgService.fetchAllTags().then((res) => {
+			this.listOptTags = [];
+			res.forEach(el => {
+				const obj = el.data();
+				this.listOptTags.push(obj.name);
+			});
+		});
 
 		this.initForm();
 	}
@@ -49,7 +70,9 @@ export class ActivitiesRegisterComponent implements OnInit {
 			activityFocus: [this.editableActivity.activityFocus, []],
 			name: [this.editableActivity.title, [Validators.required]],
 			description: [this.editableActivity.description, [Validators.required]],
-			price: [this.editableActivity.price]
+			price: [this.editableActivity.price],
+			roles: [],
+			tags: []
 		});
 	}
 

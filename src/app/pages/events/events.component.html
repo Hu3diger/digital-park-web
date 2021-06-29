@@ -24,7 +24,7 @@
 							<label class="form-check-label" for="checkbox2">&nbsp;</label>
 						</div>
 					</td>
-					<td (click)="editEvent(event)">&nbsp;</td>
+					<td (click)="editEvent(event)">{{ event.roles.join() }}</td>
 					<td (click)="editEvent(event)">{{ event.price | currency }}</td>
 					<td (click)="editEvent(event)">
 						<div class="form-check form-switch">

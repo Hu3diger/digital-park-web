@@ -29,6 +29,30 @@ export class ActivityService extends BaseService {
 		activity.activeWeekDays = doc.activeWeekDays;
 		activity.activityFocus = doc.activityFocus.enable || doc.activityFocus;
 		activity.price = doc.price || 0.00;
+
+		activity.roles = new Array<any>();
+		if (doc.roles !== undefined){
+			doc.roles.forEach(async (el) => {
+				const ref = await el.get();
+				const data = ref.data();
+				if (data !== undefined) {
+					activity.roles.push(data.name);
+				}
+			});
+		}
+
+		activity.tags = new Array<any>();
+		if (doc.tags !== undefined){
+			doc.tags.forEach(async (el) => {
+				const ref = await el.get();
+				const data = ref.data();
+				if (data !== undefined) {
+					activity.tags.push(data.name);
+				}
+			});
+		}
+
+		console.log(activity);
 		return activity;
 	}
 
