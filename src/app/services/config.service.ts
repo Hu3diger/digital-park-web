@@ -34,4 +34,28 @@ export class ConfigService extends BaseService {
 		});
 		return arrRoles;
 	}
+
+	public async saveRoles(arrData: Array<any>): Promise<any> {
+		arrData.forEach((el) => {
+			const docId = el.uuid !== undefined ? el.uuid : el.name.toLowerCase();
+			delete el.uuid;
+			this.storage.collection('roles').doc(docId).set(el).then((result) => {});
+		});
+	}
+
+	public async saveTags(arrData: Array<any>): Promise<any> {
+		arrData.forEach((el) => {
+			const docId = el.uuid !== undefined ? el.uuid : el.name.toLowerCase();
+			delete el.uuid;
+			this.storage.collection('tags').doc(docId).set(el).then((result) => {});
+		});
+	}
+
+	public async removeRole(role: any): Promise<any> {
+		return this.storage.collection('roles').doc(role.uuid).delete().then((res) => {});
+	}
+
+	public async removeTag(tag: any): Promise<any> {
+		return this.storage.collection('tags').doc(tag.uuid).delete().then((res) => {});
+	}
 }

@@ -4,20 +4,31 @@
 		</div>
 </div>
 <div class="row mt-5">
-	<div class="col-8 offset-2">
+	<div class="col-8 offset-1">
 		<span>Perfis de usuário:</span>
-		<tag-input [(ngModel)]='perfis' theme='dark' placeholder="+ Perfil" secondaryPlaceholder="Adicione um novo perfil"></tag-input>
+		<tag-input [(ngModel)]='perfis' theme='dark' [displayBy]="'name'" (onRemove)="onRemoveRole($event)" placeholder="+ Perfil" secondaryPlaceholder="Adicione um novo perfil"></tag-input>
+	</div>
+	<div class="col-2">
+		<button type="button" (click)="saveProfile()" class="btn btn-outline-dark mt-4">
+			<i class="fa fa-save pointer"></i>
+			Salvar
+		</button>
 	</div>
 </div>
 <div class="row mt-5">
-	<div class="col-8 offset-2">
+	<div class="col-8 offset-1">
 		<span>Tags:</span>
-		<tag-input [(ngModel)]='tags' theme='dark' placeholder="+ Tag" secondaryPlaceholder="Adicione uma nova tag"></tag-input>
+		<tag-input [(ngModel)]='tags' theme='dark' [displayBy]="'name'" (onRemove)="onRemoveTag($event)" placeholder="+ Tag" secondaryPlaceholder="Adicione uma nova tag"></tag-input>
+	</div>
+	<div class="col-2">
+		<button type="button" (click)="saveTags()" class="btn btn-outline-dark mt-4">
+			<i class="fa fa-save pointer"></i>
+			Salvar
+		</button>
 	</div>
 </div>
 <div class="row mt-5">
-	<div class="col-8 offset-2">
+	<div class="col-8 offset-1">
 		<span>Daltonismo:</span>
 	</div>
 </div>
-<dp-floating-button icon="fa fa-floppy-o" (click)="save()"></dp-floating-button>

@@ -35,19 +35,63 @@ export class ConfigComponent implements OnInit {
 		this.configService.fetchAllTags().then((result) => {
 			this.tags = [];
 			result.forEach(el => {
-				this.tags.push(el.data().name);
+				const obj = el.data();
+				obj.uuid = el.id;
+				this.tags.push(obj);
 			});
 		});
 
 		this.configService.fetchAllRoles().then((result) => {
 			this.perfis = [];
 			result.forEach(el => {
-				this.perfis.push(el.data().name);
+				const obj = el.data();
+				obj.uuid = el.id;
+				this.perfis.push(obj);
 			});
 		});
 	}
 
-	public save(): void {
-		// this.
+	public saveTags(): void {
+		this.tags.forEach((el) => {
+			if (el.value !== undefined){
+				el.custom = false;
+				delete el.value;
+			}
+		});
+
+		this.configService.saveTags(this.tags).then((result) => {
+			this.toastr.success('Tags salvas com sucesso');
+		});
+
+		this.fetchAll();
+	}
+
+	public saveProfile(): void {
+		this.perfis.forEach((el) => {
+			if (el.value !== undefined){
+				el.custom = false;
+				delete el.value;
+			}
+		});
+
+		this.configService.saveRoles(this.perfis).then((result) => {
+			this.toastr.success('Perfis de usuário salvos com sucesso');
+		});
+
+		this.fetchAll();
+	}
+
+	public onRemoveRole($event: any): void {
+		this.configService.removeRole($event).then((res) => {
+			this.toastr.success('Perfil de usuário removido com sucesso!');
+			this.fetchAll();
+		});
+	}
+
+	public onRemoveTag($event: any): void {
+		this.configService.removeTag($event).then((res) => {
+			this.toastr.success('Tag removida com sucesso!');
+			this.fetchAll();
+		});
 	}
 }

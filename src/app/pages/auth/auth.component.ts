@@ -41,12 +41,12 @@ export class AuthComponent implements OnInit {
 			this.authService.autheticate(authUser).then((response: ResponseModel<User>) => {
 					if (!response.hasError){
 						localStorage.setItem("userToken", response.data.token);
-						this.toastr.success('Session started!', 'Welcome!');
+						this.toastr.success('Sessão iniciada!', 'Seja bem vindo!');
 						this.router.navigate(['/home']);
 					}
 			}).catch((err) =>{
 				console.log(err);
-				this.toastr.error(err.error.data, "Error");
+				this.toastr.error(err.error.data, 'Erro');
 			})
 		}
 	}
