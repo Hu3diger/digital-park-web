@@ -45,7 +45,6 @@ export class AuthComponent implements OnInit {
 						this.router.navigate(['/home']);
 					}
 			}).catch((err) =>{
-				console.log(err);
 				this.toastr.error(err.error.data, 'Erro');
 			})
 		}

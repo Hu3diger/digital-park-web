@@ -37,6 +37,7 @@ export class ConfigComponent implements OnInit {
 			result.forEach(el => {
 				const obj = el.data();
 				obj.uuid = el.id;
+				console.log(obj);
 				this.tags.push(obj);
 			});
 		});

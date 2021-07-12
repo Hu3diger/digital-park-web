@@ -45,7 +45,7 @@ export class ConfigService extends BaseService {
 
 	public async saveTags(arrData: Array<any>): Promise<any> {
 		arrData.forEach((el) => {
-			const docId = el.uuid !== undefined ? el.uuid : el.name.toLowerCase();
+			const docId = el.uuid !== undefined ? el.uuid : el.label.toLowerCase();
 			delete el.uuid;
 			this.storage.collection('tags').doc(docId).set(el).then((result) => {});
 		});

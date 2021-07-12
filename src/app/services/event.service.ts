@@ -17,7 +17,8 @@ export class EventService extends BaseService {
 	}
 
 	public setFields(element: any): ParkEvent {
-		const doc = element.data() as any;
+		let doc = element.data();
+		doc = typeof(doc) === 'string' ? JSON.parse(doc as any) : doc;
 
 		const event = new ParkEvent();
 
@@ -36,7 +37,21 @@ export class EventService extends BaseService {
 		if (doc.roles !== undefined){
 			doc.roles.forEach(async (el) => {
 				const ref = await el.get();
-				event.roles.push(ref.data().name);
+				const data = ref.data();
+				if (data !== undefined) {
+					event.roles.push(data.name);
+				}
+			});
+		}
+
+		event.tags = new Array<any>();
+		if (doc.tags !== undefined){
+			doc.tags.forEach(async (el) => {
+				const ref = await el.get();
+				const data = ref.data();
+				if (data !== undefined) {
+					event.tags.push(data.name);
+				}
 			});
 		}
 

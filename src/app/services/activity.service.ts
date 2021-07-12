@@ -52,7 +52,6 @@ export class ActivityService extends BaseService {
 			});
 		}
 
-		console.log(activity);
 		return activity;
 	}
 
@@ -72,7 +71,6 @@ export class ActivityService extends BaseService {
 
 	public async save(activity: any): Promise<any> {
 		return new Promise((resolve) => {
-			console.log(activity);
 			if (activity.id != null && activity.id != undefined){
 				this.storage.collection('activities').doc(activity.id).update(activity).then((result: any) => {
 					resolve({ data: result, hasError: false });

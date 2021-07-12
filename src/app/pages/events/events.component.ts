@@ -35,14 +35,6 @@ export class EventsComponent implements OnInit {
 		});
 	}
 
-	public goToNew(): void {
-		this.router.navigate(['/events/new']);
-	}
-
-	public edit(): void {
-		this.toastr.show('Editing');
-	}
-
 	public delete(event: ParkEvent): void {
 		this.toastr.warning('Deletando...');
 		this.eventService.deleteDoc(event.uuid).then((result) => {
@@ -51,8 +43,10 @@ export class EventsComponent implements OnInit {
 		});
 	}
 
-	public editEvent(event: ParkEvent): void {
-		localStorage.setItem('EVENT', JSON.stringify(event));
+	public editEvent(event: ParkEvent, toEdit: boolean): void {
+		if (toEdit) {
+			localStorage.setItem('EVENT', JSON.stringify(event));
+		}
 		this.router.navigate(['events/new']).then(() => {});
 	}
 }
