@@ -1,0 +1,99 @@
+<div class="row mt-3 ml-3">
+	<div class="col-12">
+		<div class="row">
+			<div class="col-4 offset-4">
+				<h3>{{ editableActivity != null ? 'Edição de atividade' : 'Cadastro de atividades' }}</h3>
+			</div>
+		</div>
+		<form [formGroup]="form" (submit)="newActivity()">
+			<div class="row mt-4">
+				<div class="col-12">
+					<div class="row">
+						<div class="col-2">
+							<div class="custom-control custom-switch">
+								<input formControlName="active" type="checkbox" class="custom-control-input" id="active">
+								<label class="custom-control-label font-weight-bold" for="active">Ativo</label>
+							</div>
+						</div>
+
+						<div class="col-6">
+							<div class="custom-control custom-switch">
+								<input formControlName="activityFocus" type="checkbox" class="custom-control-input" id="activityFocus">
+								<label class="custom-control-label font-weight-bold" for="activityFocus">Foco da atividade</label>
+							</div>
+						</div>
+
+						<div class="col-4">
+							<span class="font-weight-bold">Visitas: {{ '0' }}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row mt-2">
+				<div class="col-12">
+					<div class="row">
+						<div class="col-8">
+							<div class="form-group">
+								<label for="name">Nome</label>
+								<input type="text" formControlName="name" id="name" name="eventName" class="form-control" placeholder="Nome da atividade...">
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="form-group row">
+								<div class="col-md-12">
+									<label for="price">Valor</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="fa fa-money"></i></span>
+										</div>
+										<input type="number" formControlName="price" id="price" name="price" class="form-control" placeholder="0,00">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="form-group">
+						<label for="eventDesc">Descrição</label>
+						<textarea id="eventDesc" style="resize: none;" formControlName="description" name="activityDesc" rows="4" class="form-control" placeholder="Uma descrição bem legal para a atividade.."></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="row mt-2">
+						<div class="col-8">
+							<span>Perfis de usuário</span>
+							<tag-input formControlName="roles" [onlyFromAutocomplete]="true" placeholder="+ Perfil" secondaryPlaceholder="Adicione um perfil">
+								<tag-input-dropdown [showDropdownIfEmpty]="true"
+																		[autocompleteItems]="listOptPerfis">
+								</tag-input-dropdown>
+							</tag-input>
+						</div>
+					</div>
+					<div class="row mt-3">
+						<div class="col-8">
+							<span>Tags</span>
+							<tag-input formControlName="tags" [onlyFromAutocomplete]="true" placeholder="+ Tag" secondaryPlaceholder="Adicione uma tag">
+								<tag-input-dropdown [showDropdownIfEmpty]="true"
+																		[autocompleteItems]="listOptTags">
+								</tag-input-dropdown>
+							</tag-input>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-2">
+					<button type="submit" class="btn btn-primary btn-block text-white">Salvar</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+	<dp-floating-button (click)="goToListActivities()" icon="fa fa-arrow-left"></dp-floating-button>
+</div>

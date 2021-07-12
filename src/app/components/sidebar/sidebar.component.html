@@ -1,0 +1,76 @@
+<div class="container-fluid" *ngIf="nav.visible">
+	<div class="row">
+		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
+			<div class="sidebar-sticky">
+				<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+					<span>Navegação</span>
+				</h6>
+				<ul class="nav flex-column">
+					<li class="nav-item">
+						<a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/home']">
+							<i class="fa fa-home fa-lg" aria-hidden="true"></i>
+							Dashboard <span class="sr-only">(current)</span>
+						</a>
+					</li>
+				</ul>
+				<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+					<span>Cadastros gerais</span>
+				</h6>
+				<ul class="nav flex-column">
+					<li class="nav-item mt-2">
+						<a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/events']">
+							<i class="fa fa-calendar-check-o fa-lg" aria-hidden="true"></i>
+							Eventos
+						</a>
+					</li>
+					<li class="nav-item mt-2">
+						<a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/activities']">
+							<i class="fa fa-bicycle fa-lg" aria-hidden="true"></i>
+							Atividades
+						</a>
+					</li>
+					<li class="nav-item mt-2">
+						<a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/sugestions']">
+							<i class="fa fa-bookmark-o fa-lg" aria-hidden="true"></i>
+							Sugestões
+						</a>
+					</li>
+					<li class="nav-item mt-2">
+						<a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/rules']">
+							<i class="fa fa-book fa-lg" aria-hidden="true"></i>
+							Regras
+						</a>
+					</li>
+					<li class="nav-item mt-2">
+						<a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/questions']">
+							<i class="fa fa-question-circle-o fa-lg" aria-hidden="true"></i>
+							Perguntas
+						</a>
+					</li>
+					<li class="nav-item mt-2">
+						<a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/users']">
+							<i class="fa fa-users fa-lg" aria-hidden="true"></i>
+							Usuários
+						</a>
+					</li>
+				</ul>
+				<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+					<span>Aplicativo</span>
+				</h6>
+				<ul class="nav flex-column mb-2">
+					<li class="nav-item mt-2">
+						<a class="nav-link" [routerLinkActive]="['active']" [routerLink]="['/config']">
+							<i class="fa fa-cogs fa-lg" aria-hidden="true"></i>
+							Confiurações
+						</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			<div toastContainer></div>
+			<router-outlet></router-outlet>
+		</main>
+	</div>
+</div>

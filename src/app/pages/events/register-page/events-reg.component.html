@@ -1,0 +1,113 @@
+<div class="row mt-3 ml-3">
+	<div class="col-12">
+		<div class="row">
+			<div class="col-4 offset-4">
+				<h3>{{ editableEvent != null ? 'Edição de evento' : 'Cadastro de eventos' }}</h3>
+			</div>
+		</div>
+		<form [formGroup]="form" (submit)="newEvent()">
+			<div class="row mt-4">
+				<div class="col-6">
+					<div class="row">
+						<div class="col-2">
+							<div class="custom-control custom-switch">
+								<input formControlName="active" type="checkbox" class="custom-control-input" id="active">
+								<label class="custom-control-label font-weight-bold" for="active">Ativo</label>
+							</div>
+						</div>
+						<div class="col-3">
+							<div class="custom-control custom-switch">
+								<input formControlName="notifications" type="checkbox" class="custom-control-input" id="notifications">
+								<label class="custom-control-label font-weight-bold" for="notifications">Notificações</label>
+							</div>
+						</div>
+						<div class="col-2">
+							<div class="custom-control custom-switch">
+								<input formControlName="anual" type="checkbox" class="custom-control-input" id="anualEvent">
+								<label class="custom-control-label font-weight-bold" for="anualEvent">Anual</label>
+							</div>
+						</div>
+						<div class="col-5">
+							<div class="custom-control custom-switch">
+								<input formControlName="focusOnActivities" type="checkbox" class="custom-control-input" id="focusOnActivity">
+								<label class="custom-control-label font-weight-bold" for="focusOnActivity">Foco em atividades</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
+					<span class="font-weight-bold">Presenças confirmadas: {{ '0' }}</span>
+				</div>
+				<div class="col-3">
+					<span class="font-weight-bold">No favoritos de: {{ '0' }}</span>
+				</div>
+			</div>
+
+			<div class="row mt-2">
+				<div class="col-6">
+					<div class="row">
+						<div class="col-8">
+							<div class="form-group">
+								<label for="eventName">Nome</label>
+								<input type="text" formControlName="name" id="eventName" name="eventName" class="form-control" placeholder="Nome do evento...">
+							</div>
+						</div>
+						<div class="col-4">
+							<div class="form-group row">
+								<div class="col-md-12">
+									<label for="eventName">Valor</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text"><i class="fa fa-money"></i></span>
+										</div>
+										<input type="number" formControlName="price" id="input3-group1" name="input3-group1" class="form-control" placeholder="0,00">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="form-group">
+							<label for="startDate">Data Inicio</label>
+							<input class="form-control" formControlName="startDate" id="startDate" type="date" name="startDate" placeholder="date">
+					</div>
+				</div>
+				<div class="col-3">
+					<div class="form-group">
+							<label for="endDate">Data Fim</label>
+							<input class="form-control" id="endDate" formControlName="endDate" type="date" name="endDate" placeholder="date">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-6">
+					<div class="form-group">
+						<label for="eventDesc">Descrição</label>
+						<textarea id="eventDesc" style="resize: none;" formControlName="description" name="eventDesc" rows="4" class="form-control" placeholder="Uma descrição bem legal para o evento.."></textarea>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="row mt-4">
+						<div class="col-12">
+							<span>perfis</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+							<span>tags</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-2">
+					<button type="submit" class="btn btn-primary btn-block text-white">Salvar</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+	<dp-floating-button (click)="goToListEvents()" icon="fa fa-arrow-left"></dp-floating-button>
+</div>

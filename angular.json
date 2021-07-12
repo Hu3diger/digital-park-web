@@ -126,5 +126,8 @@
       }
     }
   },
-  "defaultProject": "digital-park-web"
+  "defaultProject": "digital-park-web",
+  "cli": {
+    "analytics": "b60bad01-1ef3-4496-99b8-e08ec5904513"
+  }
 }

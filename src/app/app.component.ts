@@ -1,25 +1,34 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ToastContainerDirective, ToastrService } from 'ngx-toastr';
+import { NavbarService } from './services/navbar.service';
 
 @Component({
-  selector: 'dp-root',
-  template: `
-    <dp-components-navbar></dp-components-navbar>
-    <div toastContainer></div>
-    <router-outlet></router-outlet>
-  `
+	selector: 'dp-root',
+	templateUrl: './app.component.html',
+	styleUrls: ['./app.component.scss'],
 })
-export class AppComponent  implements OnInit {
-  title = 'digital-park-web';
+export class AppComponent implements OnInit {
+	title = 'digital-park-web';
 
-  @ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
+	public loading = false;
 
-  constructor(
-    private toastrService: ToastrService
-  ) {}
+	@ViewChild(ToastContainerDirective) toastContainer: ToastContainerDirective;
 
-  ngOnInit(): void {
-    this.toastrService.overlayContainer = this.toastContainer;
-  }
+	constructor(
+		private toastrService: ToastrService,
+		public nav: NavbarService
+	) {
+	}
+
+	ngOnInit(): void {
+		this.toastrService.overlayContainer = this.toastContainer;
+		this.loading = true
+		setTimeout(() =>{
+			if (!this.nav.visible) {
+				this.nav.hide();
+			}
+		})
+	}
+
 
 }

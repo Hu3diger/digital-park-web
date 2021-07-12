@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NavbarService } from 'src/app/utils/navbar.service';
+import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
-  selector: 'dp-components-navbar',
+  selector: 'dp-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
@@ -16,6 +16,7 @@ export class NavbarComponent {
   { }
 
   logout(): void {
+		localStorage.removeItem("userToken");
     this.router.navigate(['/auth']);
   }
 }
