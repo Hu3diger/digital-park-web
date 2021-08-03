@@ -1,0 +1,52 @@
+<div class="row mt-3 ml-3">
+	<div class="col-12">
+		<div class="row">
+			<div class="col-4 offset-4">
+				<h3>{{ editableQuestion != null ? 'Edição de Pergunta' : 'Cadastro de Pergunta' }}</h3>
+			</div>
+		</div>
+		<form [formGroup]="form" (submit)="newEvent()">
+			<div class="row mt-4">
+				<div class="col-6">
+					<div class="row">
+						<div class="col-2">
+							<div class="custom-control custom-switch">
+								<input formControlName="active" type="checkbox" class="custom-control-input" id="active">
+								<label class="custom-control-label font-weight-bold" for="active">Ativo</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row mt-2">
+				<div class="col-6">
+					<div class="row">
+						<div class="col-8">
+							<div class="form-group">
+								<label for="questionName">Pergunta</label>
+								<input type="text" formControlName="name" id="questionName" name="questionName" class="form-control" placeholder="Titulo da pergunta...">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-8">
+					<div class="form-group">
+						<label for="questionDesc">Descrição</label>
+						<textarea id="questionDesc" style="resize: none;" formControlName="description" name="questionDesc" rows="4" class="form-control" placeholder="Uma resposta bem explicativa..."></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-2">
+					<button type="submit" class="btn btn-primary btn-block text-white">Salvar</button>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+	<dp-floating-button (click)="goToListQuestions()" icon="fa fa-arrow-left"></dp-floating-button>
+</div>

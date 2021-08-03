@@ -29,10 +29,12 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FloatingButtonComponent } from './components/floating-button/floating-button.component';
 import { EventsRegisterComponent } from './pages/events/register-page/events-reg.component';
 import { EventService } from './services/event.service';
+import { QuestionService } from './services/question.service';
 import {ActivitiesRegisterComponent} from './pages/activities/register-page/activities-reg.component';
 import {ActivityService} from './services/activity.service';
 import {TagInputModule} from 'ngx-chips';
 import {ConfigService} from './services/config.service';
+import { QuestionRegisterComponent } from './pages/questions/register-page/questions-reg.component';
 
 @NgModule({
 	declarations: [
@@ -50,6 +52,8 @@ import {ConfigService} from './services/config.service';
 		ConfigComponent,
 		FloatingButtonComponent,
 		EventsRegisterComponent,
+		QuestionsComponent,
+		QuestionRegisterComponent,
 		ActivitiesRegisterComponent,
 	],
 	imports: [
@@ -75,6 +79,7 @@ import {ConfigService} from './services/config.service';
 		NavbarService,
 		ActivityService,
 		ConfigService,
+		QuestionService,
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
 		{provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
 	],

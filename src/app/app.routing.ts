@@ -11,6 +11,7 @@ import { RulesComponent } from './pages/rules/rules.component';
 import { SugestionsComponent } from './pages/sugestions/sugestions.component';
 import { UsersComponent } from './pages/users/users.component';
 import {ActivitiesRegisterComponent} from './pages/activities/register-page/activities-reg.component';
+import { QuestionRegisterComponent } from './pages/questions/register-page/questions-reg.component';
 
 const routes: Routes = [
 	{
@@ -57,7 +58,16 @@ const routes: Routes = [
 	},
 	{
 		path: 'questions',
-		component: QuestionsComponent
+		children: [
+			{
+				path: '',
+				component: QuestionsComponent,
+			},
+			{
+				path: 'new',
+				component: QuestionRegisterComponent
+			},
+		]
 	},
 	{
 		path: 'users',

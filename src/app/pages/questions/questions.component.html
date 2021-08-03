@@ -1,5 +1,33 @@
 <div class="row mt-4">
-	<div class="col-md-12">
-		<p>Página de: <b>PERGUNTAS</b></p><br>
+	<div class="col-12">
+		<h4 class="text-center">Perguntas</h4>
+		<table class="table table-hover table-sm">
+			<thead>
+				<tr>
+					<th class="text-center" scope="col">Pergunta</th>
+					<th class="text-center" scope="col">Descrição</th>
+					<th class="text-center" scope="col">Ativo</th>
+					<th class="text-center" scope="col">&nbsp;</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let question of listQuestions">
+					<td (click)="editQuestion(question, true)">{{ question.title }}</td>
+					<td (click)="editQuestion(question, true)">{{ question.description.length > 100 ? question.description.slice(0,99) + '...' : question.description }}</td>
+					<td (click)="editQuestion(question, true)">
+						<div class="form-check form-switch ">
+							<input class="form-check-input" type="checkbox" [(ngModel)]="question.active" value="{{ question.uuid }}" id="checkbox1"/>
+							<label class="form-check-label" for="checkbox2">&nbsp;</label>
+						</div>
+					</td>
+					<td>
+						<i class="fa fa-pencil pointer" (click)="editQuestion(question, true)"></i>
+						&nbsp;
+						<i class="fa fa-trash-o pointer" (click)="delete(question)"></i>
+					</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
+	<dp-floating-button (click)="editQuestion(null, false)"></dp-floating-button>
 </div>
