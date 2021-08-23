@@ -35,6 +35,7 @@ import {ActivityService} from './services/activity.service';
 import {TagInputModule} from 'ngx-chips';
 import {ConfigService} from './services/config.service';
 import { QuestionRegisterComponent } from './pages/questions/register-page/questions-reg.component';
+import { TitleCasePipe } from '@angular/common';
 
 @NgModule({
 	declarations: [
@@ -80,6 +81,7 @@ import { QuestionRegisterComponent } from './pages/questions/register-page/quest
 		ActivityService,
 		ConfigService,
 		QuestionService,
+		TitleCasePipe,
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
 		{provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
 	],

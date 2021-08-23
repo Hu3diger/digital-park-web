@@ -23,7 +23,13 @@
 					</div>
 				</td>
 				<td (click)="editActivity(activity, true)">{{ activity.roles.join() }}</td>
-				<td (click)="editActivity(activity, true)">{{ activity.tags.join() }}</td>
+				<td (click)="editActivity(activity, true)">
+					<ng-container *ngIf="activity.tags != undefined">
+						<div *ngFor="let tag of activity.tags">
+							<span>{{ tag.id }}</span>
+						</div>
+					</ng-container>
+				</td>
 				<td>
 					<i class="fa fa-pencil pointer" (click)="editActivity(activity, true)"></i>
 					&nbsp;

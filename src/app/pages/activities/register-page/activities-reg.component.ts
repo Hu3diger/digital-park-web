@@ -8,6 +8,7 @@ import {ParkEvent} from '../../../model/ParkEvent';
 import {ParkActivity} from '../../../model/ParkActivity';
 import {ActivityService} from '../../../services/activity.service';
 import {ConfigService} from '../../../services/config.service';
+import { TitleCasePipe } from '@angular/common';
 
 @Component({
 	selector: 'dp-activties-register-page',
@@ -28,7 +29,8 @@ export class ActivitiesRegisterComponent implements OnInit {
 		private navService: NavbarService,
 		readonly formBuilder: FormBuilder,
 		readonly activityService: ActivityService,
-		readonly cfgService: ConfigService
+		readonly cfgService: ConfigService,
+		readonly pipe: TitleCasePipe
 	) {}
 
 	ngOnInit(): void{
@@ -57,22 +59,27 @@ export class ActivitiesRegisterComponent implements OnInit {
 			this.listOptTags = [];
 			res.forEach(el => {
 				const obj = el.data();
-				this.listOptTags.push(obj.name);
+				this.listOptTags.push(obj.label);
 			});
 		});
-
+		
 		this.initForm();
 	}
 
 	initForm(): void {
+		let tags = [];
+		let roles = [];
+		this.editableActivity.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		this.editableActivity.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+
 		this.form = this.formBuilder.group({
 			active: [this.editableActivity.active, []],
 			activityFocus: [this.editableActivity.activityFocus, []],
 			name: [this.editableActivity.title, [Validators.required]],
 			description: [this.editableActivity.description, [Validators.required]],
 			price: [this.editableActivity.price],
-			roles: [],
-			tags: []
+			roles: [roles],
+			tags: [tags]
 		});
 	}
 
@@ -84,14 +91,23 @@ export class ActivitiesRegisterComponent implements OnInit {
 	newActivity(): void {
 		if (this.form.valid){
 			const values = this.form.value;
-
+ 
 			const activity = {
 				active: values.active,
 				activityFocus: values.activityFocus,
 				description: values.description,
 				price: values.price,
-				title: values.name
+				title: values.name,
+				roles: [],
+				tags: []
 			};
+			values.tags.forEach(t => {
+				activity.tags.push(t.value.toLowerCase())
+			});
+			values.roles.forEach(r => {
+				activity.roles.push(r.value.toLowerCase())
+			});
+
 			this.activityService.save(activity).then((res) => {
 				if (res.hasError) {
 					this.toastr.error('Erro ao salvar a Atividade', res.data);

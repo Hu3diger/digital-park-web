@@ -36,7 +36,7 @@ export class ActivityService extends BaseService {
 				const ref = await el.get();
 				const data = ref.data();
 				if (data !== undefined) {
-					activity.roles.push(data.name);
+					activity.roles.push(data);
 				}
 			});
 		}
@@ -44,11 +44,11 @@ export class ActivityService extends BaseService {
 		activity.tags = new Array<any>();
 		if (doc.tags !== undefined){
 			doc.tags.forEach(async (el) => {
-				const ref = await el.get();
-				const data = ref.data();
-				if (data !== undefined) {
-					activity.tags.push(data.name);
+				let data = {
+					id: el.id,
+					path: el.path
 				}
+				activity.tags.push(data);
 			});
 		}
 
@@ -71,6 +71,17 @@ export class ActivityService extends BaseService {
 
 	public async save(activity: any): Promise<any> {
 		return new Promise((resolve) => {
+			let referencedTags = []
+			let referencedRoles = []
+			activity.tags.forEach(t => {
+				referencedTags.push(this.storage.collection('tags').doc(t));
+			});
+			activity.roles.forEach(r => {
+				referencedRoles.push(this.storage.collection('roles').doc(r));
+			});
+			activity.tags = referencedTags;
+			activity.roles = referencedRoles;
+
 			if (activity.id != null && activity.id != undefined){
 				this.storage.collection('activities').doc(activity.id).update(activity).then((result: any) => {
 					resolve({ data: result, hasError: false });
