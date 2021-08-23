@@ -39,7 +39,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 				this.navService.show();
 			}
 		});
-
+		
 		const tmp = localStorage.getItem('ACTIVITY') as any;
 		if (tmp != null && tmp !== 'null'){
 			this.editableActivity = this.activityService.setFields({ data: () => tmp});
@@ -99,7 +99,8 @@ export class ActivitiesRegisterComponent implements OnInit {
 				price: values.price,
 				title: values.name,
 				roles: [],
-				tags: []
+				tags: [],
+				uuid: this.editableActivity.uuid
 			};
 			values.tags.forEach(t => {
 				activity.tags.push(t.value.toLowerCase())
@@ -107,7 +108,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 			values.roles.forEach(r => {
 				activity.roles.push(r.value.toLowerCase())
 			});
-
+			
 			this.activityService.save(activity).then((res) => {
 				if (res.hasError) {
 					this.toastr.error('Erro ao salvar a Atividade', res.data);

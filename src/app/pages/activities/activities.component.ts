@@ -43,6 +43,7 @@ export class ActivitiesComponent implements OnInit {
 	}
 
 	public editActivity(activity: ParkActivity, toEdit: boolean): void {
+		debugger
 		if (toEdit) {
 			localStorage.setItem('ACTIVITY', JSON.stringify(activity));
 		}

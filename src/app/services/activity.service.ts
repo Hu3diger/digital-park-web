@@ -1,9 +1,6 @@
-import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/model/auth/User';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { ParkEvent } from '../model/ParkEvent';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {ParkActivity} from '../model/ParkActivity';
 
@@ -20,9 +17,9 @@ export class ActivityService extends BaseService {
 	public setFields(element: any): ParkActivity {
 		let doc = element.data();
 		doc = typeof(doc) === 'string' ? JSON.parse(doc as any) : doc;
-
+		
 		const activity = new ParkActivity();
-		activity.uuid = element.id;
+		activity.uuid = element.id || doc.uuid;
 		activity.active = doc.active;
 		activity.title = doc.title;
 		activity.description = doc.description;
@@ -74,16 +71,17 @@ export class ActivityService extends BaseService {
 			let referencedTags = []
 			let referencedRoles = []
 			activity.tags.forEach(t => {
-				referencedTags.push(this.storage.collection('tags').doc(t));
+				referencedTags.push(this.storage.collection('tags').doc(t).ref);
 			});
 			activity.roles.forEach(r => {
-				referencedRoles.push(this.storage.collection('roles').doc(r));
+				referencedRoles.push(this.storage.collection('roles').doc(r).ref);
 			});
 			activity.tags = referencedTags;
 			activity.roles = referencedRoles;
-
-			if (activity.id != null && activity.id != undefined){
-				this.storage.collection('activities').doc(activity.id).update(activity).then((result: any) => {
+			
+			debugger
+			if (activity.uuid != null && activity.uuid != undefined){
+				this.storage.collection('activities').doc(activity.uuid).update(activity).then((result: any) => {
 					resolve({ data: result, hasError: false });
 				}).catch((err) => {
 					resolve({ data: err, hasError: true });
