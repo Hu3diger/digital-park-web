@@ -30,11 +30,11 @@ export class ActivityService extends BaseService {
 		activity.roles = new Array<any>();
 		if (doc.roles !== undefined){
 			doc.roles.forEach(async (el) => {
-				const ref = await el.get();
-				const data = ref.data();
-				if (data !== undefined) {
-					activity.roles.push(data);
+				let data = {
+					id: el.id,
+					path: el.path
 				}
+				activity.roles.push(data);
 			});
 		}
 
@@ -79,7 +79,6 @@ export class ActivityService extends BaseService {
 			activity.tags = referencedTags;
 			activity.roles = referencedRoles;
 			
-			debugger
 			if (activity.uuid != null && activity.uuid != undefined){
 				this.storage.collection('activities').doc(activity.uuid).update(activity).then((result: any) => {
 					resolve({ data: result, hasError: false });
