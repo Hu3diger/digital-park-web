@@ -36,7 +36,6 @@ export class EventsComponent implements OnInit {
 	}
 
 	public delete(event: ParkEvent): void {
-		this.toastr.warning('Deletando...');
 		this.eventService.deleteDoc(event.uuid).then((result) => {
 			this.toastr.success('Evento apagado com sucesso!');
 			this.loadAllEvents();

@@ -72,7 +72,6 @@ export class ActivitiesRegisterComponent implements OnInit {
 		this.editableActivity.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
 		this.editableActivity.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
 		
-		console.log(this.editableActivity.roles);
 		this.form = this.formBuilder.group({
 			active: [this.editableActivity.active, []],
 			activityFocus: [this.editableActivity.activityFocus, []],
@@ -110,7 +109,6 @@ export class ActivitiesRegisterComponent implements OnInit {
 				activity.roles.push(r.value.toLowerCase())
 			});
 			
-			console.log(activity);
 			this.activityService.save(activity).then((res) => {
 				if (res.hasError) {
 					this.toastr.error('Erro ao salvar a Atividade', res.data);

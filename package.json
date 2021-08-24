@@ -28,6 +28,7 @@
     "firebase": "^8.6.3",
     "font-awesome": "^4.7.0",
     "fontawesome": "^4.7.0",
+    "moment": "^2.29.1",
     "ngx-bootstrap": "^6.2.0",
     "ngx-chips": "^2.2.2",
     "ngx-toastr": "^13.1.0",

@@ -1,17 +1,16 @@
-import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/model/auth/User';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
 import { ParkEvent } from '../model/ParkEvent';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as moment from 'moment';
 
 @Injectable()
 export class EventService extends BaseService {
 
 	constructor(
 		readonly http: HttpClient,
-		readonly storage: AngularFirestore
+		readonly storage: AngularFirestore,
 	){
 		super();
 	}
@@ -19,14 +18,15 @@ export class EventService extends BaseService {
 	public setFields(element: any): ParkEvent {
 		let doc = element.data();
 		doc = typeof(doc) === 'string' ? JSON.parse(doc as any) : doc;
-
+		
+		debugger
 		const event = new ParkEvent();
 
-		event.uuid = element.id;
+		event.uuid = element.id || doc.uuid;
 		event.active = doc.active;
 		event.title = doc.title;
-		event.startDate = new Date(doc.startDate?.seconds * 1000);
-		event.endDate = new Date(doc.endDate?.seconds * 1000);
+		event.startDate = typeof(doc.startDate) === 'string' ? new Date(doc.startDate) : new Date(doc.startDate?.seconds * 1000);
+		event.endDate = typeof(doc.endDate) === 'string' ? new Date(doc.startDate) : new Date(doc.endDate?.seconds * 1000);
 		event.price = doc.price;
 		event.notifications = doc.notifications;
 		if (doc.confirmedAttendance != null){
@@ -36,22 +36,22 @@ export class EventService extends BaseService {
 		event.roles = new Array<any>();
 		if (doc.roles !== undefined){
 			doc.roles.forEach(async (el) => {
-				const ref = await el.get();
-				const data = ref.data();
-				if (data !== undefined) {
-					event.roles.push(data.name);
+				let data = {
+					id: el.id,
+					path: el.path
 				}
+				event.roles.push(data);
 			});
 		}
 
 		event.tags = new Array<any>();
 		if (doc.tags !== undefined){
 			doc.tags.forEach(async (el) => {
-				const ref = await el.get();
-				const data = ref.data();
-				if (data !== undefined) {
-					event.tags.push(data.name);
+				let data = {
+					id: el.id,
+					path: el.path
 				}
+				event.tags.push(data);
 			});
 		}
 
@@ -68,8 +68,33 @@ export class EventService extends BaseService {
 	}
 
 	public async save(event: any): Promise<any> {
-		await this.storage.collection('events').doc().set(event).then((result: any) =>{
-			return result;
+		return new Promise((resolve) => {
+			let referencedTags = []
+			let referencedRoles = []
+
+			debugger
+			event.tags.forEach(t => {
+				referencedTags.push(this.storage.collection('tags').doc(t).ref);
+			});
+			event.roles.forEach(r => {
+				referencedRoles.push(this.storage.collection('roles').doc(r).ref);
+			});
+			event.tags = referencedTags;
+			event.roles = referencedRoles;
+			
+			if (event.uuid != null && event.uuid != undefined){
+				this.storage.collection('events').doc(event.uuid).update(event).then((result: any) => {
+					resolve({ data: result, hasError: false });
+				}).catch((err) => {
+					resolve({ data: err, hasError: true });
+				});
+			} else {
+				this.storage.collection('events').doc().set(event).then((result: any) => {
+					resolve({ data: result, hasError: false });
+				}).catch((err) => {
+					resolve({ data: err, hasError: true });
+				});
+			}
 		});
 	}
 

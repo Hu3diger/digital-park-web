@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -26,7 +27,8 @@ export class EventsRegisterComponent implements OnInit {
 		private navService: NavbarService,
 		readonly formBuilder: FormBuilder,
 		readonly eventService: EventService,
-		readonly cfgService: ConfigService
+		readonly cfgService: ConfigService,
+		readonly pipe: TitleCasePipe
 	) {}
 
 	ngOnInit(): void{
@@ -55,7 +57,7 @@ export class EventsRegisterComponent implements OnInit {
 			this.listOptTags = [];
 			res.forEach(el => {
 				const obj = el.data();
-				this.listOptTags.push(obj.name);
+				this.listOptTags.push(obj.label);
 			});
 		});
 
@@ -64,6 +66,12 @@ export class EventsRegisterComponent implements OnInit {
 	}
 
 	initForm(): void {
+		let tags = [];
+		let roles = [];
+		this.editableEvent.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		this.editableEvent.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		
+		debugger
 		this.form = this.formBuilder.group({
 			active: [this.editableEvent.active, []],
 			notifications: [this.editableEvent.notifications, []],
@@ -74,8 +82,8 @@ export class EventsRegisterComponent implements OnInit {
 			startDate: [new Date(this.editableEvent.startDate), [Validators.required]],
 			endDate: [new Date(this.editableEvent.endDate), [Validators.required]],
 			description: [this.editableEvent.description, [Validators.required]],
-			roles: [],
-			tags: []
+			roles: [roles],
+			tags: [tags]
 		});
 	}
 
@@ -96,10 +104,21 @@ export class EventsRegisterComponent implements OnInit {
 				},
 				price: values.price,
 				startDate: new Date(values.startDate),
-				title: values.name
+				title: values.name,
+				tags: [],
+				roles: [],
+				uuid: this.editableEvent.uuid
 			};
+
+			values.tags.forEach(t => {
+				event.tags.push(t.value.toLowerCase())
+			});
+			values.roles.forEach(r => {
+				event.roles.push(r.value.toLowerCase())
+			});
+			
 			this.eventService.save(event).then(() => {
-				this.toastr.success('Event successfully saved!');
+				this.toastr.success('Evento salvo com sucesso!');
 				this.router.navigate(['/events']).then(() => {});
 			});
 		} else {
