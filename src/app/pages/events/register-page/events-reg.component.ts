@@ -69,8 +69,17 @@ export class EventsRegisterComponent implements OnInit {
 	initForm(): void {
 		let tags = [];
 		let roles = [];
-		this.editableEvent.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
-		this.editableEvent.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		if (this.editableEvent.tags !== null && this.editableEvent.tags !== undefined && this.editableEvent.tags.length > 0) {
+			this.editableEvent.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		} else {
+			this.editableEvent.tags = [];
+		}
+
+		if (this.editableEvent.roles !== null && this.editableEvent.roles !== undefined && this.editableEvent.roles.length > 0) {
+			this.editableEvent.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		} else {
+			this.editableEvent.roles = [];
+		}
 		
 		this.form = this.formBuilder.group({
 			active: [this.editableEvent.active, []],
@@ -107,9 +116,15 @@ export class EventsRegisterComponent implements OnInit {
 				title: values.name,
 				tags: [],
 				roles: [],
-				uuid: this.editableEvent.uuid
+				uuid: '',
 			};
-
+			
+			console.log(this.editableEvent.uuid);
+			if (this.editableEvent.uuid !== undefined && this.editableEvent.uuid !== null){
+				event.uuid = this.editableEvent.uuid;
+			} else {
+				event.uuid = null;
+			}
 			values.tags.forEach(t => {
 				event.tags.push(t.value.toLowerCase())
 			});
@@ -119,7 +134,7 @@ export class EventsRegisterComponent implements OnInit {
 			
 			this.eventService.save(event).then(() => {
 				this.toastr.success('Evento salvo com sucesso!');
-				this.router.navigate(['/events']).then(() => {});
+				this.goToListEvents();
 			});
 		} else {
 			this.toastr.error('Necessário preencher todos os campos obrigatórios', 'Erro ao salvar entidade');

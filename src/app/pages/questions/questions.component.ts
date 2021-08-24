@@ -36,7 +36,6 @@ export class QuestionsComponent implements OnInit {
 	}
 
 	public delete(event: ParkQuestion): void {
-		this.toastr.warning('Deletando...');
 		this.questionService.deleteDoc(event.uuid).then((result) => {
 			this.toastr.success('Pergunta apagada com sucesso!');
 			this.loadAllQuestions();

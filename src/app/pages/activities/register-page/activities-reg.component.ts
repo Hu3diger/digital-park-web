@@ -69,8 +69,13 @@ export class ActivitiesRegisterComponent implements OnInit {
 	initForm(): void {
 		let tags = [];
 		let roles = [];
-		this.editableActivity.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
-		this.editableActivity.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		if (this.editableActivity.tags !== undefined) {
+			this.editableActivity.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		}
+
+		if (this.editableActivity.roles !== undefined) {
+			this.editableActivity.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		}
 		
 		this.form = this.formBuilder.group({
 			active: [this.editableActivity.active, []],
@@ -100,8 +105,15 @@ export class ActivitiesRegisterComponent implements OnInit {
 				title: values.name,
 				roles: [],
 				tags: [],
-				uuid: this.editableActivity.uuid
+				uuid: null
 			};
+
+			if (this.editableActivity.uuid !== undefined) {
+				activity.uuid = this.editableActivity.uuid;
+			} else {
+				activity.uuid = null;
+			}
+
 			values.tags.forEach(t => {
 				activity.tags.push(t.value.toLowerCase())
 			});

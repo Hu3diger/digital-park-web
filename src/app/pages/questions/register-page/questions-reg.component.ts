@@ -68,9 +68,13 @@ export class QuestionRegisterComponent implements OnInit {
 				created: {
 					timestemp: new Date()
 				},
-				id: this.editableQuestion.uuid
+				id: null,
 			};
 			
+			if (this.editableQuestion.uuid !== (null || undefined)){
+				question.id = this.editableQuestion.uuid
+			}
+
 			this.questionService.save(question).then(() => {
 				this.toastr.success('Pergunta cadastrada com sucesso!');
 				this.router.navigate(['/questions']).then(() => {});
