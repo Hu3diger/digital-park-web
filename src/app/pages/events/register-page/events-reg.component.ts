@@ -7,6 +7,7 @@ import { ConfigService } from 'src/app/services/config.service';
 import { EventService } from 'src/app/services/event.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import {ParkEvent} from '../../../model/ParkEvent';
+import * as moment from 'moment';
 
 @Component({
 	selector: 'dp-events-register-page',
@@ -71,7 +72,6 @@ export class EventsRegisterComponent implements OnInit {
 		this.editableEvent.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
 		this.editableEvent.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
 		
-		debugger
 		this.form = this.formBuilder.group({
 			active: [this.editableEvent.active, []],
 			notifications: [this.editableEvent.notifications, []],
@@ -79,8 +79,8 @@ export class EventsRegisterComponent implements OnInit {
 			focusOnActivities: [false, []],
 			name: [this.editableEvent.title, [Validators.required]],
 			price: [this.editableEvent.price, []],
-			startDate: [new Date(this.editableEvent.startDate), [Validators.required]],
-			endDate: [new Date(this.editableEvent.endDate), [Validators.required]],
+			startDate: [moment(this.editableEvent.startDate).format('yyyy-MM-DD'), [Validators.required]],
+			endDate: [moment(this.editableEvent.endDate).format('yyyy-MM-DD'), [Validators.required]],
 			description: [this.editableEvent.description, [Validators.required]],
 			roles: [roles],
 			tags: [tags]

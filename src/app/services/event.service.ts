@@ -25,10 +25,11 @@ export class EventService extends BaseService {
 		event.uuid = element.id || doc.uuid;
 		event.active = doc.active;
 		event.title = doc.title;
-		event.startDate = typeof(doc.startDate) === 'string' ? new Date(doc.startDate) : new Date(doc.startDate?.seconds * 1000);
-		event.endDate = typeof(doc.endDate) === 'string' ? new Date(doc.startDate) : new Date(doc.endDate?.seconds * 1000);
+		event.startDate = typeof(doc.startDate) === 'string' ? moment(doc.startDate).startOf('day').toDate() : new Date(doc.startDate?.seconds * 1000);
+		event.endDate = typeof(doc.endDate) === 'string' ? moment(doc.endDate).startOf('day').toDate() : new Date(doc.endDate?.seconds * 1000);
 		event.price = doc.price;
 		event.notifications = doc.notifications;
+		event.description = doc.description;
 		if (doc.confirmedAttendance != null){
 			event.confirmedAttendance = doc.confirmedAttendance.length;
 		}

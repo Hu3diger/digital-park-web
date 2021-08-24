@@ -9,6 +9,7 @@
 					<th class="text-center" scope="col">Nome</th>
 					<th class="text-center" scope="col">Data do Evento</th>
 					<th class="text-center" scope="col">Perfis</th>
+					<th class="text-center" scope="col">Tags</th>
 					<th class="text-center" scope="col">Valor</th>
 					<th class="text-center" scope="col">Presenças</th>
 					<th class="text-center" scope="col">&nbsp;</th>
@@ -35,6 +36,15 @@
 							<ng-container *ngIf="event.roles != undefined">
 								<ng-container *ngFor="let role of event.roles">
 									{{ role.id | titlecase }},
+								</ng-container>
+							</ng-container>
+						</span>
+					</td>
+					<td (click)="editEvent(event, true)">
+						<span>
+							<ng-container *ngIf="event.tags != undefined">
+								<ng-container *ngFor="let tag of event.tags">
+									{{ tag.id | titlecase }},
 								</ng-container>
 							</ng-container>
 						</span>
