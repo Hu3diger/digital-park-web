@@ -21,6 +21,7 @@ export class EventsRegisterComponent implements OnInit {
 	editableEvent: ParkEvent;
 	listOptPerfis: Array<any>;
 	listOptTags: Array<any>;
+	imagePreview: String;
 
 	constructor(
 		private router: Router,
@@ -139,5 +140,16 @@ export class EventsRegisterComponent implements OnInit {
 		} else {
 			this.toastr.error('Necessário preencher todos os campos obrigatórios', 'Erro ao salvar entidade');
 		}
+	}
+
+	processFile(imageInput: any) {
+		const file: File = imageInput.files[0];
+		const reader = new FileReader();
+
+		reader.onloadend = (e) => {
+			this.imagePreview = reader.result.toString();
+		};
+
+		reader.readAsDataURL(file);
 	}
 }

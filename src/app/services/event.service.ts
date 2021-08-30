@@ -4,6 +4,7 @@ import { BaseService } from './base.service';
 import { ParkEvent } from '../model/ParkEvent';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as moment from 'moment';
+import { AngularFireStorage } from '@angular/fire/storage';
 
 @Injectable()
 export class EventService extends BaseService {
@@ -11,6 +12,7 @@ export class EventService extends BaseService {
 	constructor(
 		readonly http: HttpClient,
 		readonly storage: AngularFirestore,
+		readonly teste: AngularFireStorage
 	){
 		super();
 	}
@@ -103,5 +105,10 @@ export class EventService extends BaseService {
 		await this.storage.collection('events').doc(uuid).delete().then((result: any) => {
 			return result;
 		});
+
+		var l = this.teste.storage.ref();
+		var t = l.child('images/events/teste.jpg');
+		t.put(new Blob()).then(() => {});
+
 	}
 }
