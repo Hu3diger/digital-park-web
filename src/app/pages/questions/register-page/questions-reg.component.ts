@@ -6,6 +6,7 @@ import { ConfigService } from 'src/app/services/config.service';
 import { QuestionService } from 'src/app/services/question.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { ParkQuestion } from '../../../model/ParkQuestion';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
 	selector: 'dp-questions-register-page',
@@ -13,6 +14,7 @@ import { ParkQuestion } from '../../../model/ParkQuestion';
 	styleUrls: ['./questions-reg.component.scss'],
 })
 export class QuestionRegisterComponent implements OnInit {
+	@BlockUI() blockUI: NgBlockUI;
 
 	form: FormGroup;
 	toEditUuid: string;
@@ -74,8 +76,9 @@ export class QuestionRegisterComponent implements OnInit {
 			if (this.editableQuestion.uuid !== (null || undefined)){
 				question.id = this.editableQuestion.uuid
 			}
-
+			this.blockUI.start("Salvando...");
 			this.questionService.save(question).then(() => {
+				this.blockUI.stop();
 				this.toastr.success('Pergunta cadastrada com sucesso!');
 				this.router.navigate(['/questions']).then(() => {});
 				localStorage.setItem('QUESTION', null);

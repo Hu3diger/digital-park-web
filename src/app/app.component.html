@@ -1,8 +1,10 @@
-<ngx-loading-bar [includeSpinner]="false"></ngx-loading-bar>
-<dp-navbar></dp-navbar>
-<dp-sidebar></dp-sidebar>
-
-<div [hidden]="nav.visible">
-  <div toastContainer></div>
-  <router-outlet></router-outlet>
-</div>
+<block-ui>
+  <ngx-loading-bar [includeSpinner]="false"></ngx-loading-bar>
+  <dp-navbar></dp-navbar>
+  <dp-sidebar></dp-sidebar>
+  
+  <div [hidden]="nav.visible">
+    <div toastContainer></div>
+    <router-outlet></router-outlet>
+  </div>
+</block-ui>

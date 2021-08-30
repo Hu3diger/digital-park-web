@@ -36,6 +36,7 @@ import {TagInputModule} from 'ngx-chips';
 import {ConfigService} from './services/config.service';
 import { QuestionRegisterComponent } from './pages/questions/register-page/questions-reg.component';
 import { TitleCasePipe } from '@angular/common';
+import { BlockUIModule } from 'ng-block-ui';
 
 @NgModule({
 	declarations: [
@@ -73,6 +74,9 @@ import { TitleCasePipe } from '@angular/common';
 		AngularFireDatabaseModule,
 		AngularFireStorageModule,
 		TagInputModule,
+		BlockUIModule.forRoot({
+			message: 'Carregando...'
+		})
 	],
 	providers: [
 		AuthService,

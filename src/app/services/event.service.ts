@@ -5,6 +5,7 @@ import { ParkEvent } from '../model/ParkEvent';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as moment from 'moment';
 import { AngularFireStorage } from '@angular/fire/storage';
+import { ImageSnippet } from '../model/ImageSnippet';
 
 @Injectable()
 export class EventService extends BaseService {
@@ -12,7 +13,7 @@ export class EventService extends BaseService {
 	constructor(
 		readonly http: HttpClient,
 		readonly storage: AngularFirestore,
-		readonly teste: AngularFireStorage
+		readonly bucket: AngularFireStorage
 	){
 		super();
 	}
@@ -30,8 +31,9 @@ export class EventService extends BaseService {
 		event.startDate = typeof(doc.startDate) === 'string' ? moment(doc.startDate).startOf('day').toDate() : new Date(doc.startDate?.seconds * 1000);
 		event.endDate = typeof(doc.endDate) === 'string' ? moment(doc.endDate).startOf('day').toDate() : new Date(doc.endDate?.seconds * 1000);
 		event.price = doc.price;
-		event.notifications = doc.notifications;
+		event.notifications = doc.notifications || {active: true};
 		event.description = doc.description;
+		event.image = doc.image;
 		if (doc.confirmedAttendance != null){
 			event.confirmedAttendance = doc.confirmedAttendance.length;
 		}
@@ -70,12 +72,21 @@ export class EventService extends BaseService {
 		return arrEvents;
 	}
 
-	public async save(event: any): Promise<any> {
+	public async saveImage(uuid: string, image: ImageSnippet): Promise<any> {
+		if (!image.file){
+			return new Promise((resolve) => resolve(image.src));
+		} else {
+			this.bucket.ref("images/events/" + uuid + ".jpg");
+			var teste = await this.bucket.upload("images/events/" + uuid + ".jpg", image.file);
+			return (await teste.task).ref.getDownloadURL();
+		}
+	}
+
+	public async save(event: any, image: ImageSnippet): Promise<any> {
 		return new Promise((resolve) => {
 			let referencedTags = []
 			let referencedRoles = []
 
-			debugger
 			event.tags.forEach(t => {
 				referencedTags.push(this.storage.collection('tags').doc(t).ref);
 			});
@@ -84,13 +95,16 @@ export class EventService extends BaseService {
 			});
 			event.tags = referencedTags;
 			event.roles = referencedRoles;
-			
+
 			if (event.uuid != null && event.uuid != undefined){
-				this.storage.collection('events').doc(event.uuid).update(event).then((result: any) => {
-					resolve({ data: result, hasError: false });
-				}).catch((err) => {
-					resolve({ data: err, hasError: true });
-				});
+				this.saveImage(event.uuid, image).then((imagaRef: any) => {
+					event.image = imagaRef;
+					this.storage.collection('events').doc(event.uuid).update(event).then((result: any) => {
+							resolve({ data: result, hasError: false });
+					}).catch((err) => {
+						resolve({ data: err, hasError: true });
+					});
+				})
 			} else {
 				this.storage.collection('events').doc().set(event).then((result: any) => {
 					resolve({ data: result, hasError: false });
@@ -105,10 +119,5 @@ export class EventService extends BaseService {
 		await this.storage.collection('events').doc(uuid).delete().then((result: any) => {
 			return result;
 		});
-
-		var l = this.teste.storage.ref();
-		var t = l.child('images/events/teste.jpg');
-		t.put(new Blob()).then(() => {});
-
 	}
 }

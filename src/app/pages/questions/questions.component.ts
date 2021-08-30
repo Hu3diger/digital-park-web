@@ -4,6 +4,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ParkQuestion } from 'src/app/model/ParkQuestion';
 import { QuestionService } from 'src/app/services/question.service';
 import { NavbarService } from 'src/app/services/navbar.service';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
 	selector: 'dp-questions-page',
@@ -11,6 +12,7 @@ import { NavbarService } from 'src/app/services/navbar.service';
 	styleUrls: ['./questions.component.scss'],
 })
 export class QuestionsComponent implements OnInit {
+	@BlockUI() blockUI: NgBlockUI;
 	listQuestions: Array<ParkQuestion>;
 
 	constructor(
@@ -30,13 +32,17 @@ export class QuestionsComponent implements OnInit {
 	}
 
 	public loadAllQuestions(): void {
+		this.blockUI.start();
 		this.questionService.fetchAll().then((result: Array<ParkQuestion>) => {
+			this.blockUI.stop();
 			this.listQuestions = result;
 		});
 	}
 
 	public delete(event: ParkQuestion): void {
+		this.blockUI.start("Deletando...")
 		this.questionService.deleteDoc(event.uuid).then((result) => {
+			this.blockUI.stop();
 			this.toastr.success('Pergunta apagada com sucesso!');
 			this.loadAllQuestions();
 		});

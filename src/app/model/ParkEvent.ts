@@ -10,4 +10,5 @@ export class ParkEvent {
 	title: string;
 	confirmedAttendance: number;
 	uuid: string;
+	image: string;
 }

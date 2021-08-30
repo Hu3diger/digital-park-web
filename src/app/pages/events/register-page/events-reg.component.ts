@@ -8,6 +8,8 @@ import { EventService } from 'src/app/services/event.service';
 import { NavbarService } from 'src/app/services/navbar.service';
 import {ParkEvent} from '../../../model/ParkEvent';
 import * as moment from 'moment';
+import { ImageSnippet } from 'src/app/model/ImageSnippet';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
 	selector: 'dp-events-register-page',
@@ -15,13 +17,14 @@ import * as moment from 'moment';
 	styleUrls: ['./events-reg.component.scss'],
 })
 export class EventsRegisterComponent implements OnInit {
+	@BlockUI() blockUI: NgBlockUI;
 
 	form: FormGroup;
 	toEditUuid: string;
 	editableEvent: ParkEvent;
 	listOptPerfis: Array<any>;
 	listOptTags: Array<any>;
-	imagePreview: String;
+	imagePreview: ImageSnippet;
 
 	constructor(
 		private router: Router,
@@ -68,6 +71,7 @@ export class EventsRegisterComponent implements OnInit {
 	}
 
 	initForm(): void {
+		this.blockUI.start("Carregando...");
 		let tags = [];
 		let roles = [];
 		if (this.editableEvent.tags !== null && this.editableEvent.tags !== undefined && this.editableEvent.tags.length > 0) {
@@ -81,6 +85,8 @@ export class EventsRegisterComponent implements OnInit {
 		} else {
 			this.editableEvent.roles = [];
 		}
+
+		this.imagePreview = new ImageSnippet(this.editableEvent.image, null);
 		
 		this.form = this.formBuilder.group({
 			active: [this.editableEvent.active, []],
@@ -95,6 +101,7 @@ export class EventsRegisterComponent implements OnInit {
 			roles: [roles],
 			tags: [tags]
 		});
+		this.blockUI.stop();
 	}
 
 	public goToListEvents(): void {
@@ -120,7 +127,6 @@ export class EventsRegisterComponent implements OnInit {
 				uuid: '',
 			};
 			
-			console.log(this.editableEvent.uuid);
 			if (this.editableEvent.uuid !== undefined && this.editableEvent.uuid !== null){
 				event.uuid = this.editableEvent.uuid;
 			} else {
@@ -133,7 +139,9 @@ export class EventsRegisterComponent implements OnInit {
 				event.roles.push(r.value.toLowerCase())
 			});
 			
-			this.eventService.save(event).then(() => {
+			this.blockUI.start("Salvando...")
+			this.eventService.save(event, this.imagePreview).then(() => {
+				this.blockUI.stop();
 				this.toastr.success('Evento salvo com sucesso!');
 				this.goToListEvents();
 			});
@@ -147,7 +155,7 @@ export class EventsRegisterComponent implements OnInit {
 		const reader = new FileReader();
 
 		reader.onloadend = (e) => {
-			this.imagePreview = reader.result.toString();
+			this.imagePreview = new ImageSnippet(reader.result.toString(), file);
 		};
 
 		reader.readAsDataURL(file);

@@ -112,15 +112,18 @@
 					</div>
 				</div>
 				<div class="col-6">
-					<label>&nbsp;</label>
+					<label>Banner do evento</label>
 					<div class="row">
 						<div class="col-12">
-							<input #imageInput type="file" accept="image/*" (change)="processFile(imageInput)">
+							<div class="custom-file">
+								<input #imageInput class="custom-file-input" type="file" accept="image/*" (change)="processFile(imageInput)">
+								<label class="custom-file-label" for="customFile">Escolha o arquivo</label>
+							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-12 mt-3">
-							<img [src]="imagePreview" style="min-height: 200px; min-width:200px; max-width: 500px; max-height: 250px;"/>
+							<img [src]="imagePreview.src" style="min-height: 200px; min-width:200px; max-width: 500px; max-height: 250px;"/>
 						</div>
 					</div>
 				</div>

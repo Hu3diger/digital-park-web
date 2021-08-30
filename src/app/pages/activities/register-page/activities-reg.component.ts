@@ -9,6 +9,7 @@ import {ParkActivity} from '../../../model/ParkActivity';
 import {ActivityService} from '../../../services/activity.service';
 import {ConfigService} from '../../../services/config.service';
 import { TitleCasePipe } from '@angular/common';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 
 @Component({
 	selector: 'dp-activties-register-page',
@@ -16,6 +17,7 @@ import { TitleCasePipe } from '@angular/common';
 	styleUrls: ['./activities-reg.component.scss'],
 })
 export class ActivitiesRegisterComponent implements OnInit {
+	@BlockUI() blockUI: NgBlockUI;
 
 	form: FormGroup;
 	editableActivity: ParkActivity;
@@ -67,6 +69,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 	}
 
 	initForm(): void {
+		this.blockUI.start();
 		let tags = [];
 		let roles = [];
 		if (this.editableActivity.tags !== undefined) {
@@ -86,6 +89,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 			roles: [roles],
 			tags: [tags]
 		});
+		this.blockUI.stop();
 	}
 
 	public goToListActivities(): void {
