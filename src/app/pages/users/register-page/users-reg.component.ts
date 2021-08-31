@@ -4,24 +4,24 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ConfigService } from 'src/app/services/config.service';
-import { EventService } from 'src/app/services/event.service';
 import { NavbarService } from 'src/app/services/navbar.service';
-import {ParkEvent} from '../../../model/ParkEvent';
 import * as moment from 'moment';
 import { ImageSnippet } from 'src/app/model/ImageSnippet';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { UserService } from 'src/app/services/user.service';
+import { ParkUser } from 'src/app/model/ParkUser';
 
 @Component({
-	selector: 'dp-events-register-page',
-	templateUrl: './events-reg.component.html',
-	styleUrls: ['./events-reg.component.scss'],
+	selector: 'dp-users-register-page',
+	templateUrl: './users-reg.component.html',
+	styleUrls: ['./users-reg.component.scss'],
 })
-export class EventsRegisterComponent implements OnInit {
+export class UsersRegisterComponent implements OnInit {
 	@BlockUI() blockUI: NgBlockUI;
 
 	form: FormGroup;
 	toEditUuid: string;
-	editableEvent: ParkEvent;
+	editableUser: ParkUser;
 	listOptPerfis: Array<any>;
 	listOptTags: Array<any>;
 	imagePreview: ImageSnippet;
@@ -31,7 +31,7 @@ export class EventsRegisterComponent implements OnInit {
 		private toastr: ToastrService,
 		private navService: NavbarService,
 		readonly formBuilder: FormBuilder,
-		readonly eventService: EventService,
+		readonly userService: UserService,
 		readonly cfgService: ConfigService,
 		readonly pipe: TitleCasePipe
 	) {}
@@ -43,11 +43,11 @@ export class EventsRegisterComponent implements OnInit {
 			}
 		});
 
-		const tmp = sessionStorage.getItem('EVENT') as any;
+		const tmp = sessionStorage.getItem('USER') as any;
 		if (tmp != null && tmp !== 'null'){
-			this.editableEvent = this.eventService.setFields({ data: () => tmp});
+			this.editableUser = this.userService.setFields({ data: () => tmp});
 		} else {
-			this.editableEvent = new ParkEvent();
+			this.editableUser = new ParkUser();
 		}
 
 		this.cfgService.fetchAllRoles().then((res) => {
@@ -55,14 +55,6 @@ export class EventsRegisterComponent implements OnInit {
 			res.forEach(el => {
 				const obj = el.data();
 				this.listOptPerfis.push(obj.name);
-			});
-		});
-
-		this.cfgService.fetchAllTags().then((res) => {
-			this.listOptTags = [];
-			res.forEach(el => {
-				const obj = el.data();
-				this.listOptTags.push(obj.label);
 			});
 		});
 
@@ -74,39 +66,24 @@ export class EventsRegisterComponent implements OnInit {
 		this.blockUI.start("Carregando...");
 		let tags = [];
 		let roles = [];
-		if (this.editableEvent.tags !== null && this.editableEvent.tags !== undefined && this.editableEvent.tags.length > 0) {
-			this.editableEvent.tags.forEach((t) => tags.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
+		if (this.editableUser.roles !== null && this.editableUser.roles !== undefined && this.editableUser.roles.length > 0) {
+			this.editableUser.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
 		} else {
-			this.editableEvent.tags = [];
+			this.editableUser.roles = [];
 		}
 
-		if (this.editableEvent.roles !== null && this.editableEvent.roles !== undefined && this.editableEvent.roles.length > 0) {
-			this.editableEvent.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
-		} else {
-			this.editableEvent.roles = [];
-		}
-
-		this.imagePreview = new ImageSnippet(this.editableEvent.image, null);
+		// this.imagePreview = new ImageSnippet(this.editableUser.image, null);
 		
 		this.form = this.formBuilder.group({
-			active: [this.editableEvent.active, []],
-			notifications: [this.editableEvent.notifications, []],
-			anual: [false, []],
-			focusOnActivities: [false, []],
-			name: [this.editableEvent.title, [Validators.required]],
-			price: [this.editableEvent.price, []],
-			startDate: [moment(this.editableEvent.startDate).format('yyyy-MM-DD'), [Validators.required]],
-			endDate: [moment(this.editableEvent.endDate).format('yyyy-MM-DD'), [Validators.required]],
-			description: [this.editableEvent.description, [Validators.required]],
+			active: [this.editableUser.active, []],
 			roles: [roles],
-			tags: [tags]
 		});
 		this.blockUI.stop();
 	}
 
-	public goToListEvents(): void {
-		sessionStorage.setItem('EVENT', null);
-		this.router.navigate(['/events']).then(() => {});
+	public goToUserList(): void {
+		sessionStorage.setItem('USER', null);
+		this.router.navigate(['/users']).then(() => {});
 	}
 
 	newEvent(): void {
@@ -127,8 +104,8 @@ export class EventsRegisterComponent implements OnInit {
 				uuid: '',
 			};
 			
-			if (this.editableEvent.uuid !== undefined && this.editableEvent.uuid !== null){
-				event.uuid = this.editableEvent.uuid;
+			if (this.editableUser.uuid !== undefined && this.editableUser.uuid !== null){
+				event.uuid = this.editableUser.uuid;
 			} else {
 				event.uuid = null;
 			}
@@ -140,10 +117,10 @@ export class EventsRegisterComponent implements OnInit {
 			});
 			
 			this.blockUI.start("Salvando...")
-			this.eventService.save(event, this.imagePreview).then(() => {
+			this.userService.save(event, this.imagePreview).then(() => {
 				this.blockUI.stop();
 				this.toastr.success('Evento salvo com sucesso!');
-				this.goToListEvents();
+				this.goToUserList();
 			});
 		} else {
 			this.toastr.error('Necessário preencher todos os campos obrigatórios', 'Erro ao salvar entidade');

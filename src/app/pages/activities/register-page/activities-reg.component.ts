@@ -42,7 +42,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 			}
 		});
 		
-		const tmp = localStorage.getItem('ACTIVITY') as any;
+		const tmp = sessionStorage.getItem('ACTIVITY') as any;
 		if (tmp != null && tmp !== 'null'){
 			this.editableActivity = this.activityService.setFields({ data: () => tmp});
 		} else {
@@ -93,7 +93,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 	}
 
 	public goToListActivities(): void {
-		localStorage.setItem('ACTIVITY', null);
+		sessionStorage.setItem('ACTIVITY', null);
 		this.router.navigate(['/activities']).then(() => {});
 	}
 

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { DEFAULT_CURRENCY_CODE, NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { CommonModule } from "@angular/common";
 import { AppRoutingModule } from './app.routing';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -18,7 +19,6 @@ import { UsersComponent } from './pages/users/users.component';
 import { QuestionsComponent } from './pages/questions/questions.component';
 import { ConfigComponent } from './pages/config/config.component';
 import { AuthService } from './services/auth.service';
-import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HttpConfigInterceptor } from './httpconfig.interceptor';
 import { environment } from '../environments/environment';
@@ -37,6 +37,8 @@ import {ConfigService} from './services/config.service';
 import { QuestionRegisterComponent } from './pages/questions/register-page/questions-reg.component';
 import { TitleCasePipe } from '@angular/common';
 import { BlockUIModule } from 'ng-block-ui';
+import { UserService } from './services/user.service';
+import { UsersRegisterComponent } from './pages/users/register-page/users-reg.component';
 
 @NgModule({
 	declarations: [
@@ -50,6 +52,7 @@ import { BlockUIModule } from 'ng-block-ui';
 		ActivitiesComponent,
 		RulesComponent,
 		UsersComponent,
+		UsersRegisterComponent,
 		QuestionsComponent,
 		ConfigComponent,
 		FloatingButtonComponent,
@@ -65,10 +68,10 @@ import { BlockUIModule } from 'ng-block-ui';
 		FormsModule,
 		HttpClientModule,
 		ReactiveFormsModule,
+		CommonModule,
 		ToastrModule.forRoot({
 			positionClass: 'toast-bottom-left',
 		}),
-		LoadingBarRouterModule,
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
 		AngularFireDatabaseModule,
@@ -85,6 +88,7 @@ import { BlockUIModule } from 'ng-block-ui';
 		ActivityService,
 		ConfigService,
 		QuestionService,
+		UserService,
 		TitleCasePipe,
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
 		{provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }

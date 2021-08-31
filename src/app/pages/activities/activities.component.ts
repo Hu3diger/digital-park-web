@@ -48,7 +48,7 @@ export class ActivitiesComponent implements OnInit {
 
 	public editActivity(activity: ParkActivity, toEdit: boolean): void {
 		if (toEdit) {
-			localStorage.setItem('ACTIVITY', JSON.stringify(activity));
+			sessionStorage.setItem('ACTIVITY', JSON.stringify(activity));
 		}
 
 		this.router.navigate(['activities/new']).then(() => {});

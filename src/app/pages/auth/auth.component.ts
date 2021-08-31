@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/model/auth/User';
 import { ResponseModel } from 'src/app/model/ResponseModel';
@@ -13,7 +14,7 @@ import { NavbarService } from 'src/app/services/navbar.service';
 	styleUrls: ['./auth.component.scss'],
 })
 export class AuthComponent implements OnInit {
-
+	@BlockUI() blockUi: NgBlockUI;
 	form: FormGroup;
 
 	constructor(
@@ -38,14 +39,17 @@ export class AuthComponent implements OnInit {
 			authUser.username = this.form.get('userName').value;
 			authUser.password = this.form.get('password').value;
 
+			this.blockUi.start("Autenticando...");
 			this.authService.autheticate(authUser).then((response: ResponseModel<User>) => {
-					if (!response.hasError){
-						localStorage.setItem("userToken", response.data.token);
-						this.toastr.success('Sessão iniciada!', 'Seja bem vindo!');
-						this.router.navigate(['/home']);
-					}
-			}).catch((err) =>{
+				if (!response.hasError){
+					sessionStorage.setItem("userToken", response.data.token);
+					this.toastr.success('Sessão iniciada!', 'Seja bem vindo!');
+					this.router.navigate(['/home']);
+				}
+			}).catch((err) => {
 				this.toastr.error(err.error.data, 'Erro');
+			}).finally(() => {
+				this.blockUi.stop();
 			})
 		}
 	}

@@ -37,7 +37,7 @@ export class QuestionRegisterComponent implements OnInit {
 			}
 		});
 
-		const tmp = localStorage.getItem('QUESTION') as any;
+		const tmp = sessionStorage.getItem('QUESTION') as any;
 		if (tmp != null && tmp !== 'null'){
 			this.editableQuestion = this.questionService.setFields({ data: () => tmp});
 		} else {
@@ -56,7 +56,7 @@ export class QuestionRegisterComponent implements OnInit {
 	}
 
 	public goToListQuestions(): void {
-		localStorage.setItem('QUESTION', null);
+		sessionStorage.setItem('QUESTION', null);
 		this.router.navigate(['/questions']).then(() => {});
 	}
 
@@ -81,7 +81,7 @@ export class QuestionRegisterComponent implements OnInit {
 				this.blockUI.stop();	
 				this.toastr.success('Pergunta cadastrada com sucesso!');
 				this.router.navigate(['/questions']).then(() => {});
-				localStorage.setItem('QUESTION', null);
+				sessionStorage.setItem('QUESTION', null);
 			});
 		} else {
 			this.toastr.error('Necessário preencher todos os campos obrigatórios', 'Erro ao salvar entidade');

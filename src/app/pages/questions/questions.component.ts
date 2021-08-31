@@ -50,7 +50,7 @@ export class QuestionsComponent implements OnInit {
 
 	public editQuestion(question: ParkQuestion, toEdit: boolean): void {
 		if (toEdit) {
-			localStorage.setItem('QUESTION', JSON.stringify(question));
+			sessionStorage.setItem('QUESTION', JSON.stringify(question));
 		}
 		this.router.navigate(['questions/new']).then(() => {});
 	}

@@ -50,7 +50,7 @@ export class EventsComponent implements OnInit {
 
 	public editEvent(event: ParkEvent, toEdit: boolean): void {
 		if (toEdit) {
-			localStorage.setItem('EVENT', JSON.stringify(event));
+			sessionStorage.setItem('EVENT', JSON.stringify(event));
 		}
 		this.router.navigate(['events/new']).then(() => {});
 	}
