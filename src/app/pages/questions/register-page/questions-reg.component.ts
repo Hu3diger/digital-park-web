@@ -78,7 +78,7 @@ export class QuestionRegisterComponent implements OnInit {
 			}
 			this.blockUI.start("Salvando...");
 			this.questionService.save(question).then(() => {
-				this.blockUI.stop();
+				this.blockUI.stop();	
 				this.toastr.success('Pergunta cadastrada com sucesso!');
 				this.router.navigate(['/questions']).then(() => {});
 				localStorage.setItem('QUESTION', null);
