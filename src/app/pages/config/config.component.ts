@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { NavbarService } from 'src/app/services/navbar.service';
 import {ConfigService} from '../../services/config.service';
@@ -11,6 +12,7 @@ import {ConfigService} from '../../services/config.service';
 })
 
 export class ConfigComponent implements OnInit {
+	@BlockUI() blockUI: NgBlockUI;
 
 	perfis: any[];
 	tags: any[];
@@ -32,26 +34,32 @@ export class ConfigComponent implements OnInit {
 	}
 
 	public fetchAll(): any {
-		this.configService.fetchAllTags().then((result) => {
+		this.blockUI.start("Buscando dados de configuração...");
+		const arrProms = [];
+
+		arrProms.push(this.configService.fetchAllTags().then((result) => {
 			this.tags = [];
 			result.forEach(el => {
 				const obj = el.data();
 				obj.uuid = el.id;
 				this.tags.push(obj);
 			});
-		});
+		}));
 
-		this.configService.fetchAllRoles().then((result) => {
+		arrProms.push(this.configService.fetchAllRoles().then((result) => {
 			this.perfis = [];
 			result.forEach(el => {
 				const obj = el.data();
 				obj.uuid = el.id;
 				this.perfis.push(obj);
 			});
-		});
+		}));
+
+		Promise.all(arrProms).then(() => { this.blockUI.stop() });
 	}
 
 	public saveTags(): void {
+		this.blockUI.start("Salvando dados...");
 		this.tags.forEach((el) => {
 			if (el.value !== undefined){
 				el.custom = false;
@@ -59,7 +67,8 @@ export class ConfigComponent implements OnInit {
 			}
 		});
 
-		this.configService.saveTags(this.tags).then((result) => {
+		this.configService.saveTags(this.tags).then(() => {
+			this.blockUI.stop();
 			this.toastr.success('Tags salvas com sucesso');
 		});
 
@@ -67,6 +76,7 @@ export class ConfigComponent implements OnInit {
 	}
 
 	public saveProfile(): void {
+		this.blockUI.start("Salvando dados de perfil...");
 		this.perfis.forEach((el) => {
 			if (el.value !== undefined){
 				el.custom = false;
@@ -75,6 +85,7 @@ export class ConfigComponent implements OnInit {
 		});
 
 		this.configService.saveRoles(this.perfis).then((result) => {
+			this.blockUI.stop();
 			this.toastr.success('Perfis de usuário salvos com sucesso');
 		});
 

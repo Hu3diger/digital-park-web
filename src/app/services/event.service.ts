@@ -100,7 +100,7 @@ export class EventService extends BaseService {
 				this.saveImage(event.uuid, image).then((imagaRef: any) => {
 					event.image = imagaRef;
 					this.storage.collection('events').doc(event.uuid).update(event).then((result: any) => {
-							resolve({ data: result, hasError: false });
+						resolve({ data: result, hasError: false });
 					}).catch((err) => {
 						resolve({ data: err, hasError: true });
 					});

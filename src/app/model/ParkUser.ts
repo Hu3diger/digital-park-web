@@ -5,4 +5,5 @@ export class ParkUser {
 	username: string;
 	email: string;
 	roles: Array<any>;
+	uuid: string;
 }

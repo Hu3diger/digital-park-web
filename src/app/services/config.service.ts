@@ -1,11 +1,7 @@
-import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/model/auth/User';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { ParkEvent } from '../model/ParkEvent';
 import { AngularFirestore } from '@angular/fire/firestore';
-import {ParkActivity} from '../model/ParkActivity';
 
 @Injectable()
 export class ConfigService extends BaseService {

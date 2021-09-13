@@ -23,7 +23,6 @@ export class UsersRegisterComponent implements OnInit {
 	toEditUuid: string;
 	editableUser: ParkUser;
 	listOptPerfis: Array<any>;
-	listOptTags: Array<any>;
 	imagePreview: ImageSnippet;
 
 	constructor(
@@ -64,7 +63,6 @@ export class UsersRegisterComponent implements OnInit {
 
 	initForm(): void {
 		this.blockUI.start("Carregando...");
-		let tags = [];
 		let roles = [];
 		if (this.editableUser.roles !== null && this.editableUser.roles !== undefined && this.editableUser.roles.length > 0) {
 			this.editableUser.roles.forEach((t) => roles.push({ display: this.pipe.transform(t.id), value: this.pipe.transform(t.id)}));
@@ -75,7 +73,11 @@ export class UsersRegisterComponent implements OnInit {
 		// this.imagePreview = new ImageSnippet(this.editableUser.image, null);
 		
 		this.form = this.formBuilder.group({
-			active: [this.editableUser.active, []],
+			active: [this.editableUser.active, Validators.required],
+			fullName: [this.editableUser.fullName, Validators.required],
+			password: [this.editableUser.password, Validators.required],
+			username: [this.editableUser.username, Validators.required],
+			email: [this.editableUser.email, [Validators.email, Validators.required]],
 			roles: [roles],
 		});
 		this.blockUI.stop();
@@ -86,38 +88,31 @@ export class UsersRegisterComponent implements OnInit {
 		this.router.navigate(['/users']).then(() => {});
 	}
 
-	newEvent(): void {
+	newUser(): void {
 		if (this.form.valid){
 			const values = this.form.value;
-			const event = {
-				active: values.active,
-				description: values.description,
-				endDate: new Date(values.endDate),
-				notifications: {
-					active: values.notifications
-				},
-				price: values.price,
-				startDate: new Date(values.startDate),
-				title: values.name,
-				tags: [],
-				roles: [],
-				uuid: '',
-			};
+
+			const user = new ParkUser();
+			user.active = values.active;
+			user.fullName = values.fullName;
+			user.password = values.password;
+			user.username = values.username;
+			user.email = values.email;
+			user.roles = [];
+			user.uuid = '';
 			
 			if (this.editableUser.uuid !== undefined && this.editableUser.uuid !== null){
-				event.uuid = this.editableUser.uuid;
+				user.uuid = this.editableUser.uuid;
 			} else {
-				event.uuid = null;
+				user.uuid = null;
 			}
-			values.tags.forEach(t => {
-				event.tags.push(t.value.toLowerCase())
-			});
+
 			values.roles.forEach(r => {
-				event.roles.push(r.value.toLowerCase())
+				user.roles.push(r.value.toLowerCase())
 			});
 			
 			this.blockUI.start("Salvando...")
-			this.userService.save(event, this.imagePreview).then(() => {
+			this.userService.save(user).then(() => {
 				this.blockUI.stop();
 				this.toastr.success('Evento salvo com sucesso!');
 				this.goToUserList();

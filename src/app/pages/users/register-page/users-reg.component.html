@@ -2,130 +2,45 @@
 	<div class="col-12">
 		<div class="row">
 			<div class="col-4 offset-4">
-				<h3>{{ editableEvent != null ? 'Edição de evento' : 'Cadastro de eventos' }}</h3>
+				<h3>{{ editableUser != null ? 'Edição de usuário' : 'Cadastro de usuários' }}</h3>
 			</div>
 		</div>
-		<form [formGroup]="form" (submit)="newEvent()">
-			<div class="row mt-4">
-				<div class="col-6">
-					<div class="row">
-						<div class="col-2">
-							<div class="custom-control custom-switch">
-								<input formControlName="active" type="checkbox" class="custom-control-input" id="active">
-								<label class="custom-control-label font-weight-bold" for="active">Ativo</label>
-							</div>
-						</div>
-						<div class="col-3">
-							<div class="custom-control custom-switch">
-								<input formControlName="notifications" type="checkbox" class="custom-control-input" id="notifications">
-								<label class="custom-control-label font-weight-bold" for="notifications">Notificações</label>
-							</div>
-						</div>
-						<div class="col-2">
-							<div class="custom-control custom-switch">
-								<input formControlName="anual" type="checkbox" class="custom-control-input" id="anualEvent">
-								<label class="custom-control-label font-weight-bold" for="anualEvent">Anual</label>
-							</div>
-						</div>
-						<div class="col-5">
-							<div class="custom-control custom-switch">
-								<input formControlName="focusOnActivities" type="checkbox" class="custom-control-input" id="focusOnActivity">
-								<label class="custom-control-label font-weight-bold" for="focusOnActivity">Foco em atividades</label>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-3">
-					<span class="font-weight-bold">Presenças confirmadas: {{ '0' }}</span>
-				</div>
-				<div class="col-3">
-					<span class="font-weight-bold">No favoritos de: {{ '0' }}</span>
-				</div>
-			</div>
 
-			<div class="row mt-2">
-				<div class="col-6">
-					<div class="row">
-						<div class="col-8">
-							<div class="form-group">
-								<label for="eventName">Nome</label>
-								<input type="text" formControlName="name" id="eventName" name="eventName" class="form-control" placeholder="Nome do evento...">
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="form-group row">
-								<div class="col-md-12">
-									<label for="eventName">Valor</label>
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text"><i class="fa fa-money"></i></span>
-										</div>
-										<input type="number" formControlName="price" id="input3-group1" name="input3-group1" class="form-control" placeholder="0,00">
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-3">
-					<div class="form-group">
-						<label for="startDate">Data Inicio</label>
-						<input class="form-control" formControlName="startDate" id="startDate" type="date" name="startDate">
-					</div>
-				</div>
-				<div class="col-3">
-					<div class="form-group">
-						<label for="endDate">Data Fim</label>
-						<input class="form-control" id="endDate" formControlName="endDate" type="date" name="endDate">
+		<form [formGroup]="form" (submit)="newUser()">
+			<div class="row mt-4">
+				<div class="col-2">
+					<div class="custom-control custom-switch">
+						<input formControlName="active" type="checkbox" class="custom-control-input" id="active">
+						<label class="custom-control-label font-weight-bold" for="active">Ativo</label>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-6">
-					<div class="row">
-						<div class="col-12">
-							<div class="form-group">
-								<label for="eventDesc">Descrição</label>
-								<textarea id="eventDesc" style="resize: none;" formControlName="description" name="eventDesc" rows="4" class="form-control" placeholder="Uma descrição bem legal para o evento.."></textarea>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-12">
-							<div class="row mt">
-								<div class="col-12">
-									<span>Perfis de usuário</span>
-									<tag-input formControlName="roles" [onlyFromAutocomplete]="true" placeholder="+ Perfil" secondaryPlaceholder="Adicione um perfil">
-										<tag-input-dropdown [autocompleteItems]="listOptPerfis"></tag-input-dropdown>
-									</tag-input>
-								</div>
-							</div>
-							<div class="row mt-3">
-								<div class="col-12">
-									<span>Tags</span>
-									<tag-input formControlName="tags" [onlyFromAutocomplete]="true" placeholder="+ Tag" secondaryPlaceholder="Adicione uma tag">
-										<tag-input-dropdown [autocompleteItems]="listOptTags"></tag-input-dropdown>
-									</tag-input>
-								</div>
-							</div>
-						</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="name">Nome *</label>
+						<input type="text" formControlName="fullName" id="fullName" name="fullName" class="form-control" placeholder="Nome completo do usuário...">
 					</div>
 				</div>
-				<div class="col-6">
-					<label>Banner do evento</label>
-					<div class="row">
-						<div class="col-12">
-							<div class="custom-file">
-								<input #imageInput class="custom-file-input" type="file" accept="image/*" (change)="processFile(imageInput)">
-								<label class="custom-file-label" for="customFile">Escolha o arquivo</label>
-							</div>
-						</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="name">Usuário *</label>
+						<input type="text" formControlName="username" id="username" name="username" class="form-control" placeholder="Nome de usuário...">
 					</div>
-					<div class="row">
-						<div class="col-12 mt-3">
-							<img [src]="imagePreview.src" style="min-height: 200px; min-width:200px; max-width: 500px; max-height: 250px;"/>
-						</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="name">Senha *</label>
+						<input type="password" formControlName="password" id="password" name="password" class="form-control">
 					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-8">
+					<span>Perfis do usuário:</span>
+					<tag-input formControlName="roles" [onlyFromAutocomplete]="true" placeholder="+ Perfil" secondaryPlaceholder="Adicione um perfil">
+						<tag-input-dropdown [autocompleteItems]="listOptPerfis"></tag-input-dropdown>
+					</tag-input>
 				</div>
 			</div>
 			<div class="row mt-3">
@@ -134,8 +49,6 @@
 				</div>
 			</div>
 		</form>
-
 	</div>
-
-	<dp-floating-button (click)="goToListEvents()" icon="fa fa-arrow-left"></dp-floating-button>
+	<dp-floating-button (click)="goToUserList()" icon="fa fa-arrow-left"></dp-floating-button>
 </div>
