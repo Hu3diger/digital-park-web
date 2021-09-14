@@ -1,9 +1,12 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
 import { ParkEvent } from 'src/app/model/ParkEvent';
 import { EventService } from 'src/app/services/event.service';
 import { NavbarService } from 'src/app/services/navbar.service';
+import { Utils } from 'src/app/shared/utils';
 
 @Component({
 	selector: 'dp-events-page',
@@ -11,13 +14,16 @@ import { NavbarService } from 'src/app/services/navbar.service';
 	styleUrls: ['./events.component.scss'],
 })
 export class EventsComponent implements OnInit {
+	@BlockUI() blockUI: NgBlockUI;
 	listEvents: Array<ParkEvent>;
 
 	constructor(
 		private router: Router,
 		private toastr: ToastrService,
 		private navService: NavbarService,
-		readonly eventService: EventService
+		readonly eventService: EventService,
+		readonly pipe: TitleCasePipe,
+		readonly utils: Utils
 	) {}
 
 	ngOnInit(): void {
@@ -30,29 +36,26 @@ export class EventsComponent implements OnInit {
 	}
 
 	public loadAllEvents(): void {
+		this.blockUI.start("Carregando...");
 		this.eventService.fetchAll().then((result: Array<ParkEvent>) => {
+			this.blockUI.stop();
 			this.listEvents = result;
 		});
 	}
 
-	public goToNew(): void {
-		this.router.navigate(['/events/new']);
-	}
-
-	public edit(): void {
-		this.toastr.show('Editing');
-	}
-
 	public delete(event: ParkEvent): void {
-		this.toastr.warning('Deletando...');
-		this.eventService.deleteDoc(event.uuid).then((result) => {
+		this.blockUI.start("Deletando...");
+		this.eventService.deleteDoc(event.uuid).then(() => {
+			this.blockUI.stop();
 			this.toastr.success('Evento apagado com sucesso!');
 			this.loadAllEvents();
 		});
 	}
 
-	public editEvent(event: ParkEvent): void {
-		localStorage.setItem('EVENT', JSON.stringify(event));
+	public editEvent(event: ParkEvent, toEdit: boolean): void {
+		if (toEdit) {
+			sessionStorage.setItem('EVENT', JSON.stringify(event));
+		}
 		this.router.navigate(['events/new']).then(() => {});
 	}
 }

@@ -7,27 +7,23 @@
 		</div>
 		<form [formGroup]="form" (submit)="newActivity()">
 			<div class="row mt-4">
-				<div class="col-12">
-					<div class="row">
-						<div class="col-2">
-							<div class="custom-control custom-switch">
-								<input formControlName="active" type="checkbox" class="custom-control-input" id="active">
-								<label class="custom-control-label font-weight-bold" for="active">Ativo</label>
-							</div>
-						</div>
-
-						<div class="col-6">
-							<div class="custom-control custom-switch">
-								<input formControlName="activityFocus" type="checkbox" class="custom-control-input" id="activityFocus">
-								<label class="custom-control-label font-weight-bold" for="activityFocus">Foco da atividade</label>
-							</div>
-						</div>
-
-						<div class="col-4">
-							<span class="font-weight-bold">Visitas: {{ '0' }}</span>
-						</div>
+				<div class="col-2">
+					<div class="custom-control custom-switch">
+						<input formControlName="active" type="checkbox" class="custom-control-input" id="active">
+						<label class="custom-control-label font-weight-bold" for="active">Ativo</label>
 					</div>
 				</div>
+
+				<div class="col-6">
+					<div class="custom-control custom-switch">
+						<input formControlName="activityFocus" type="checkbox" class="custom-control-input" id="activityFocus">
+						<label class="custom-control-label font-weight-bold" for="activityFocus">Foco da atividade</label>
+					</div>
+				</div>
+
+				<div class="col-4">
+					<span class="font-weight-bold">Visitas: {{ '0' }}</span>
+					</div>
 			</div>
 
 			<div class="row mt-2">
@@ -69,8 +65,7 @@
 						<div class="col-8">
 							<span>Perfis de usuário</span>
 							<tag-input formControlName="roles" [onlyFromAutocomplete]="true" placeholder="+ Perfil" secondaryPlaceholder="Adicione um perfil">
-								<tag-input-dropdown [showDropdownIfEmpty]="true"
-																		[autocompleteItems]="listOptPerfis">
+								<tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="listOptPerfis">
 								</tag-input-dropdown>
 							</tag-input>
 						</div>
@@ -79,9 +74,7 @@
 						<div class="col-8">
 							<span>Tags</span>
 							<tag-input formControlName="tags" [onlyFromAutocomplete]="true" placeholder="+ Tag" secondaryPlaceholder="Adicione uma tag">
-								<tag-input-dropdown [showDropdownIfEmpty]="true"
-																		[autocompleteItems]="listOptTags">
-								</tag-input-dropdown>
+								<tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="listOptTags"></tag-input-dropdown>
 							</tag-input>
 						</div>
 					</div>

@@ -3,38 +3,40 @@
 		<h4 class="text-center">Eventos</h4>
 		<table class="table table-hover table-sm">
 			<thead>
-				<tr>
+				<tr class="bg-light">
+					<th class="text-center" scope="col">Ativo</th>
+					<th class="text-center" scope="col">Notificações</th>
 					<th class="text-center" scope="col">Nome</th>
 					<th class="text-center" scope="col">Data do Evento</th>
-					<th class="text-center" scope="col">Ativo</th>
 					<th class="text-center" scope="col">Perfis</th>
+					<th class="text-center" scope="col">Tags</th>
 					<th class="text-center" scope="col">Valor</th>
-					<th class="text-center" scope="col">Notificações</th>
 					<th class="text-center" scope="col">Presenças</th>
 					<th class="text-center" scope="col">&nbsp;</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr *ngFor="let event of listEvents">
-					<td (click)="editEvent(event)">{{ event.title }}</td>
-					<td (click)="editEvent(event)">{{ event.startDate | date:'dd/MM/yyyy' }} {{ event.endDate != null ? ' - ' + (event.endDate | date:'dd/MM/yyyy') : '' }}</td>
-					<td (click)="editEvent(event)">
+					<td (click)="editEvent(event, true)">
 						<div class="form-check form-switch ">
-							<input class="form-check-input" type="checkbox" value="true" checked="event.active" id="checkbox1"/>
-							<label class="form-check-label" for="checkbox2">&nbsp;</label>
+							<input class="form-check-input" type="checkbox" [(ngModel)]="event.active" value="{{ event.uuid }}" id="checkbox1"/>
+							<label class="form-check-label" for="checkbox1">&nbsp;</label>
 						</div>
 					</td>
-					<td (click)="editEvent(event)">{{ event.roles.join() }}</td>
-					<td (click)="editEvent(event)">{{ event.price | currency }}</td>
-					<td (click)="editEvent(event)">
+					<td (click)="editEvent(event, true)">
 						<div class="form-check form-switch">
-							<input class="form-check-input" type="checkbox" checked="event.notifications.active" id="checkbox2"/>
+							<input class="form-check-input" type="checkbox" [(ngModel)]="event.notifications.active" value="{{ event.uuid }}" id="checkbox2"/>
 							<label class="form-check-label" for="checkbox2">&nbsp;</label>
 						</div>
 					</td>
-					<td (click)="editEvent(event)">{{ event.confirmedAttendance || 0 }}</td>
+					<td (click)="editEvent(event, true)">{{ event.title }}</td>
+					<td (click)="editEvent(event, true)">{{ event.startDate | date:'dd/MM/yyyy' }} {{ event.endDate != null ? ' - ' + (event.endDate | date:'dd/MM/yyyy') : '' }}</td>
+					<td (click)="editEvent(event, true)">{{ utils.listOfObjectToString(event.roles) }}</td>
+					<td (click)="editEvent(event, true)">{{ utils.listOfObjectToString(event.tags) }}</td>
+					<td (click)="editEvent(event, true)">{{ event.price | currency }}</td>
+					<td (click)="editEvent(event, true)">{{ event.confirmedAttendance || 0 }}</td>
 					<td>
-						<i class="fa fa-pencil pointer" (click)="edit()"></i>
+						<i class="fa fa-pencil pointer" (click)="editEvent(event, true)"></i>
 						&nbsp;
 						<i class="fa fa-trash-o pointer" (click)="delete(event)"></i>
 					</td>
@@ -42,5 +44,5 @@
 			</tbody>
 		</table>
 	</div>
-	<dp-floating-button (click)="goToNew()"></dp-floating-button>
+	<dp-floating-button (click)="editEvent(null, false)"></dp-floating-button>
 </div>

@@ -1,33 +1,39 @@
-import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/model/auth/User';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
 import { ParkEvent } from '../model/ParkEvent';
 import { AngularFirestore } from '@angular/fire/firestore';
+import * as moment from 'moment';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { ImageSnippet } from '../model/ImageSnippet';
 
 @Injectable()
 export class EventService extends BaseService {
 
 	constructor(
 		readonly http: HttpClient,
-		readonly storage: AngularFirestore
+		readonly storage: AngularFirestore,
+		readonly bucket: AngularFireStorage
 	){
 		super();
 	}
 
 	public setFields(element: any): ParkEvent {
-		const doc = element.data() as any;
-
+		let doc = element.data();
+		doc = typeof(doc) === 'string' ? JSON.parse(doc as any) : doc;
+		
+		debugger
 		const event = new ParkEvent();
 
-		event.uuid = element.id;
+		event.uuid = element.id || doc.uuid;
 		event.active = doc.active;
 		event.title = doc.title;
-		event.startDate = new Date(doc.startDate?.seconds * 1000);
-		event.endDate = new Date(doc.endDate?.seconds * 1000);
+		event.startDate = typeof(doc.startDate) === 'string' ? moment(doc.startDate).startOf('day').toDate() : new Date(doc.startDate?.seconds * 1000);
+		event.endDate = typeof(doc.endDate) === 'string' ? moment(doc.endDate).startOf('day').toDate() : new Date(doc.endDate?.seconds * 1000);
 		event.price = doc.price;
-		event.notifications = doc.notifications;
+		event.notifications = doc.notifications || {active: true};
+		event.description = doc.description;
+		event.image = doc.image;
 		if (doc.confirmedAttendance != null){
 			event.confirmedAttendance = doc.confirmedAttendance.length;
 		}
@@ -35,8 +41,22 @@ export class EventService extends BaseService {
 		event.roles = new Array<any>();
 		if (doc.roles !== undefined){
 			doc.roles.forEach(async (el) => {
-				const ref = await el.get();
-				event.roles.push(ref.data().name);
+				let data = {
+					id: el.id,
+					path: el.path
+				}
+				event.roles.push(data);
+			});
+		}
+
+		event.tags = new Array<any>();
+		if (doc.tags !== undefined){
+			doc.tags.forEach(async (el) => {
+				let data = {
+					id: el.id,
+					path: el.path
+				}
+				event.tags.push(data);
 			});
 		}
 
@@ -52,9 +72,47 @@ export class EventService extends BaseService {
 		return arrEvents;
 	}
 
-	public async save(event: any): Promise<any> {
-		await this.storage.collection('events').doc().set(event).then((result: any) =>{
-			return result;
+	public async saveImage(uuid: string, image: ImageSnippet): Promise<any> {
+		if (!image.file){
+			return new Promise((resolve) => resolve(image.src));
+		} else {
+			this.bucket.ref("images/events/" + uuid + ".jpg");
+			var teste = await this.bucket.upload("images/events/" + uuid + ".jpg", image.file);
+			return (await teste.task).ref.getDownloadURL();
+		}
+	}
+
+	public async save(event: any, image: ImageSnippet): Promise<any> {
+		return new Promise((resolve) => {
+			let referencedTags = []
+			let referencedRoles = []
+
+			event.tags.forEach(t => {
+				referencedTags.push(this.storage.collection('tags').doc(t).ref);
+			});
+			event.roles.forEach(r => {
+				referencedRoles.push(this.storage.collection('roles').doc(r).ref);
+			});
+			event.tags = referencedTags;
+			event.roles = referencedRoles;
+			
+			console.log(event.roles);
+			if (event.uuid != null && event.uuid != undefined){
+				this.saveImage(event.uuid, image).then((imagaRef: any) => {
+					event.image = imagaRef;
+					this.storage.collection('events').doc(event.uuid).update(event).then((result: any) => {
+						resolve({ data: result, hasError: false });
+					}).catch((err) => {
+						resolve({ data: err, hasError: true });
+					});
+				})
+			} else {
+				this.storage.collection('events').doc().set(event).then((result: any) => {
+					resolve({ data: result, hasError: false });
+				}).catch((err) => {
+					resolve({ data: err, hasError: true });
+				});
+			}
 		});
 	}
 

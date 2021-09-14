@@ -15,7 +15,7 @@ import { map, catchError } from 'rxjs/operators';
 export class HttpConfigInterceptor implements HttpInterceptor {
     constructor() { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const token: string = localStorage.getItem('userToken');
+        const token: string = sessionStorage.getItem('userToken');
         if (!request.url.includes("auth") && token){
             request = request.clone({ headers: request.headers.set('Authorization', 'Bearer ' + token) });
         }

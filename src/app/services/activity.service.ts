@@ -1,9 +1,6 @@
-import { map } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/model/auth/User';
 import { HttpClient } from '@angular/common/http';
 import { BaseService } from './base.service';
-import { ParkEvent } from '../model/ParkEvent';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {ParkActivity} from '../model/ParkActivity';
 
@@ -20,9 +17,9 @@ export class ActivityService extends BaseService {
 	public setFields(element: any): ParkActivity {
 		let doc = element.data();
 		doc = typeof(doc) === 'string' ? JSON.parse(doc as any) : doc;
-
+		
 		const activity = new ParkActivity();
-		activity.uuid = element.id;
+		activity.uuid = element.id || doc.uuid;
 		activity.active = doc.active;
 		activity.title = doc.title;
 		activity.description = doc.description;
@@ -33,26 +30,25 @@ export class ActivityService extends BaseService {
 		activity.roles = new Array<any>();
 		if (doc.roles !== undefined){
 			doc.roles.forEach(async (el) => {
-				const ref = await el.get();
-				const data = ref.data();
-				if (data !== undefined) {
-					activity.roles.push(data.name);
+				let data = {
+					id: el.id,
+					path: el.path
 				}
+				activity.roles.push(data);
 			});
 		}
 
 		activity.tags = new Array<any>();
 		if (doc.tags !== undefined){
 			doc.tags.forEach(async (el) => {
-				const ref = await el.get();
-				const data = ref.data();
-				if (data !== undefined) {
-					activity.tags.push(data.name);
+				let data = {
+					id: el.id,
+					path: el.path
 				}
+				activity.tags.push(data);
 			});
 		}
 
-		console.log(activity);
 		return activity;
 	}
 
@@ -72,9 +68,19 @@ export class ActivityService extends BaseService {
 
 	public async save(activity: any): Promise<any> {
 		return new Promise((resolve) => {
-			console.log(activity);
-			if (activity.id != null && activity.id != undefined){
-				this.storage.collection('activities').doc(activity.id).update(activity).then((result: any) => {
+			let referencedTags = []
+			let referencedRoles = []
+			activity.tags.forEach(t => {
+				referencedTags.push(this.storage.collection('tags').doc(t).ref);
+			});
+			activity.roles.forEach(r => {
+				referencedRoles.push(this.storage.collection('roles').doc(r).ref);
+			});
+			activity.tags = referencedTags;
+			activity.roles = referencedRoles;
+			
+			if (activity.uuid != null && activity.uuid != undefined){
+				this.storage.collection('activities').doc(activity.uuid).update(activity).then((result: any) => {
 					resolve({ data: result, hasError: false });
 				}).catch((err) => {
 					resolve({ data: err, hasError: true });

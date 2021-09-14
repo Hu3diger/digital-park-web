@@ -18,7 +18,7 @@
 <div class="row mt-5">
 	<div class="col-8 offset-1">
 		<span>Tags:</span>
-		<tag-input [(ngModel)]='tags' theme='dark' [displayBy]="'name'" (onRemove)="onRemoveTag($event)" placeholder="+ Tag" secondaryPlaceholder="Adicione uma nova tag"></tag-input>
+		<tag-input [(ngModel)]='tags' theme='dark' [displayBy]="'label'" (onRemove)="onRemoveTag($event)" placeholder="+ Tag" secondaryPlaceholder="Adicione uma nova tag"></tag-input>
 	</div>
 	<div class="col-2">
 		<button type="button" (click)="saveTags()" class="btn btn-outline-dark mt-4">
@@ -27,8 +27,8 @@
 		</button>
 	</div>
 </div>
-<div class="row mt-5">
+<!-- <div class="row mt-5">
 	<div class="col-8 offset-1">
 		<span>Daltonismo:</span>
 	</div>
-</div>
+</div> -->

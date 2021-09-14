@@ -1,0 +1,54 @@
+<div class="row mt-3 ml-3">
+	<div class="col-12">
+		<div class="row">
+			<div class="col-4 offset-4">
+				<h3>{{ editableUser != null ? 'Edição de usuário' : 'Cadastro de usuários' }}</h3>
+			</div>
+		</div>
+
+		<form [formGroup]="form" (submit)="newUser()">
+			<div class="row mt-4">
+				<div class="col-2">
+					<div class="custom-control custom-switch">
+						<input formControlName="active" type="checkbox" class="custom-control-input" id="active">
+						<label class="custom-control-label font-weight-bold" for="active">Ativo</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-4">
+					<div class="form-group">
+						<label for="name">Nome *</label>
+						<input type="text" formControlName="fullName" id="fullName" name="fullName" class="form-control" placeholder="Nome completo do usuário...">
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="name">Usuário *</label>
+						<input type="text" formControlName="username" id="username" name="username" class="form-control" placeholder="Nome de usuário...">
+					</div>
+				</div>
+				<div class="col-4">
+					<div class="form-group">
+						<label for="name">Senha *</label>
+						<input type="password" formControlName="password" id="password" name="password" class="form-control">
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-8">
+					<span>Perfis do usuário:</span>
+					<tag-input formControlName="roles" [onlyFromAutocomplete]="true" placeholder="+ Perfil" secondaryPlaceholder="Adicione um perfil">
+						<tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="listOptPerfis"></tag-input-dropdown>
+					</tag-input>
+				</div>
+			</div>
+			<div class="row mt-3">
+				<div class="col-2">
+					<button type="submit" class="btn btn-primary btn-block text-white">Salvar</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<dp-floating-button (click)="goToUserList()" icon="fa fa-arrow-left"></dp-floating-button>
+</div>
