@@ -15,15 +15,7 @@
 				<tr *ngFor="let user of listUsers">
 					<td class="text-center" (click)="editUser(user, true)">{{ user.fullName }}</td>
 					<td class="text-center" (click)="editUser(user, true)">{{ user.username }}</td>
-					<td class="text-center" (click)="editUser(user, true)">
-						<span>
-							<ng-container *ngIf="user.roles != undefined">
-								<ng-container *ngFor="let role of user.roles">
-									{{ role.id | titlecase }},
-								</ng-container>
-							</ng-container>
-						</span>
-					</td>
+					<td class="text-center" (click)="editUser(user, true)">{{ utils.listOfObjectToString(user.roles)}}</td>
 					<td class="text-center" (click)="editUser(user, true)">
 						<div class="form-check form-switch ">
 							<input class="form-check-input" type="checkbox" [(ngModel)]="user.active" value="{{ user.uuid }}" id="checkbox1"/>

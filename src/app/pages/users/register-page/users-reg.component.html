@@ -39,7 +39,7 @@
 				<div class="col-8">
 					<span>Perfis do usuário:</span>
 					<tag-input formControlName="roles" [onlyFromAutocomplete]="true" placeholder="+ Perfil" secondaryPlaceholder="Adicione um perfil">
-						<tag-input-dropdown [autocompleteItems]="listOptPerfis"></tag-input-dropdown>
+						<tag-input-dropdown [showDropdownIfEmpty]="true" [autocompleteItems]="listOptPerfis"></tag-input-dropdown>
 					</tag-input>
 				</div>
 			</div>

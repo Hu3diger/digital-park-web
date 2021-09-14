@@ -6,6 +6,7 @@ import {ParkEvent} from '../../model/ParkEvent';
 import {ParkActivity} from '../../model/ParkActivity';
 import {ActivityService} from '../../services/activity.service';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { Utils } from 'src/app/shared/utils';
 
 @Component({
 	selector: 'dp-activities-page',
@@ -22,6 +23,7 @@ export class ActivitiesComponent implements OnInit {
 		private toastr: ToastrService,
 		private navService: NavbarService,
 		private activityService: ActivityService,
+		readonly utils: Utils
 	) { }
 
 	ngOnInit(): void {

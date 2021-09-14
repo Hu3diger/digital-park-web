@@ -39,6 +39,7 @@ import { TitleCasePipe } from '@angular/common';
 import { BlockUIModule } from 'ng-block-ui';
 import { UserService } from './services/user.service';
 import { UsersRegisterComponent } from './pages/users/register-page/users-reg.component';
+import { Utils } from './shared/utils';
 
 @NgModule({
 	declarations: [
@@ -90,6 +91,7 @@ import { UsersRegisterComponent } from './pages/users/register-page/users-reg.co
 		QuestionService,
 		UserService,
 		TitleCasePipe,
+		Utils,
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
 		{provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
 	],

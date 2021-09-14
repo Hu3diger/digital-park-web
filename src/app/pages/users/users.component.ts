@@ -5,6 +5,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ParkUser } from 'src/app/model/ParkUser';
 import { NavbarService } from 'src/app/services/navbar.service';
 import { UserService } from 'src/app/services/user.service';
+import { Utils } from 'src/app/shared/utils';
 
 @Component({
 	selector: 'dp-users-page',
@@ -20,7 +21,8 @@ export class UsersComponent implements OnInit {
 		private router: Router,
 		private toastr: ToastrService,
 		private navService: NavbarService,
-		private readonly userService: UserService
+		private readonly userService: UserService,
+		readonly utils: Utils
 	) { }
 
 	ngOnInit(): void {

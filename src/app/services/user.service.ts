@@ -36,7 +36,6 @@ export class UserService extends BaseService {
 			});
 		}
 
-		console.log(user);
 		return user;
 	}
 
@@ -54,24 +53,23 @@ export class UserService extends BaseService {
 		return this.setFields(element);
 	}
 
-	public async save(user: ParkUser): Promise<any> {
+	public async save(user: any): Promise<any> {
 		return new Promise((resolve) => {
 			if (user.email != null && user.email != undefined){
-
 				let referencedRoles = []
 				user.roles.forEach(r => {
-					referencedRoles.push(this.storage.collection('roles').doc(r).ref.path);
+					referencedRoles.push(this.storage.collection('roles').doc(r).ref);
 				});
 				user.roles = referencedRoles;
 				
 				console.log(user.roles);
-				this.storage.collection('users').doc(user.email).update(JSON.parse(JSON.stringify(user))).then((result: any) => {
+				this.storage.collection('users').doc(user.email).update(user).then((result: any) => {
 					resolve({ data: result, hasError: false });
 				}).catch((err) => {
 					resolve({ data: err, hasError: true });
 				});
 			} else {
-				this.storage.collection('users').doc(user.email).set(JSON.parse(JSON.stringify(user))).then((result: any) => {
+				this.storage.collection('users').doc(user.email).set(user).then((result: any) => {
 					resolve({ data: result, hasError: false });
 				}).catch((err) => {
 					resolve({ data: err, hasError: true });

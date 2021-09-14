@@ -1,3 +1,4 @@
+import { TitleCasePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
@@ -5,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { ParkEvent } from 'src/app/model/ParkEvent';
 import { EventService } from 'src/app/services/event.service';
 import { NavbarService } from 'src/app/services/navbar.service';
+import { Utils } from 'src/app/shared/utils';
 
 @Component({
 	selector: 'dp-events-page',
@@ -19,7 +21,9 @@ export class EventsComponent implements OnInit {
 		private router: Router,
 		private toastr: ToastrService,
 		private navService: NavbarService,
-		readonly eventService: EventService
+		readonly eventService: EventService,
+		readonly pipe: TitleCasePipe,
+		readonly utils: Utils
 	) {}
 
 	ngOnInit(): void {

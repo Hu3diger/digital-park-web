@@ -70,7 +70,6 @@ export class UsersRegisterComponent implements OnInit {
 			this.editableUser.roles = [];
 		}
 
-		// this.imagePreview = new ImageSnippet(this.editableUser.image, null);
 		
 		this.form = this.formBuilder.group({
 			active: [this.editableUser.active, Validators.required],
@@ -92,14 +91,15 @@ export class UsersRegisterComponent implements OnInit {
 		if (this.form.valid){
 			const values = this.form.value;
 
-			const user = new ParkUser();
-			user.active = values.active;
-			user.fullName = values.fullName;
-			user.password = values.password;
-			user.username = values.username;
-			user.email = values.email;
-			user.roles = [];
-			user.uuid = '';
+			const user = {
+				active: values.active,
+				fullName: values.fullName,
+				password: values.password,
+				username: values.username,
+				email: values.email,
+				roles: [],
+				uuid: '',
+			}
 			
 			if (this.editableUser.uuid !== undefined && this.editableUser.uuid !== null){
 				user.uuid = this.editableUser.uuid;
@@ -111,6 +111,7 @@ export class UsersRegisterComponent implements OnInit {
 				user.roles.push(r.value.toLowerCase())
 			});
 			
+			console.log(">> ", user.roles);
 			this.blockUI.start("Salvando...")
 			this.userService.save(user).then(() => {
 				this.blockUI.stop();
