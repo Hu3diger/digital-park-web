@@ -24,6 +24,7 @@ export class UserService extends BaseService {
 		user.username = doc.username;
 		user.password = doc.password;
 		user.email = doc.email || element.id;
+		user.uuid = element.id;
 		
 		user.roles = new Array<any>();
 		if (doc.roles !== undefined){
@@ -36,6 +37,7 @@ export class UserService extends BaseService {
 			});
 		}
 
+		console.log(user);
 		return user;
 	}
 
@@ -55,14 +57,13 @@ export class UserService extends BaseService {
 
 	public async save(user: any): Promise<any> {
 		return new Promise((resolve) => {
-			if (user.email != null && user.email != undefined){
-				let referencedRoles = []
-				user.roles.forEach(r => {
-					referencedRoles.push(this.storage.collection('roles').doc(r).ref);
-				});
-				user.roles = referencedRoles;
-				
-				console.log(user.roles);
+			let referencedRoles = []
+			user.roles.forEach(r => {
+				referencedRoles.push(this.storage.collection('roles').doc(r).ref);
+			});
+			user.roles = referencedRoles;
+			
+			if (user.uuid != null && user.uuid != undefined){
 				this.storage.collection('users').doc(user.email).update(user).then((result: any) => {
 					resolve({ data: result, hasError: false });
 				}).catch((err) => {
