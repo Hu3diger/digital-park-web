@@ -130,7 +130,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 					this.toastr.error('Erro ao salvar a Atividade', res.data);
 				} else {
 					this.toastr.success('Atividade salva com sucesso!');
-					this.router.navigate(['/activities']).then(() => {});
+					this.goToListActivities();
 				}
 			});
 		} else {
