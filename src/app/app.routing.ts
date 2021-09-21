@@ -13,6 +13,7 @@ import { UsersComponent } from './pages/users/users.component';
 import {ActivitiesRegisterComponent} from './pages/activities/register-page/activities-reg.component';
 import { QuestionRegisterComponent } from './pages/questions/register-page/questions-reg.component';
 import { UsersRegisterComponent } from './pages/users/register-page/users-reg.component';
+import { WaypointsComponent } from './pages/waypoints/waypoints.component';
 
 const routes: Routes = [
 	{
@@ -82,6 +83,10 @@ const routes: Routes = [
 				component: UsersRegisterComponent
 			}
 		]
+	},
+	{
+		path: 'waypoints',
+		component: WaypointsComponent
 	},
 	{
 		path: 'config',

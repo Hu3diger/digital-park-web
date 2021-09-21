@@ -40,6 +40,8 @@ import { BlockUIModule } from 'ng-block-ui';
 import { UserService } from './services/user.service';
 import { UsersRegisterComponent } from './pages/users/register-page/users-reg.component';
 import { Utils } from './shared/utils';
+import { GoogleMapsModule } from '@angular/google-maps'
+import { WaypointsComponent } from './pages/waypoints/waypoints.component';
 
 @NgModule({
 	declarations: [
@@ -61,6 +63,7 @@ import { Utils } from './shared/utils';
 		QuestionsComponent,
 		QuestionRegisterComponent,
 		ActivitiesRegisterComponent,
+		WaypointsComponent
 	],
 	imports: [
 		BrowserModule,
@@ -80,7 +83,8 @@ import { Utils } from './shared/utils';
 		TagInputModule,
 		BlockUIModule.forRoot({
 			message: 'Carregando...'
-		})
+		}),
+		GoogleMapsModule
 	],
 	providers: [
 		AuthService,
