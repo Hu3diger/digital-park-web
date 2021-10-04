@@ -4,7 +4,10 @@
 	</div>
 	<div class="row">
 		<div class="col-12">
-			<google-map></google-map>
+			<google-map [zoom]="zoom" [center]="center" (mapClick)="addMarker($event)">
+				<map-marker *ngFor="let markerPosition of markers"
+					[position]="markerPosition"></map-marker>
+			</google-map>
 		</div>
 	</div>
 </div>
