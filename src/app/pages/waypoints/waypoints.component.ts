@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
@@ -8,16 +9,20 @@ import { NavbarService } from 'src/app/services/navbar.service';
 })
 
 export class WaypointsComponent implements OnInit {
-	zoom: number = 15;
-
-	lat: number = -26.508096;
-	lng: number = -49.129354;
-	center: google.maps.LatLngLiteral = {lat: this.lat, lng: this.lng}
-	markers: google.maps.LatLngLiteral[] = [{ lat: this.lat, lng: this.lng }]
+	editEnabled: boolean = false;
+	center: google.maps.LatLngLiteral = { lat: -26.505776, lng: -49.128354 }
+	markers: google.maps.Marker[] = new Array<google.maps.Marker>();
+	mapOptions: google.maps.MapOptions = {disableDefaultUI: true, clickableIcons: false, zoom: 15, mapTypeId: google.maps.MapTypeId.SATELLITE}
 
 	constructor(
 		private navService: NavbarService,
-	) { }
+		private toastr: ToastrService,
+	) { 
+		var defaultMarker = new google.maps.Marker();
+		defaultMarker.setPosition({lat: -26.508094, lng: -49.129325});
+		defaultMarker.setLabel("Parque Malwee");
+		this.markers.push(defaultMarker);
+	}
 
 	ngOnInit(): void {
 		setTimeout(() => {
@@ -28,8 +33,24 @@ export class WaypointsComponent implements OnInit {
 	}
 	
 	addMarker(event: google.maps.MapMouseEvent) {
-		this.markers.push(event.latLng.toJSON());
+		if (this.editEnabled) {
+			var marker = new google.maps.Marker();
+			var lat = parseFloat(event.latLng.lat().toString());
+			var lng = parseFloat(event.latLng.lng().toString());
+	
+			marker.setPosition(new google.maps.LatLng(lat, lng));
+			marker.setTitle("teste");
+			marker.setLabel('teste' + Math.random());
+			this.markers.push(marker);
+		}
+	}
 
-		console.log(this.markers);
+	getOption(marker: google.maps.Marker): google.maps.MarkerOptions {
+		return { label: marker.getLabel(), title: marker.getTitle() };
+	}
+
+	unlockNewWaypoints(): void {
+		this.editEnabled = true;
+		this.toastr.info('Selecione no mapa os novos locais')
 	}
 }
