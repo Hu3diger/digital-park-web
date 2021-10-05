@@ -42,6 +42,8 @@ export class WaypointsComponent implements OnInit {
 			marker.setTitle("teste");
 			marker.setLabel('teste' + Math.random());
 			this.markers.push(marker);
+		} else {
+			this.toastr.warning("Edição do mapa não habilitada!")
 		}
 	}
 
