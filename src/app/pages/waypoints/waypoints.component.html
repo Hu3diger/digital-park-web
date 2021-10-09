@@ -4,12 +4,47 @@
 	</div>
 	<div class="row">
 		<div class="col-2">
-			<button class="btn btn-primary btn-sm text-white" (click)="unlockNewWaypoints()"><i class="fa fa-plus"></i> Novos Waypoints</button>
+			<div class="row">
+				<div class="col-12">
+					<button class="btn btn-primary btn-sm text-white btn-block" (click)="unlockNewWaypoints()">
+						<i class="fa fa-plus"></i> Novos Waypoints
+					</button>
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-12">
+					<button class="btn btn-danger btn-sm text-white btn-block" [hidden]="!editEnabled" (click)="resetWaypoints()">
+						<i class="fa fa-retweet"></i> Restaurar padrão
+					</button>
+				</div>
+			</div>
+			<div class="row mt-2">
+				<div class="col-12">
+					<button class="btn btn-primary btn-sm text-white btn-block" [hidden]="!editEnabled" (click)="saveWaypoints()">
+						<i class="fa fa-floppy-o"></i> Salvar
+					</button>
+				</div>
+			</div>
+			<div class="row mt-5" [hidden]="!showNameFields">
+				<div class="col-12">
+					<div class="form-group">
+						<label for="waypointName">Nome</label>
+						<input type="text" [(ngModel)]="newWaypointName" #nameField id="waypointName" name="waypointName"
+							class="form-control" (keyup.enter)="saveNewMarker()" placeholder="Nome do local...">
+					</div>
+				</div>
+			</div>
+			<div class="row" [hidden]="!showNameFields">
+				<div class="col-12">
+					<button class="btn btn-primary btn-sm text-white btn-block" (click)="saveNewMarker()">
+						<i class="fa fa-floppy-o"></i>
+					</button>
+				</div>
+			</div>
 		</div>
 		<div class="col-10">
-			<google-map width="900px" [center]="center" (mapClick)="addMarker($event)" [options]="mapOptions">
-				<map-marker #marker="mapMarker" *ngFor="let marker of markers"
-					[position]="marker.position" 
+			<google-map width="900px" [center]="center" (mapClick)="addMarker($event);" [options]="mapOptions">
+				<map-marker #marker="mapMarker" *ngFor="let marker of markers" [position]="marker.position"
 					[options]="getOption(marker)">
 				</map-marker>
 			</google-map>
