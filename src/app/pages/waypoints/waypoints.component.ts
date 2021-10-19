@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
 import { ToastrService } from 'ngx-toastr';
+import { ParkLocation } from 'src/app/model/ParkLocation';
 import { NavbarService } from 'src/app/services/navbar.service';
 
 @Component({
@@ -15,16 +17,18 @@ export class WaypointsComponent implements OnInit {
 
 	@BlockUI() blockUI: NgBlockUI;
 
+	toEditLocation: ParkLocation = new ParkLocation();
+	listLocations: Array<ParkLocation> = new Array<ParkLocation>();
+	listMarkers: Array<google.maps.Marker> = new Array<google.maps.Marker>();
+
+	form: FormGroup;
 	editEnabled: boolean = false;
 	isEditingMode: boolean = false;
-	toEditMarker: google.maps.Marker = null;
 
-	newWaypointName: string = null;
 	lat: number;
 	lng: number;
 
 	center: google.maps.LatLngLiteral = { lat: -26.505776, lng: -49.128354 };
-	markers: google.maps.Marker[] = new Array<google.maps.Marker>();
 	PARQUE_MALWEE_BOUNDS = {
 		north: -26.5,
 		south: -26.51,
@@ -44,7 +48,8 @@ export class WaypointsComponent implements OnInit {
 	constructor(
 		private navService: NavbarService,
 		private toastr: ToastrService,
-		private modalService: NgbModal
+		private modalService: NgbModal,
+		readonly formBuilder: FormBuilder
 	) {}
 
 	ngOnInit(): void {
@@ -54,6 +59,15 @@ export class WaypointsComponent implements OnInit {
 			}
 		});
 		this.generateDefaultMarkers();
+		this.initForm();
+	}
+
+	initForm(): void {
+		this.form = this.formBuilder.group({
+			name: [this.toEditLocation.name, [Validators.required]],
+			description: [this.toEditLocation.description, [Validators.required]],
+			wayPoint: [],
+		});
 	}
 
 	generateDefaultMarkers(): void {
@@ -63,14 +77,15 @@ export class WaypointsComponent implements OnInit {
 			text: 'Entrada',
 			className: 'text-white font-weight-bold',
 		});
-		this.markers.push(defaultMarker);
+		this.listMarkers.push(defaultMarker);
 	}
 
 	addMarker(event: google.maps.MapMouseEvent) {
 		if (this.editEnabled) {
-			this.lat = parseFloat(event.latLng.lat().toString());
-			this.lng = parseFloat(event.latLng.lng().toString());
+			let lat = parseFloat(event.latLng.lat().toString());
+			let lng = parseFloat(event.latLng.lng().toString());
 
+			this.toEditLocation.wayPoint.push(lat, lng);
 			this.triggerModal();
 		} else {
 			this.toastr.warning('Edição do mapa não habilitada!');
@@ -78,14 +93,15 @@ export class WaypointsComponent implements OnInit {
 	}
 
 	saveNewMarker(): void {
+		const formLocation = this.form.value as ParkLocation;
+		debugger
 		if (this.isEditingMode) {
 			var foundMarker = null;
-			for (var index in this.markers) {
-				var _marker: google.maps.Marker = this.markers[index];
+			for (var index in this.listMarkers) {
+				var _marker: google.maps.Marker = this.listMarkers[index];
 				if (
-					_marker.getPosition().lat() ===
-						this.toEditMarker.getPosition().lat() &&
-					_marker.getPosition().lng() === this.toEditMarker.getPosition().lng()
+					_marker.getPosition().lat() === this.toEditLocation.wayPoint[0] &&
+					_marker.getPosition().lng() === this.toEditLocation.wayPoint[1]
 				) {
 					foundMarker = _marker;
 					break;
@@ -93,43 +109,47 @@ export class WaypointsComponent implements OnInit {
 			}
 			if (foundMarker != null) {
 				foundMarker.setLabel({
-					text: this.newWaypointName,
+					text: formLocation.name,
 					className: 'text-white font-weight-bold',
 				});
+
+				this.toEditLocation.name = formLocation.name;
+				this.toEditLocation.description = formLocation.description;
+				if (!this.listLocations.includes(this.toEditLocation)){
+					this.listLocations.push(this.toEditLocation);
+				}
 				this.isEditingMode = false;
-				this.toEditMarker = null;
 			}
 		} else if (this.lat != null && this.lng != null) {
-			if (this.newWaypointName == '' || this.newWaypointName == null) {
-				this.toastr.error('Obrigatório informar nome ao local');
+			if (this.form.invalid) {
+				this.toastr.error('Obrigatório informar os campos obrigatórios!');
 				this.nameField.nativeElement.focus();
 			} else {
 				var marker = new google.maps.Marker();
-				marker.setPosition(new google.maps.LatLng(this.lat, this.lng));
-				marker.setTitle(this.newWaypointName);
+				marker.setPosition(new google.maps.LatLng(this.toEditLocation.wayPoint[0], this.toEditLocation.wayPoint[1]));
+				marker.setTitle(formLocation.name);
 				marker.setLabel({
-					text: this.newWaypointName,
+					text: formLocation.name,
 					className: 'text-white font-weight-bold',
 				});
-				this.markers.push(marker);
+				this.listMarkers.push(marker);
+				this.listLocations.push(this.toEditLocation);
 			}
 		}
 
 		this.toastr.success('Waypoint editado com sucesso');
-		this.newWaypointName = null;
 		this.lat = null;
 		this.lng = null;
 	}
 
 	removeMarker(): void {
-		var foundMarker = null;
-		for (var index in this.markers) {
-			var _marker: google.maps.Marker = this.markers[index];
+		for (var index in this.listMarkers) {
+			var _marker: google.maps.Marker = this.listMarkers[index];
 			if (
-				_marker.getPosition().lat() === this.toEditMarker.getPosition().lat() &&
-				_marker.getPosition().lng() === this.toEditMarker.getPosition().lng()
+				_marker.getPosition().lat() === this.toEditLocation.wayPoint[0] &&
+				_marker.getPosition().lng() === this.toEditLocation.wayPoint[1]
 			) {
-				this.markers.splice(Number(index), 1);
+				this.listMarkers.splice(Number(index), 1);
 				this.isEditingMode = false;
 				this.toastr.success('Waypoint removido com sucesso');
 				break;
@@ -153,7 +173,7 @@ export class WaypointsComponent implements OnInit {
 	}
 
 	resetWaypoints(): void {
-		this.markers = [];
+		this.listMarkers = [];
 		this.generateDefaultMarkers();
 	}
 
@@ -161,33 +181,43 @@ export class WaypointsComponent implements OnInit {
 		this.editEnabled = false;
 		this.blockUI.start();
 		setTimeout(() => {
+			console.log(this.listMarkers);
+			console.log(this.listLocations);
 			this.toastr.success('Os locais marcados foram salvos!');
 			this.blockUI.stop();
 		}, 100);
 	}
 
 	editMarker(marker: google.maps.Marker): void {
-		this.newWaypointName = marker.getLabel().text;
+		this.toEditLocation.wayPoint = [];
+		this.toEditLocation.name = marker.getLabel().text;
+		var lat = marker.getPosition().lat();
+		var lng = marker.getPosition().lng()
+
+		var indexExistingLocation = this.listLocations.findIndex((location) => location.wayPoint[0] === lat && location.wayPoint[1] === lng)
+		if (indexExistingLocation !== -1){
+			this.toEditLocation = this.listLocations[indexExistingLocation];
+		} else {
+			this.toEditLocation.wayPoint.push(lat);
+			this.toEditLocation.wayPoint.push(lng);
+		}
+
 		this.isEditingMode = true;
-		this.toEditMarker = marker;
 		this.triggerModal();
 	}
 
 	triggerModal() {
+		this.initForm();
 		this.modalService
 			.open(this.modalElement, { ariaLabelledBy: 'modal-basic-title' })
 			.result.then(
 				(res) => {
-					if (res === 'save') {
-						this.saveNewMarker();
-					} else if (res === 'remove') {
+					if (res === 'remove') {
 						this.removeMarker();
 					}
 				},
 				() => {
 					this.isEditingMode = false;
-					this.toEditMarker = null;
-					this.newWaypointName = null;
 				}
 			);
 	}
