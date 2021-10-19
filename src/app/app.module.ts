@@ -24,22 +24,25 @@ import { HttpConfigInterceptor } from './httpconfig.interceptor';
 import { environment } from '../environments/environment';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
-import { AngularFirestoreModule} from '@angular/fire/firestore';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FloatingButtonComponent } from './components/floating-button/floating-button.component';
 import { EventsRegisterComponent } from './pages/events/register-page/events-reg.component';
 import { EventService } from './services/event.service';
 import { QuestionService } from './services/question.service';
-import {ActivitiesRegisterComponent} from './pages/activities/register-page/activities-reg.component';
-import {ActivityService} from './services/activity.service';
-import {TagInputModule} from 'ngx-chips';
-import {ConfigService} from './services/config.service';
+import { ActivitiesRegisterComponent } from './pages/activities/register-page/activities-reg.component';
+import { ActivityService } from './services/activity.service';
+import { TagInputModule } from 'ngx-chips';
+import { ConfigService } from './services/config.service';
 import { QuestionRegisterComponent } from './pages/questions/register-page/questions-reg.component';
 import { TitleCasePipe } from '@angular/common';
 import { BlockUIModule } from 'ng-block-ui';
 import { UserService } from './services/user.service';
 import { UsersRegisterComponent } from './pages/users/register-page/users-reg.component';
 import { Utils } from './shared/utils';
+import { GoogleMapsModule } from '@angular/google-maps'
+import { WaypointsComponent } from './pages/waypoints/waypoints.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
 	declarations: [
@@ -61,6 +64,7 @@ import { Utils } from './shared/utils';
 		QuestionsComponent,
 		QuestionRegisterComponent,
 		ActivitiesRegisterComponent,
+		WaypointsComponent
 	],
 	imports: [
 		BrowserModule,
@@ -72,6 +76,8 @@ import { Utils } from './shared/utils';
 		CommonModule,
 		ToastrModule.forRoot({
 			positionClass: 'toast-bottom-left',
+			preventDuplicates: true,
+			countDuplicates: true
 		}),
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
@@ -80,7 +86,9 @@ import { Utils } from './shared/utils';
 		TagInputModule,
 		BlockUIModule.forRoot({
 			message: 'Carregando...'
-		})
+		}),
+		GoogleMapsModule,
+		NgbModule
 	],
 	providers: [
 		AuthService,
