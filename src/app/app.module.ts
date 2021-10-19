@@ -42,6 +42,7 @@ import { UsersRegisterComponent } from './pages/users/register-page/users-reg.co
 import { Utils } from './shared/utils';
 import { GoogleMapsModule } from '@angular/google-maps'
 import { WaypointsComponent } from './pages/waypoints/waypoints.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
 	declarations: [
@@ -75,6 +76,8 @@ import { WaypointsComponent } from './pages/waypoints/waypoints.component';
 		CommonModule,
 		ToastrModule.forRoot({
 			positionClass: 'toast-bottom-left',
+			preventDuplicates: true,
+			countDuplicates: true
 		}),
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFirestoreModule,
@@ -84,7 +87,8 @@ import { WaypointsComponent } from './pages/waypoints/waypoints.component';
 		BlockUIModule.forRoot({
 			message: 'Carregando...'
 		}),
-		GoogleMapsModule
+		GoogleMapsModule,
+		NgbModule
 	],
 	providers: [
 		AuthService,

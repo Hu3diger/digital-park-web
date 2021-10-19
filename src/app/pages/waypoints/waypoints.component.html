@@ -25,29 +25,35 @@
 					</button>
 				</div>
 			</div>
-			<div class="row mt-5" [hidden]="!showNameFields">
-				<div class="col-12">
-					<div class="form-group">
-						<label for="waypointName">Nome</label>
-						<input type="text" [(ngModel)]="newWaypointName" #nameField id="waypointName" name="waypointName"
-							class="form-control" (keyup.enter)="saveNewMarker()" placeholder="Nome do local...">
-					</div>
-				</div>
-			</div>
-			<div class="row" [hidden]="!showNameFields">
-				<div class="col-12">
-					<button class="btn btn-primary btn-sm text-white btn-block" (click)="saveNewMarker()">
-						<i class="fa fa-floppy-o"></i>
-					</button>
-				</div>
-			</div>
 		</div>
 		<div class="col-10">
 			<google-map width="900px" [center]="center" (mapClick)="addMarker($event);" [options]="mapOptions">
 				<map-marker #marker="mapMarker" *ngFor="let marker of markers" [position]="marker.position"
-					[options]="getOption(marker)">
+					[options]="getOption(marker)" (mapClick)="editMarker(marker)">
 				</map-marker>
 			</google-map>
 		</div>
 	</div>
 </div>
+
+<ng-template #modalContent let-modal>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-12">
+				<div class="form-group">
+					<label for="waypointName">Nome do local</label>
+					<input type="text" [(ngModel)]="newWaypointName" #nameField id="waypointName" name="waypointName"
+						class="form-control" (keyup.enter)="modal.close('save')" placeholder="Nome do local...">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button class="btn btn-danger btn-sm text-white" [hidden]="!isEditingMode" (click)="modal.close('remove')">
+			<i class="fa fa-trash-o"></i> Remove
+		</button>
+		<button class="btn btn-primary btn-sm text-white" (click)="modal.close('save')">
+			<i class="fa fa-floppy-o"></i> Save
+		</button>
+	</div>
+</ng-template>
