@@ -2,11 +2,13 @@ export class ParkLocation {
 	name: string;
 	description: string;
 	wayPoint: Array<number>;
+	uuid: string;
 
 	constructor() {
 		this.name = "";
 		this.description = "";
-		this.wayPoint = new Array<number>(2);
+		this.uuid = null;
+		this.wayPoint = new Array<number>();
 	}
 }
 

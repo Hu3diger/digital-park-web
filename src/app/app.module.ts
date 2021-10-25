@@ -43,6 +43,7 @@ import { Utils } from './shared/utils';
 import { GoogleMapsModule } from '@angular/google-maps'
 import { WaypointsComponent } from './pages/waypoints/waypoints.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LocationService } from './services/location.service';
 
 @NgModule({
 	declarations: [
@@ -100,6 +101,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 		UserService,
 		TitleCasePipe,
 		Utils,
+		LocationService,
 		{ provide: HTTP_INTERCEPTORS, useClass: HttpConfigInterceptor, multi: true },
 		{provide: DEFAULT_CURRENCY_CODE, useValue: 'BRL' }
 	],

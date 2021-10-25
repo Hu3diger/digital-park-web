@@ -44,7 +44,6 @@ export class QuestionService extends BaseService {
 
 	public async save(question: any): Promise<any> {
 		return new Promise((resolve) => {
-			debugger;
 			if (question.id != null && question.id != undefined){
 				this.storage.collection('questions').doc(question.id).update(question).then((result: any) => {
 					resolve({ data: result, hasError: false });
@@ -52,7 +51,6 @@ export class QuestionService extends BaseService {
 					resolve({ data: err, hasError: true });
 				});
 			} else {
-				console.log(question);
 				this.storage.collection('questions').doc().set(question).then((result: any) => {
 					resolve({ data: result, hasError: false });
 				}).catch((err) => {

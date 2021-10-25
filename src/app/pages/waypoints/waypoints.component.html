@@ -42,7 +42,7 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="form-group">
-						<label for="waypointName">Nome do local</label>
+						<label for="waypointName">Nome do local <span class="text-danger font-weight-bold">*</span></label>
 						<input type="text" formControlName="name" #nameField id="waypointName" name="waypointName" class="form-control" placeholder="Nome do local...">
 					</div>
 				</div>
@@ -50,9 +50,17 @@
 			<div class="row">
 				<div class="col-12">
 					<div class="form-group">
-						<label for="waypointDesc">Descrição</label>
+						<label for="waypointDesc">Descrição <span class="text-danger font-weight-bold">*</span></label>
 						<textarea id="waypointDesc" style="resize: none;" formControlName="description" name="waypointDesc" rows="4" class="form-control" placeholder="Uma descrição do local..."></textarea>
 					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<small class="text-muted text-small">
+						<span class="text-danger font-weight-bold">*</span> Campo obrigatório.
+					</small>
 				</div>
 			</div>
 		</div>
