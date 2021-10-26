@@ -82,12 +82,12 @@ export class WaypointsComponent implements OnInit {
 					text: loc.name,
 					className: 'text-white font-weight-bold',
 				});
-				console.log(marker);
 				this.listMarkers.push(marker);
 			});
 			this.initForm();
 		}).catch((error) => {
 			this.toastr.error(error.message, "Error");
+			console.error(error);
 		}).finally(() => {
 			this.blockUI.stop();
 		});
@@ -157,18 +157,32 @@ export class WaypointsComponent implements OnInit {
 	}
 
 	removeMarker(): void {
-		for (var index in this.listMarkers) {
-			var _marker: google.maps.Marker = this.listMarkers[index];
-			if (
-				_marker.getPosition().lat() === this.toEditLocation.wayPoint[0] &&
-				_marker.getPosition().lng() === this.toEditLocation.wayPoint[1]
-			) {
-				this.listMarkers.splice(Number(index), 1);
-				this.isEditingMode = false;
-				this.toastr.success('Waypoint removido com sucesso');
-				break;
-			}
+		let lat = this.toEditLocation.wayPoint[0];
+		let lng = this.toEditLocation.wayPoint[1];
+
+		let indexExistentgMarker = this.listMarkers.findIndex((marker) => marker.getPosition().lat() === lat && marker.getPosition().lng() === lng)
+		let indexExistentLocation = this.listLocations.findIndex((location) => location.wayPoint[0] === lat && location.wayPoint[1] === lng)
+		
+		if (indexExistentgMarker !== -1) {
+			this.listMarkers.splice(Number(indexExistentgMarker), 1);
 		}
+
+		let prom = [];
+		if (indexExistentLocation !== -1) {
+			let location = this.listLocations[indexExistentLocation];
+			if (location.uuid !== null) {
+				prom.push(this.locationService.deleteDoc(location.uuid));
+			}
+
+			this.listLocations.splice(Number(indexExistentLocation), 1);
+		}
+
+		Promise.all(prom).then(() => {
+			this.isEditingMode = false;
+			this.toastr.success('Waypoint removido com sucesso');
+		}).catch((error) => {
+			this.toastr.error(error, "Error!");
+		});
 	}
 
 	getOption(marker: google.maps.Marker): google.maps.MarkerOptions {
@@ -204,11 +218,13 @@ export class WaypointsComponent implements OnInit {
 				this.toastr.success('Os locais marcados foram salvos!');
 			}).catch((error) => {
 				this.toastr.error(error.message, "Error!");
+				console.error(error);
 			}).finally(() => {
 				this.blockUI.stop();
 			});
 		}).catch((error) => {
 			this.toastr.error(error.message, "Error!");
+			console.error(error);
 		}).finally(() => {
 			if (this.blockUI.isActive) {
 				this.blockUI.stop();
@@ -217,22 +233,25 @@ export class WaypointsComponent implements OnInit {
 	}
 
 	editMarker(marker: google.maps.Marker): void {
-		debugger
-		this.toEditLocation = new ParkLocation();
-		this.toEditLocation.name = marker.getLabel().text;
-		var lat = marker.getPosition().lat();
-		var lng = marker.getPosition().lng()
-
-		var indexExistingLocation = this.listLocations.findIndex((location) => location.wayPoint[0] === lat && location.wayPoint[1] === lng)
-		if (indexExistingLocation !== -1){
-			this.toEditLocation = this.listLocations[indexExistingLocation];
+		if (this.editEnabled){
+			this.toEditLocation = new ParkLocation();
+			this.toEditLocation.name = marker.getLabel().text;
+			var lat = marker.getPosition().lat();
+			var lng = marker.getPosition().lng()
+	
+			var indexExistingLocation = this.listLocations.findIndex((location) => location.wayPoint[0] === lat && location.wayPoint[1] === lng)
+			if (indexExistingLocation !== -1){
+				this.toEditLocation = this.listLocations[indexExistingLocation];
+			} else {
+				this.toEditLocation.wayPoint.push(lat);
+				this.toEditLocation.wayPoint.push(lng);
+			}
+	
+			this.isEditingMode = true;
+			this.triggerModal();
 		} else {
-			this.toEditLocation.wayPoint.push(lat);
-			this.toEditLocation.wayPoint.push(lng);
+			this.toastr.warning('Edição do mapa não habilitada!');
 		}
-
-		this.isEditingMode = true;
-		this.triggerModal();
 	}
 
 	triggerModal() {

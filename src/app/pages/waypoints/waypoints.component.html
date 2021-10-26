@@ -5,21 +5,21 @@
 	<div class="row">
 		<div class="col-2">
 			<div class="row">
-				<div class="col-12">
-					<button class="btn btn-primary btn-sm text-white btn-block" (click)="unlockNewWaypoints()">
-						<i class="fa fa-plus"></i> Novos Waypoints
+				<div class="col-10">
+					<button class="btn btn-info btn-sm text-white btn-block" (click)="unlockNewWaypoints()">
+						<i class="fa fa-pencil"></i> Editar Locais
 					</button>
 				</div>
 			</div>
 			<div class="row mt-2">
-				<div class="col-12">
+				<div class="col-10">
 					<button class="btn btn-danger btn-sm text-white btn-block" [hidden]="!editEnabled" (click)="resetWaypoints()">
-						<i class="fa fa-retweet"></i> Restaurar padrão
+						<i class="fa fa-retweet"></i> Padrão
 					</button>
 				</div>
 			</div>
 			<div class="row mt-2">
-				<div class="col-12">
+				<div class="col-10">
 					<button class="btn btn-primary btn-sm text-white btn-block" [hidden]="!editEnabled" (click)="saveWaypoints()">
 						<i class="fa fa-floppy-o"></i> Salvar
 					</button>

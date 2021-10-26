@@ -37,7 +37,6 @@ export class UserService extends BaseService {
 			});
 		}
 
-		console.log(user);
 		return user;
 	}
 

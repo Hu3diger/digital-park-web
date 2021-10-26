@@ -21,7 +21,6 @@ export class LocationService extends BaseService {
 		const location = new ParkLocation();
 		location.uuid = element.id == null ? doc.uuid : element.id;
 		location.description = doc.description;
-		console.log(doc.wayPoint._lat);
 		location.wayPoint.push(doc.wayPoint._lat);
 		location.wayPoint.push(doc.wayPoint._long);
 		location.name = doc.name;
@@ -45,22 +44,23 @@ export class LocationService extends BaseService {
 
 	public async save(location: any): Promise<any> {
 		return new Promise((resolve) => {
-			if (location.uuid != null && location.uuid != undefined){
-				const wpArray = location.waypoint;
-				delete location.waypoint;
+			const wpArray = location.wayPoint;
+			delete location.wayPoint;
 
-				location.waypoint = {
-					_lat: wpArray[0],
-					_long: wpArray[1]
-				}
-				debugger
-				this.storage.collection('locations').doc(location.uuid).update(location).then((result: any) => {
+			location.wayPoint = {
+				_lat: wpArray[0],
+				_long: wpArray[1]
+			}
+
+			debugger
+			if (location.uuid != null && location.uuid != undefined){
+				this.storage.collection('locations').doc(location.uuid).update(Object.assign({}, location)).then((result: any) => {
 					resolve({ data: result, hasError: false });
 				}).catch((err) => {
 					resolve({ data: err, hasError: true });
 				});
 			} else {
-				this.storage.collection('locations').doc().set(location).then((result: any) => {
+				this.storage.collection('locations').doc().set(Object.assign({}, location)).then((result: any) => {
 					resolve({ data: result, hasError: false });
 				}).catch((err) => {
 					resolve({ data: err, hasError: true });
