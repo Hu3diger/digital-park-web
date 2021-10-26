@@ -96,7 +96,6 @@ export class EventService extends BaseService {
 			event.tags = referencedTags;
 			event.roles = referencedRoles;
 			
-			console.log(event.roles);
 			if (event.uuid != null && event.uuid != undefined){
 				this.saveImage(event.uuid, image).then((imagaRef: any) => {
 					event.image = imagaRef;

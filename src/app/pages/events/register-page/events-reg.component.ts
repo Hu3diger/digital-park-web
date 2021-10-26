@@ -141,7 +141,6 @@ export class EventsRegisterComponent implements OnInit {
 			
 			this.blockUI.start("Salvando...")
 
-			console.log(event.roles);
 			this.eventService.save(event, this.imagePreview).then(() => {
 				this.blockUI.stop();
 				this.toastr.success('Evento salvo com sucesso!');

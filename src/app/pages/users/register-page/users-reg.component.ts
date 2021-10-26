@@ -111,7 +111,6 @@ export class UsersRegisterComponent implements OnInit {
 				user.roles.push(r.value.toLowerCase())
 			});
 			
-			console.log(">> ", user.roles);
 			this.blockUI.start("Salvando...")
 			this.userService.save(user).then(() => {
 				this.blockUI.stop();
