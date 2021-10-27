@@ -71,6 +71,7 @@ import { LocationService } from './services/location.service';
 		BrowserModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
+		BrowserModule,
 		FormsModule,
 		HttpClientModule,
 		ReactiveFormsModule,

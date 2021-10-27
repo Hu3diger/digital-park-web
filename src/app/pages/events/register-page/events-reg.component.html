@@ -92,7 +92,22 @@
 					</div>
 					<div class="row">
 						<div class="col-12">
-							<div class="row mt">
+							<div class="row mt-2">
+								<div class="col-12">
+									<div class="input-group">
+										<span>&nbsp;</span>
+										<div class="input-group-prepend">
+											<label class="input-group-text" for="inputGroupSelect01">
+												<i class="fa fa-map-marker"></i>&nbsp;Local
+											</label>
+										</div>
+										<select class="custom-select" id="inputGroupSelect01" formControlName="location">
+											<option *ngFor="let loc of listLocations" [value]="loc.uuid">{{loc.name}}</option>
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="row mt-3">
 								<div class="col-12">
 									<span>Perfis de usuário</span>
 									<tag-input formControlName="roles" [onlyFromAutocomplete]="true" placeholder="+ Perfil" secondaryPlaceholder="Adicione um perfil">

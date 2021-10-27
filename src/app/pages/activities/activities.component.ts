@@ -45,6 +45,7 @@ export class ActivitiesComponent implements OnInit {
 	}
 
 	public editActivity(activity: ParkActivity, toEdit: boolean): void {
+		console.log(activity);
 		if (toEdit) {
 			sessionStorage.setItem('ACTIVITY', JSON.stringify(activity));
 		}

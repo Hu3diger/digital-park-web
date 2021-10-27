@@ -17,7 +17,6 @@ export class ActivityService extends BaseService {
 	public setFields(element: any): ParkActivity {
 		let doc = element.data();
 		doc = typeof(doc) === 'string' ? JSON.parse(doc as any) : doc;
-		
 		const activity = new ParkActivity();
 		activity.uuid = element.id || doc.uuid;
 		activity.active = doc.active;
@@ -26,7 +25,7 @@ export class ActivityService extends BaseService {
 		activity.activeWeekDays = doc.activeWeekDays;
 		activity.activityFocus = doc.activityFocus.enable || doc.activityFocus;
 		activity.price = doc.price || 0.00;
-
+		
 		activity.roles = new Array<any>();
 		if (doc.roles !== undefined){
 			doc.roles.forEach(async (el) => {
@@ -49,6 +48,11 @@ export class ActivityService extends BaseService {
 			});
 		}
 
+		if (doc.location !== undefined) {
+			activity.location = doc.location.id ? doc.location.id : doc.location;
+		}
+		
+		console.log(activity);
 		return activity;
 	}
 
@@ -76,6 +80,8 @@ export class ActivityService extends BaseService {
 			activity.roles.forEach(r => {
 				referencedRoles.push(this.storage.collection('roles').doc(r).ref);
 			});
+			activity.location = this.storage.collection("locations").doc(activity.location).ref;
+
 			activity.tags = referencedTags;
 			activity.roles = referencedRoles;
 			

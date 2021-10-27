@@ -22,7 +22,6 @@ export class EventService extends BaseService {
 		let doc = element.data();
 		doc = typeof(doc) === 'string' ? JSON.parse(doc as any) : doc;
 		
-		debugger
 		const event = new ParkEvent();
 
 		event.uuid = element.id || doc.uuid;
@@ -36,6 +35,10 @@ export class EventService extends BaseService {
 		event.image = doc.image;
 		if (doc.confirmedAttendance != null){
 			event.confirmedAttendance = doc.confirmedAttendance.length;
+		}
+		
+		if (doc.location !== undefined) {
+			event.location = doc.location.id ? doc.location.id : doc.location;
 		}
 
 		event.roles = new Array<any>();
@@ -60,6 +63,7 @@ export class EventService extends BaseService {
 			});
 		}
 
+		console.log(event);
 		return event;
 	}
 
@@ -93,6 +97,9 @@ export class EventService extends BaseService {
 			event.roles.forEach(r => {
 				referencedRoles.push(this.storage.collection('roles').doc(r).ref);
 			});
+
+			event.location = this.storage.collection("locations").doc(event.location).ref;
+			
 			event.tags = referencedTags;
 			event.roles = referencedRoles;
 			
