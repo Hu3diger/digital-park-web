@@ -10,6 +10,8 @@ import {ActivityService} from '../../../services/activity.service';
 import {ConfigService} from '../../../services/config.service';
 import { TitleCasePipe } from '@angular/common';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { LocationService } from 'src/app/services/location.service';
+import { ParkLocation } from 'src/app/model/ParkLocation';
 
 @Component({
 	selector: 'dp-activties-register-page',
@@ -24,6 +26,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 	perfis: Array<any>;
 	listOptPerfis: Array<any>;
 	listOptTags: Array<any>;
+	listLocations: ParkLocation[];
 
 	constructor(
 		private router: Router,
@@ -32,7 +35,8 @@ export class ActivitiesRegisterComponent implements OnInit {
 		readonly formBuilder: FormBuilder,
 		readonly activityService: ActivityService,
 		readonly cfgService: ConfigService,
-		readonly pipe: TitleCasePipe
+		readonly pipe: TitleCasePipe,
+		readonly locationService: LocationService
 	) {}
 
 	ngOnInit(): void{
@@ -48,7 +52,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 		} else {
 			this.editableActivity = new ParkActivity();
 		}
-
+		
 		this.cfgService.fetchAllRoles().then((res) => {
 			this.listOptPerfis = [];
 			res.forEach(el => {
@@ -63,6 +67,10 @@ export class ActivitiesRegisterComponent implements OnInit {
 				const obj = el.data();
 				this.listOptTags.push(obj.label);
 			});
+		});
+
+		this.locationService.fetchAll().then((res) => {
+			this.listLocations = res;
 		});
 		
 		this.initForm();
@@ -86,6 +94,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 			name: [this.editableActivity.title, [Validators.required]],
 			description: [this.editableActivity.description, [Validators.required]],
 			price: [this.editableActivity.price],
+			location: [this.editableActivity.location, [Validators.required]],
 			roles: [roles],
 			tags: [tags]
 		});
@@ -100,7 +109,8 @@ export class ActivitiesRegisterComponent implements OnInit {
 	newActivity(): void {
 		if (this.form.valid){
 			const values = this.form.value;
- 
+			
+			console.log(values);
 			const activity = {
 				active: values.active,
 				activityFocus: values.activityFocus,
@@ -109,7 +119,8 @@ export class ActivitiesRegisterComponent implements OnInit {
 				title: values.name,
 				roles: [],
 				tags: [],
-				uuid: null
+				uuid: null,
+				location: values.location
 			};
 
 			if (this.editableActivity.uuid !== undefined) {

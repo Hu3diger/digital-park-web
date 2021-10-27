@@ -10,6 +10,8 @@ import {ParkEvent} from '../../../model/ParkEvent';
 import * as moment from 'moment';
 import { ImageSnippet } from 'src/app/model/ImageSnippet';
 import { BlockUI, NgBlockUI } from 'ng-block-ui';
+import { LocationService } from 'src/app/services/location.service';
+import { ParkLocation } from 'src/app/model/ParkLocation';
 
 @Component({
 	selector: 'dp-events-register-page',
@@ -25,6 +27,7 @@ export class EventsRegisterComponent implements OnInit {
 	listOptPerfis: Array<any>;
 	listOptTags: Array<any>;
 	imagePreview: ImageSnippet;
+	listLocations: ParkLocation[];
 
 	constructor(
 		private router: Router,
@@ -33,7 +36,8 @@ export class EventsRegisterComponent implements OnInit {
 		readonly formBuilder: FormBuilder,
 		readonly eventService: EventService,
 		readonly cfgService: ConfigService,
-		readonly pipe: TitleCasePipe
+		readonly pipe: TitleCasePipe,
+		readonly locationService: LocationService
 	) {}
 
 	ngOnInit(): void{
@@ -66,6 +70,9 @@ export class EventsRegisterComponent implements OnInit {
 			});
 		});
 
+		this.locationService.fetchAll().then((res) => {
+			this.listLocations = res;
+		});
 
 		this.initForm();
 	}
@@ -98,9 +105,12 @@ export class EventsRegisterComponent implements OnInit {
 			startDate: [moment(this.editableEvent.startDate).format('yyyy-MM-DD'), [Validators.required]],
 			endDate: [moment(this.editableEvent.endDate).format('yyyy-MM-DD'), [Validators.required]],
 			description: [this.editableEvent.description, [Validators.required]],
+			location: [this.editableEvent.location, [Validators.required]],
 			roles: [roles],
 			tags: [tags]
 		});
+
+		console.log(this.form.value);
 		this.blockUI.stop();
 	}
 
