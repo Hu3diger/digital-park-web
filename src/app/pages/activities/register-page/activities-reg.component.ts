@@ -70,6 +70,7 @@ export class ActivitiesRegisterComponent implements OnInit {
 		});
 
 		this.locationService.fetchAll().then((res) => {
+			console.log(res);
 			this.listLocations = res;
 		});
 		

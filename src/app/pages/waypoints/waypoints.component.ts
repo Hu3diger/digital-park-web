@@ -75,7 +75,6 @@ export class WaypointsComponent implements OnInit {
 			this.listLocations = result;
 
 			this.listLocations.forEach((loc) => {
-				console.log(loc);
 				var marker = new google.maps.Marker();
 				marker.setPosition({ lat: parseFloat(loc.wayPoint[0].toString()), lng: parseFloat(loc.wayPoint[1].toString()) });
 				marker.setLabel({

@@ -71,6 +71,7 @@ export class EventsRegisterComponent implements OnInit {
 		});
 
 		this.locationService.fetchAll().then((res) => {
+			console.log(res);
 			this.listLocations = res;
 		});
 
@@ -105,12 +106,11 @@ export class EventsRegisterComponent implements OnInit {
 			startDate: [moment(this.editableEvent.startDate).format('yyyy-MM-DD'), [Validators.required]],
 			endDate: [moment(this.editableEvent.endDate).format('yyyy-MM-DD'), [Validators.required]],
 			description: [this.editableEvent.description, [Validators.required]],
-			location: [this.editableEvent.location, [Validators.required]],
 			roles: [roles],
-			tags: [tags]
+			tags: [tags],
+			location: [this.editableEvent.location, [Validators.required]]
 		});
 
-		console.log(this.form.value);
 		this.blockUI.stop();
 	}
 
@@ -132,6 +132,7 @@ export class EventsRegisterComponent implements OnInit {
 				price: values.price,
 				startDate: new Date(values.startDate),
 				title: values.name,
+				location: values.location,
 				tags: [],
 				roles: [],
 				uuid: '',

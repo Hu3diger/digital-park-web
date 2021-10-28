@@ -52,7 +52,6 @@ export class ActivityService extends BaseService {
 			activity.location = doc.location.id ? doc.location.id : doc.location;
 		}
 		
-		console.log(activity);
 		return activity;
 	}
 
