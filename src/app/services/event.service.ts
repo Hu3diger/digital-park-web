@@ -63,7 +63,6 @@ export class EventService extends BaseService {
 			});
 		}
 
-		console.log(event);
 		return event;
 	}
 
@@ -90,7 +89,8 @@ export class EventService extends BaseService {
 		return new Promise((resolve) => {
 			let referencedTags = []
 			let referencedRoles = []
-
+			
+			console.log(event);
 			event.tags.forEach(t => {
 				referencedTags.push(this.storage.collection('tags').doc(t).ref);
 			});
