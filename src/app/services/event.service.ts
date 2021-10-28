@@ -90,7 +90,6 @@ export class EventService extends BaseService {
 			let referencedTags = []
 			let referencedRoles = []
 			
-			console.log(event);
 			event.tags.forEach(t => {
 				referencedTags.push(this.storage.collection('tags').doc(t).ref);
 			});

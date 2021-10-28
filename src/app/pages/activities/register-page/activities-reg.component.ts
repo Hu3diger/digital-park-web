@@ -70,7 +70,6 @@ export class ActivitiesRegisterComponent implements OnInit {
 		});
 
 		this.locationService.fetchAll().then((res) => {
-			console.log(res);
 			this.listLocations = res;
 		});
 		
@@ -111,7 +110,6 @@ export class ActivitiesRegisterComponent implements OnInit {
 		if (this.form.valid){
 			const values = this.form.value;
 			
-			console.log(values);
 			const activity = {
 				active: values.active,
 				activityFocus: values.activityFocus,
