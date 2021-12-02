@@ -79,8 +79,8 @@ export class EventService extends BaseService {
 		if (!image.file){
 			return new Promise((resolve) => resolve(image.src));
 		} else {
-			this.bucket.ref("images/events/" + uuid + ".jpg");
-			var teste = await this.bucket.upload("images/events/" + uuid + ".jpg", image.file);
+			this.bucket.ref("malwee/events/" + uuid + ".jpg");
+			var teste = await this.bucket.upload("malwee/events/" + uuid + ".jpg", image.file);
 			return (await teste.task).ref.getDownloadURL();
 		}
 	}

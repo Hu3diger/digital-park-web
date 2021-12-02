@@ -40,6 +40,15 @@
 	<form [formGroup]="form" (submit)="saveNewMarker()">
 		<div class="modal-body">
 			<div class="row">
+				<div class="col-4 my-3">
+					<div class="custom-control custom-switch">
+						<span class="mt-5">&nbsp;</span>
+						<input formControlName="visible" type="checkbox" class="custom-control-input" id="visible">
+						<label class="custom-control-label font-weight-bold" for="visible">Visível</label>
+					</div>
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-12">
 					<div class="form-group">
 						<label for="waypointName">Nome do local <span class="text-danger font-weight-bold">*</span></label>
