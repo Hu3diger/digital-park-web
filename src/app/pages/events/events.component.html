@@ -30,7 +30,7 @@
 						</div>
 					</td>
 					<td (click)="editEvent(event, true)">{{ event.title }}</td>
-					<td (click)="editEvent(event, true)">{{ event.startDate | date:'dd/MM/yyyy' }} {{ event.endDate != null ? ' - ' + (event.endDate | date:'dd/MM/yyyy') : '' }}</td>
+					<td (click)="editEvent(event, true)">{{ event.startDate | date:'dd/MM/yyyy' }} {{ event.endDate != null && event.endDate != 'Invalid Date' ? ' - ' + (event.endDate | date:'dd/MM/yyyy') : '' }}</td>
 					<td (click)="editEvent(event, true)">{{ utils.listOfObjectToString(event.roles) }}</td>
 					<td (click)="editEvent(event, true)">{{ utils.listOfObjectToString(event.tags) }}</td>
 					<td (click)="editEvent(event, true)">{{ event.price | currency }}</td>

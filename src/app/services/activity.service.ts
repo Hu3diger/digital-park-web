@@ -23,7 +23,7 @@ export class ActivityService extends BaseService {
 		activity.title = doc.title;
 		activity.description = doc.description;
 		activity.activeWeekDays = doc.activeWeekDays;
-		activity.activityFocus = doc.activityFocus.enable || doc.activityFocus;
+		activity.activityFocus = doc.activityFocus?.enable || doc.activityFocus;
 		activity.price = doc.price || 0.00;
 		
 		activity.roles = new Array<any>();

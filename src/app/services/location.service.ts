@@ -24,6 +24,7 @@ export class LocationService extends BaseService {
 		location.wayPoint.push(doc.wayPoint._lat);
 		location.wayPoint.push(doc.wayPoint._long);
 		location.name = doc.name;
+		location.visible = doc.visible;
 
 		return location;
 	}
@@ -52,7 +53,6 @@ export class LocationService extends BaseService {
 				_long: wpArray[1]
 			}
 
-			debugger
 			if (location.uuid != null && location.uuid != undefined){
 				this.storage.collection('locations').doc(location.uuid).update(Object.assign({}, location)).then((result: any) => {
 					resolve({ data: result, hasError: false });

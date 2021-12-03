@@ -34,7 +34,7 @@ export class WaypointsComponent implements OnInit {
 		east: -49.11,
 	};
 	mapOptions: google.maps.MapOptions = {
-		disableDefaultUI: true,
+		disableDefaultUI: false,
 		clickableIcons: true,
 		zoom: 13,
 		mapTypeId: google.maps.MapTypeId.SATELLITE,
@@ -66,6 +66,7 @@ export class WaypointsComponent implements OnInit {
 			name: [this.toEditLocation.name, [Validators.required]],
 			description: [this.toEditLocation.description, [Validators.required]],
 			wayPoint: [],
+			visible: [this.toEditLocation.visible]
 		});
 	}
 
@@ -130,6 +131,7 @@ export class WaypointsComponent implements OnInit {
 				if (!this.listLocations.includes(this.toEditLocation)){
 					this.listLocations.push(this.toEditLocation);
 				}
+				this.toEditLocation.visible = formLocation.visible;
 				this.isEditingMode = false;
 			}
 		} else if (this.toEditLocation.wayPoint.length > 1 && this.toEditLocation.wayPoint[0] != null && this.toEditLocation.wayPoint[1] != null) {
@@ -148,6 +150,7 @@ export class WaypointsComponent implements OnInit {
 
 				this.toEditLocation.name = formLocation.name;
 				this.toEditLocation.description = formLocation.description;
+				this.toEditLocation.visible = formLocation.visible;
 				this.listLocations.push(this.toEditLocation);
 			}
 		}
